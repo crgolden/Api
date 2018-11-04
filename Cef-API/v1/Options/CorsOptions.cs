@@ -2,6 +2,11 @@
 {
     public class CorsOptions
     {
-        public string[] Origins { get; set; }
+        public Origins[] Origins { get; set; }
+    }
+
+    public class Origins
+    {
+        public string Url { get; set; }
     }
 }

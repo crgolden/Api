@@ -1,5 +1,6 @@
 ﻿namespace Cef_API.v1.Extensions
 {
+    using System.Linq;
     using Options;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
@@ -16,7 +17,7 @@
 
             var corsOptions = corsOptionsSection.Get<CorsOptions>();
             app.UseCors(options => options
-                .WithOrigins(corsOptions.Origins)
+                .WithOrigins(corsOptions.Origins.Select(x => x.Url).ToArray())
                 .AllowAnyMethod()
                 .AllowAnyHeader());
         }
