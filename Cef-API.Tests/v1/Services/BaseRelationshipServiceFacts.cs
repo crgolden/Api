@@ -5,9 +5,9 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Cef_API.Core.v1.Models;
+    using Cef_API.Core.v1.Relationships;
     using Cef_API.v1.Services;
-    using Core.Models;
-    using Core.Relationships;
     using Microsoft.EntityFrameworkCore;
     using Moq;
     using Xunit;

@@ -1,10 +1,10 @@
-﻿namespace Cef_API.Core.Interfaces
+﻿namespace Cef_API.v1.Interfaces
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Models;
-    using Relationships;
+    using Cef_API.Core.v1.Models;
+    using Cef_API.Core.v1.Relationships;
 
     public interface IRelationshipService<T, T1, T2>
         where T : BaseRelationship<T1, T2>

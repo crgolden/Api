@@ -1,9 +1,9 @@
-﻿namespace Cef_API.Core.Interfaces
+﻿namespace Cef_API.v1.Interfaces
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Models;
+    using Cef_API.Core.v1.Models;
 
     public interface IModelService<T> where T : BaseModel
     {

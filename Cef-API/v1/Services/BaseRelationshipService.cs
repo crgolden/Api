@@ -3,9 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Core.Interfaces;
-    using Core.Models;
-    using Core.Relationships;
+    using Core.v1.Models;
+    using Core.v1.Relationships;
+    using Interfaces;
     using Microsoft.EntityFrameworkCore;
 
     public abstract class BaseRelationshipService<T, T1, T2> : IRelationshipService<T, T1, T2>

@@ -3,8 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Core.Interfaces;
-    using Core.Models;
+    using Core.v1.Models;
+    using Interfaces;
     using Microsoft.EntityFrameworkCore;
 
     public abstract class BaseModelService<T> : IModelService<T> where T : BaseModel

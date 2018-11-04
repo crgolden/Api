@@ -5,10 +5,10 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
-    using Core.Interfaces;
-    using Core.Models;
-    using Core.Options;
-    using Core.Relationships;
+    using Core.v1.Models;
+    using Core.v1.Relationships;
+    using Interfaces;
+    using Options;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;

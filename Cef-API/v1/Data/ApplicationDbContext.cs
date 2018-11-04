@@ -1,4 +1,4 @@
-﻿namespace Cef_API.Data
+﻿namespace Cef_API.v1.Data
 {
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;

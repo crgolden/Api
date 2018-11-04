@@ -1,4 +1,4 @@
-﻿namespace Cef_API.Core.Interfaces
+﻿namespace Cef_API.v1.Interfaces
 {
     using System.Collections.Generic;
     using System.Security.Claims;

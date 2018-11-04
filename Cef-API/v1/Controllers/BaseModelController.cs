@@ -2,8 +2,8 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Core.Interfaces;
-    using Core.Models;
+    using Core.v1.Models;
+    using Interfaces;
     using Kendo.Mvc.Extensions;
     using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Mvc;

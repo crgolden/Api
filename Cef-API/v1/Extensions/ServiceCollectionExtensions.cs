@@ -1,13 +1,13 @@
-﻿namespace Cef_API.Extensions
+﻿namespace Cef_API.v1.Extensions
 {
     using System;
     using System.Data.SqlClient;
     using System.Runtime.InteropServices;
     using System.Text;
-    using Core.Models;
-    using Core.Options;
-    using Core.Relationships;
+    using Core.v1.Models;
+    using Core.v1.Relationships;
     using Data;
+    using Options;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;

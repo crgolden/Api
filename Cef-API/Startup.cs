@@ -1,10 +1,10 @@
 ﻿namespace Cef_API
 {
     using System.Threading.Tasks;
-    using Core.Interfaces;
-    using Data;
-    using Extensions;
+    using v1.Data;
+    using v1.Extensions;
     using v1.Filters;
+    using v1.Interfaces;
     using v1.Services;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;

@@ -1,6 +1,6 @@
-﻿namespace Cef_API.Extensions
+﻿namespace Cef_API.v1.Extensions
 {
-    using Core.Options;
+    using Options;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
 

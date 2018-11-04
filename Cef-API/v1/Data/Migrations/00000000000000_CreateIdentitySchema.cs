@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Cef_API.Data.Migrations
+namespace Cef_API.v1.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

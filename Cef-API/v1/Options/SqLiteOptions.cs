@@ -1,4 +1,4 @@
-﻿namespace Cef_API.Core.Options
+﻿namespace Cef_API.v1.Options
 {
     public class SqLiteOptions
     {

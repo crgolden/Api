@@ -1,7 +1,7 @@
 ﻿namespace Cef_API.v1.Controllers
 {
     using System.Threading.Tasks;
-    using Core.Interfaces;
+    using Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
