@@ -7,9 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cef-API", "Cef-API\Cef-API.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cef-API.Core", "Cef-API.Core\Cef-API.Core.csproj", "{340B8F1D-05B0-42FA-B372-AF58BB236CDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cef-API.Data", "Cef-API.Data\Cef-API.Data.csproj", "{576D4BB8-213D-40E4-9AFD-AF6AD07BAC40}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{59EFB7E5-D79D-4CB0-8437-9D358670309D}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		NuGet.Config = NuGet.Config
+		README.md = README.md
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cef-API.Services", "Cef-API.Services\Cef-API.Services.csproj", "{74D47F41-A13A-4F91-8753-082016D61822}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cef-API.Tests", "Cef-API.Tests\Cef-API.Tests.csproj", "{5548E27C-D7F1-4905-894F-09D035C4D256}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +30,10 @@ Global
 		{340B8F1D-05B0-42FA-B372-AF58BB236CDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{340B8F1D-05B0-42FA-B372-AF58BB236CDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{340B8F1D-05B0-42FA-B372-AF58BB236CDB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{576D4BB8-213D-40E4-9AFD-AF6AD07BAC40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{576D4BB8-213D-40E4-9AFD-AF6AD07BAC40}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{576D4BB8-213D-40E4-9AFD-AF6AD07BAC40}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{576D4BB8-213D-40E4-9AFD-AF6AD07BAC40}.Release|Any CPU.Build.0 = Release|Any CPU
-		{74D47F41-A13A-4F91-8753-082016D61822}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74D47F41-A13A-4F91-8753-082016D61822}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74D47F41-A13A-4F91-8753-082016D61822}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74D47F41-A13A-4F91-8753-082016D61822}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5548E27C-D7F1-4905-894F-09D035C4D256}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5548E27C-D7F1-4905-894F-09D035C4D256}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5548E27C-D7F1-4905-894F-09D035C4D256}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5548E27C-D7F1-4905-894F-09D035C4D256}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
