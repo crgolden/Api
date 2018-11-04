@@ -1,6 +1,7 @@
 ﻿namespace Cef_API
 {
     using System.Threading.Tasks;
+    using Cef_API.Core.v1.Models;
     using v1.Data;
     using v1.Extensions;
     using v1.Filters;
@@ -16,7 +17,6 @@
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
-    using Swashbuckle.AspNetCore.Swagger;
 
     public class Startup
     {
@@ -32,7 +32,7 @@
         {
             services.AddApplicationInsightsTelemetry(_configuration);
             services.AddDatabase(_configuration);
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             services.AddScoped<DbContext, ApplicationDbContext>();
@@ -49,11 +49,7 @@
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCors();
-            services.AddSwaggerGen(setup => setup.SwaggerDoc("v1", new Info
-            {
-                Title = "Cef-API",
-                Version = "v1"
-            }));
+            services.AddSwagger("Cef-API", "v1");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,16 +69,11 @@
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseCors(_configuration);
-            app.UseSwagger();
-            app.UseSwaggerUI(setup =>
-            {
-                setup.SwaggerEndpoint("/swagger/v1/swagger.json", "Cef-API v1");
-                setup.RoutePrefix = string.Empty;
-            });
+            app.UseSwagger("Cef-API v1");
             app.UseMvcWithDefaultRoute();
 
             context.Database.Migrate();
-            Task.Run(seedDataService.SeedData).Wait();
+            Task.Run(seedDataService.SeedDatabase).Wait();
 
             loggerFactory.AddAzureWebAppDiagnostics();
             loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Warning);

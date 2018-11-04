@@ -7,12 +7,14 @@
     using Core.v1.Models;
     using Core.v1.Relationships;
     using Data;
+    using Filters;
     using Options;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
+    using Swashbuckle.AspNetCore.Swagger;
 
     public static class ServiceCollectionExtensions
     {
@@ -126,6 +128,26 @@
         {
             services.AddAuthorization(options =>
             {
+            });
+        }
+
+        public static void AddSwagger(this IServiceCollection services, string title, string version)
+        {
+            services.AddSwaggerGen(setup =>
+            {
+                setup.SwaggerDoc(version, new Info
+                {
+                    Title = title,
+                    Version = version
+                });
+                setup.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Type = "apiKey",
+                    In = "Header",
+                    Name = "Authorization",
+                    Description = "Input \"Bearer {token}\" (without quotes)"
+                });
+                setup.OperationFilter<SecurityRequirementsOperationFilter>();
             });
         }
     }

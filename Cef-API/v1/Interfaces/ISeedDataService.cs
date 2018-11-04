@@ -4,6 +4,6 @@
 
     public interface ISeedDataService
     {
-        Task SeedData();
+        Task SeedDatabase();
     }
 }
