@@ -1,20 +1,26 @@
 ﻿namespace Cef_API
 {
+    using System;
     using System.Threading.Tasks;
-    using Cef_API.Core.v1.Models;
     using v1.Data;
+    using v1.Data.Models;
     using v1.Extensions;
     using v1.Filters;
     using v1.Interfaces;
+    using v1.Options;
     using v1.Services;
+    using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
 
@@ -32,14 +38,21 @@
         {
             services.AddApplicationInsightsTelemetry(_configuration);
             services.AddDatabase(_configuration);
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, Role>(setup => setup.SignIn.RequireConfirmedEmail = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             services.AddScoped<DbContext, ApplicationDbContext>();
             services.AddScoped<ISeedDataService, SeedDataService>();
-            services.AddScoped<ITokenService, TokenService>();
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddEmailOptions(_configuration);
             services.AddUsersOptions(_configuration);
-            services.AddAuthentication(_configuration);
+            services.AddCorsOptions(_configuration);
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.Expiration = TimeSpan.FromDays(30);
+            });
             services.AddPolicies();
             services.AddMvc(setup => setup.Filters.Add(typeof(ModelStateFilter)))
                 .AddJsonOptions(setup =>
@@ -54,7 +67,7 @@
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
-            DbContext context, ISeedDataService seedDataService)
+            DbContext context, ISeedDataService seedDataService, IOptions<CorsOptions> corsOptions)
         {
             if (env.IsDevelopment())
             {
@@ -67,8 +80,8 @@
             }
 
             app.UseHttpsRedirection();
+            app.UseCors(corsOptions.Value);
             app.UseAuthentication();
-            app.UseCors(_configuration);
             app.UseSwagger("Cef-API v1");
             app.UseMvcWithDefaultRoute();
 

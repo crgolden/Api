@@ -2,9 +2,9 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Core.v1.Models;
-    using Core.v1.Relationships;
     using Interfaces;
+    using Data.Models;
+    using Data.Relationships;
     using Kendo.Mvc.Extensions;
     using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Mvc;

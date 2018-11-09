@@ -4,13 +4,14 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
+    using System.Text.Encodings.Web;
     using System.Threading.Tasks;
-    using Cef_API.Core.v1.Models;
-    using Cef_API.Core.v1.ViewModels;
-    using Interfaces;
+    using Cef_API.ViewModels.v1.AccountViewModels;
+    using Data.Models;
     using Services;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
@@ -20,48 +21,75 @@
     public class AccountController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
-        private readonly ITokenService _tokenService;
+        private readonly SignInManager<User> _signInManager;
         private readonly ILogger<AccountController> _logger;
+        private readonly IEmailSender _emailSender;
 
-        public AccountController(UserManager<User> userManager, ITokenService tokenService, ILogger<AccountController> logger)
+        public AccountController(
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            ILogger<AccountController> logger,
+            IEmailSender emailSender)
         {
             _userManager = userManager;
-            _tokenService = tokenService;
+            _signInManager = signInManager;
             _logger = logger;
+            _emailSender = emailSender;
         }
 
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginViewModel model)
         {
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (!await _userManager.CheckPasswordAsync(user, model.Password))
+            var result = await _signInManager.PasswordSignInAsync(
+                userName: model.Email,
+                password: model.Password,
+                isPersistent: model.RememberMe,
+                lockoutOnFailure: true);
+            model.Password = null;
+            if (result.Succeeded)
             {
-                _logger.LogInformation($"Login failed for email: \"{model.Email}\"");
-                return BadRequest(model);
+                _logger.LogInformation($"Login succeeded for email: \"{model.Email}\"");
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                model.Succeeded = true;
+                model.Account = new AccountViewModel
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    PhoneNumberConfirmed = user.PhoneNumberConfirmed,
+                    TwoFactorEnabled = user.TwoFactorEnabled,
+                    Expiration = DateTime.Now.AddDays(30)
+                };
             }
-            // TODO
-            //if (result.RequiresTwoFactor)
-            //{
-            //    return RedirectToAction(nameof(LoginWith2fa), new {returnUrl, model.RememberMe});
-            //}
-            //if (result.IsLockedOut)
-            //{
-            //    _logger.LogWarning("User account locked out.");
-            //    return RedirectToAction(nameof(Lockout));
-            //}
 
-            var roles = await _userManager.GetRolesAsync(user);
-            var claims = await _userManager.GetClaimsAsync(user);
-            var token = _tokenService.GenerateToken(user.Email, roles, claims);
-
-            return Ok(new UserViewModel
+            if (result.IsNotAllowed)
             {
-                Id = Guid.Parse(user.Id),
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Token = token
-            });
+                model.IsNotAllowed = true;
+                model.Message = "Email verification required.";
+            }
+
+            if (result.RequiresTwoFactor)
+            {
+                model.RequiresTwoFactor = true;
+            }
+
+            if (result.IsLockedOut)
+            {
+                _logger.LogWarning("User account locked out.");
+                model.IsLockedOut = true;
+            }
+
+            return Ok(model);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async void Logout()
+        {
+            await _signInManager.SignOutAsync();
         }
 
         //[HttpGet]
@@ -190,7 +218,7 @@
             if (!result.Succeeded)
             {
                 _logger.LogInformation($"User creation failed for email: \"{model.Email}\"; Errors: {result.Errors}");
-                return BadRequest(result);
+                return BadRequest("Unable to create user.");
             }
 
             _logger.LogInformation($"User created for email: \"{model.Email}\".");
@@ -198,25 +226,11 @@
             var claims = new List<Claim>();
             claims.AddRange(SeedData.Claims.Where(claim => claim.Type.Equals("Index")));
             claims.AddRange(SeedData.Claims.Where(claim => claim.Type.Equals("Details")));
-
             await _userManager.AddToRoleAsync(user, "User");
             await _userManager.AddClaimsAsync(user, claims);
+            await SendConfirmationEmailAsync(user);
 
-            // TODO
-            //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            //var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-            //await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
-
-            var token = _tokenService.GenerateToken(user.Email, new List<string>(1) {"User"}, claims);
-            _logger.LogInformation($"User logged in for email: \"{model.Email}\"");
-
-            return Ok(new UserViewModel
-            {
-                Id = Guid.Parse(user.Id),
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Token = token
-            });
+            return Ok("Registration successful! Please check your email for the confirmation link.");
         }
 
         //// TODO [ValidateAntiForgeryToken]
@@ -295,22 +309,36 @@
         //    return View(nameof(ExternalLogin), model);
         //}
 
-        //[HttpGet]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> ConfirmEmail(string userId, string code)
-        //{
-        //    if (userId == null || code == null)
-        //    {
-        //        return RedirectToAction(nameof(HomeController.Index), "Home");
-        //    }
-        //    var user = await _userManager.FindByIdAsync(userId);
-        //    if (user == null)
-        //    {
-        //        throw new ApplicationException($"Unable to load user with ID '{userId}'.");
-        //    }
-        //    var result = await _userManager.ConfirmEmailAsync(user, code);
-        //    return View(result.Succeeded ? "ConfirmEmail" : "Error");
-        //}
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailViewModel model)
+        {
+            if (string.IsNullOrEmpty(model.UserId))
+            {
+                return BadRequest("Invalid user ID.");
+            }
+
+            if (string.IsNullOrEmpty(model.Code))
+            {
+                return BadRequest("Invalid code.");
+            }
+
+            var user = await _userManager.FindByIdAsync(model.UserId);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{model.UserId}'.");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, model.Code);
+            if (result.Succeeded)
+            {
+                return Ok("Email confirmed.");
+            }
+
+            _logger.LogInformation($"Email confirmation failed for user ID: \"{model.UserId}\", code: \"{model.Code}\"");
+            return BadRequest("Unable to confirm email.");
+
+        }
 
         //[HttpGet]
         //[AllowAnonymous]
@@ -411,5 +439,18 @@
         //    }
         //    return RedirectToAction(nameof(HomeController.Index), "Home");
         //}
+
+        private async Task SendConfirmationEmailAsync(User user)
+        {
+            var url = Request.Headers.TryGetValue("Origin", out var origin)
+                ? $"{origin}"
+                : $"{Request.Scheme}://{Request.Host}";
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var confirmEmailUrl = HtmlEncoder.Default.Encode($"{url}/Account/ConfirmEmail?" +
+                                                             $"userId={user.Id}&" +
+                                                             $"code={Uri.EscapeDataString(code)}");
+            var htmlMessage = $"Please confirm your account by <a href='{confirmEmailUrl}'>clicking here</a>.";
+            await _emailSender.SendEmailAsync(user.Email, "Confirm your email", htmlMessage);
+        }
     }
 }

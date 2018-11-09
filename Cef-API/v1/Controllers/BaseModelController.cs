@@ -2,7 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Core.v1.Models;
+    using Data.Models;
     using Interfaces;
     using Kendo.Mvc.Extensions;
     using Kendo.Mvc.UI;

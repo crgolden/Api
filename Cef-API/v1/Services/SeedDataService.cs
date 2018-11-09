@@ -5,8 +5,7 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
-    using Core.v1.Models;
-    using Core.v1.Relationships;
+    using Data.Models;
     using Interfaces;
     using Options;
     using Microsoft.AspNetCore.Identity;
@@ -18,10 +17,10 @@
         private readonly DbContext _context;
         private readonly UsersOptions _usersOptions;
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<Role> _roleManager;
 
         public SeedDataService(DbContext context, IOptions<UsersOptions> usersOptions,
-            UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+            UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             _context = context;
             _usersOptions = usersOptions.Value;
@@ -70,14 +69,14 @@
 
     public static class SeedData
     {
-        public static List<Claim> Claims => new List<Claim>
+        public static IEnumerable<Claim> Claims => new List<Claim>
         {
         };
 
-        public static List<IdentityRole> Roles => new List<IdentityRole>
+        public static IEnumerable<Role> Roles => new List<Role>
         {
-            new IdentityRole("User"),
-            new IdentityRole("Admin")
+            new Role("User"),
+            new Role("Admin")
         };
     }
 }

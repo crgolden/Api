@@ -3,8 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Cef_API.Core.v1.Models;
-    using Cef_API.Core.v1.Relationships;
+    using Data.Models;
+    using Data.Relationships;
 
     public interface IRelationshipService<T, T1, T2>
         where T : BaseRelationship<T1, T2>

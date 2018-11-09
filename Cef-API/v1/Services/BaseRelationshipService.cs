@@ -3,8 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Core.v1.Models;
-    using Core.v1.Relationships;
+    using Data.Models;
+    using Data.Relationships;
     using Interfaces;
     using Microsoft.EntityFrameworkCore;
 

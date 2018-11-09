@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Cef_API.Core.v1.Models;
+    using Data.Models;
 
     public interface IModelService<T> where T : BaseModel
     {
