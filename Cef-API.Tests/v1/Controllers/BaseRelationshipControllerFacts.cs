@@ -3,9 +3,9 @@ namespace Cef_API.Tests.v1.Controllers
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Cef_API.Core.v1.Models;
-    using Cef_API.Core.v1.Relationships;
     using Cef_API.v1.Controllers;
+    using Cef_API.v1.Data.Models;
+    using Cef_API.v1.Data.Relationships;
     using Cef_API.v1.Interfaces;
     using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Mvc;

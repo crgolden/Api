@@ -1,14 +1,13 @@
-﻿namespace Cef_API.Core.v1.ViewModels
+﻿namespace Cef_API.ViewModels.v1.ManageViewModels
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class LoginViewModel
+    public class DeletePersonalDataViewModel
     {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        public bool RequirePassword { get; set; }
     }
 }
