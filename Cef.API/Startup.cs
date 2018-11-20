@@ -29,13 +29,17 @@
             services.AddDatabase(_configuration);
             services.AddMvc(setup => setup.Filters.Add(typeof(ModelStateFilter)))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddAuthentication("Bearer")
-                .AddIdentityServerAuthentication(options =>
-                {
-                    options.Authority = "http://localhost:6001";
-                    options.RequireHttpsMetadata = false;
-                    options.ApiName = "api1";
-                });
+            var identityServerAddress = _configuration.GetValue<string>("IdentityServerAddress");
+            if (!string.IsNullOrEmpty(identityServerAddress))
+            {
+                services.AddAuthentication("Bearer")
+                    .AddIdentityServerAuthentication(options =>
+                    {
+                        options.Authority = identityServerAddress;
+                        options.RequireHttpsMetadata = false;
+                        options.ApiName = "api1";
+                    });
+            }
             // services.AddIdentity<User, Role>(setup => setup.SignIn.RequireConfirmedEmail = true)
             //     .AddEntityFrameworkStores<CefDbContext>()
             //     .AddDefaultTokenProviders();
