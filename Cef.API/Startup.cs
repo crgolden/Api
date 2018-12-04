@@ -4,8 +4,10 @@
     using Core.Filters;
     using Core.Interfaces;
     using Core.Options;
+    using Core.Services;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -27,44 +29,15 @@
         {
             services.AddApplicationInsightsTelemetry(_configuration);
             services.AddDatabase(_configuration);
+            services.AddScoped<ISeedService, SeedDataService>();
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddCorsOptions(_configuration);
+            services.AddEmailOptions(_configuration);
+            services.AddPolicies();
+            services.AddCors();
             services.AddMvc(setup => setup.Filters.Add(typeof(ModelStateFilter)))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            var identityServerAddress = _configuration.GetValue<string>("IdentityServerAddress");
-            if (!string.IsNullOrEmpty(identityServerAddress))
-            {
-                services.AddAuthentication("Bearer")
-                    .AddIdentityServerAuthentication(options =>
-                    {
-                        options.Authority = identityServerAddress;
-                        options.RequireHttpsMetadata = false;
-                        options.ApiName = "api1";
-                    });
-            }
-            // services.AddIdentity<User, Role>(setup => setup.SignIn.RequireConfirmedEmail = true)
-            //     .AddEntityFrameworkStores<CefDbContext>()
-            //     .AddDefaultTokenProviders();
-            // services.AddAuthenticationOptions(_configuration);
-            //services.AddEmailOptions(_configuration);
-            //services.AddSingleton<IEmailSender, EmailSender>();
-            // services.AddUserOptions(_configuration);
-            services.AddScoped<ISeedService, SeedDataService>();
-            // services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
-            // services.ConfigureApplicationCookie(options => options.Cookie = new CookieBuilder
-            // {
-            //     SameSite = SameSiteMode.None,
-            //     Expiration = System.TimeSpan.FromDays(30)
-            // });
-            // services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
-            services.AddPolicies();
-            // services.AddMvc(setup => setup.Filters.Add(typeof(ModelStateFilter)))
-            //     .AddJsonOptions(setup =>
-            //     {
-            //         setup.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
-            //         setup.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            //     })
-            //     .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddCorsOptions(_configuration);
-            services.AddCors();
+            services.AddIdentityServer(_configuration);
             services.AddSwagger("Cef-API", "v1");
         }
 
@@ -84,7 +57,6 @@
             }
 
             app.UseHttpsRedirection();
-            //app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseCors(corsOptions.Value);
             app.UseSwagger("Cef-API v1");
