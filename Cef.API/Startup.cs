@@ -3,7 +3,6 @@
     using Core.Extensions;
     using Core.Filters;
     using Core.Interfaces;
-    using Core.Options;
     using Core.Services;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -12,7 +11,6 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Options;
     using Services;
 
     public class Startup
@@ -31,19 +29,26 @@
             services.AddDatabase(_configuration);
             services.AddScoped<ISeedService, SeedDataService>();
             services.AddSingleton<IEmailSender, EmailSender>();
-            services.AddCorsOptions(_configuration);
             services.AddEmailOptions(_configuration);
             services.AddPolicies();
             services.AddCors();
             services.AddMvc(setup => setup.Filters.Add(typeof(ModelStateFilter)))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddIdentityServer(_configuration);
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication(options =>
+                {
+                    var identityServerAddress = _configuration.GetValue<string>("IdentityServerAddress");
+                    if (string.IsNullOrEmpty(identityServerAddress)) return;
+
+                    options.Authority = identityServerAddress;
+                    options.RequireHttpsMetadata = false;
+                    options.ApiName = "api1";
+                });
             services.AddSwagger("Cef-API", "v1");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
-            IOptions<CorsOptions> corsOptions)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -58,7 +63,7 @@
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
-            app.UseCors(corsOptions.Value);
+            app.UseCors(_configuration);
             app.UseSwagger("Cef-API v1");
             app.UseMvcWithDefaultRoute();
 
