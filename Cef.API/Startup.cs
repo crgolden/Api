@@ -67,7 +67,6 @@
             app.UseSwagger("Cef-API v1");
             app.UseMvcWithDefaultRoute();
 
-            loggerFactory.AddAzureWebAppDiagnostics();
             loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Warning);
         }
     }
