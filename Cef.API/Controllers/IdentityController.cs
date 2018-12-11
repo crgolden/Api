@@ -35,7 +35,7 @@
         {
         }
 
-        // DELETE: api/ApiWithActions/5
+        // DELETE: api/Identity/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
