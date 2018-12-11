@@ -1,6 +1,6 @@
 ﻿namespace Cef.API
 {
-    //using Core.Extensions;
+    using Core.Extensions;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Azure.KeyVault;
@@ -15,7 +15,7 @@
         {
             CreateWebHostBuilder(args)
                 .Build()
-                //.SeedDatabaseAsync().Result
+                .SeedDatabaseAsync().Result
                 .Run();
         }
 

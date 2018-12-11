@@ -1,9 +1,9 @@
 ﻿namespace Cef.API
 {
-    //using Core.Extensions;
-    //using Core.Filters;
-    //using Core.Interfaces;
-    //using Core.Services;
+    using Core.Extensions;
+    using Core.Filters;
+    using Core.Interfaces;
+    using Core.Services;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity.UI.Services;
@@ -26,13 +26,13 @@
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplicationInsightsTelemetry(_configuration);
-            //services.AddDatabase(_configuration);
-            //services.AddScoped<ISeedService, SeedDataService>();
-            //services.AddSingleton<IEmailSender, EmailSender>();
-            //services.AddEmailOptions(_configuration);
-            //services.AddPolicies();
+            services.AddDatabase(_configuration);
+            services.AddScoped<ISeedService, SeedDataService>();
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddEmailOptions(_configuration);
+            services.AddPolicies();
             services.AddCors();
-            services.AddMvc(/*setup => setup.Filters.Add(typeof(ModelStateFilter))*/)
+            services.AddMvc(setup => setup.Filters.Add(typeof(ModelStateFilter)))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
@@ -44,7 +44,7 @@
                     options.RequireHttpsMetadata = false;
                     options.ApiName = "api1";
                 });
-            //services.AddSwagger("Cef-API", "v1");
+            services.AddSwagger("Cef-API", "v1");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,8 +63,8 @@
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
-            //app.UseCors(_configuration);
-            //app.UseSwagger("Cef-API v1");
+            app.UseCors(_configuration);
+            app.UseSwagger("Cef-API v1");
             app.UseMvcWithDefaultRoute();
 
             loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Warning);

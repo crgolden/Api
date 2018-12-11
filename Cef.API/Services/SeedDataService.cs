@@ -1,9 +1,9 @@
 ﻿namespace Cef.API.Services
 {
     using System.Threading.Tasks;
-    //using Core.Interfaces;
+    using Core.Interfaces;
 
-    public class SeedDataService/* : ISeedService*/
+    public class SeedDataService : ISeedService
     {
         public async Task SeedAsync()
         {
