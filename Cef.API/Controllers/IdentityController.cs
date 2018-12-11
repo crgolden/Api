@@ -4,9 +4,10 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
-    [Route("[controller]")]
+    [Authorize(AuthenticationSchemes = "api1")]
     [ApiController]
-    [Authorize]
+    [Produces("application/json")]
+    [Route("[controller]/[action]")]
     public class IdentityController : ControllerBase
     {
         // GET: api/Identity

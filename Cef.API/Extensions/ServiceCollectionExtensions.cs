@@ -1,30 +1,22 @@
 ﻿namespace Cef.API.Extensions
 {
-    using IdentityServer4.AccessTokenValidation;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
     public static class ServiceCollectionExtensions
     {
-        public static void AddIdentityServer(this IServiceCollection services, IConfiguration configuration)
+        public static void AddAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            var identityServerAddress = configuration.GetValue<string>("IdentityServerAddress");
-            if (!string.IsNullOrEmpty(identityServerAddress))
-            {
-                services
-                    .AddAuthentication(options =>
-                    {
-                        options.DefaultAuthenticateScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
-                        options.DefaultScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
-                    })
-                    .AddIdentityServerAuthentication(options =>
-                    {
-                        options.Authority = identityServerAddress;
-                        options.RequireHttpsMetadata = false;
-                        options.ApiName = "api1";
-                    });
-            }
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication("api1", options =>
+                {
+                    var identityServerAddress = configuration.GetValue<string>("IdentityServerAddress");
+                    if (string.IsNullOrEmpty(identityServerAddress)) return;
+
+                    options.Authority = identityServerAddress;
+                    options.ApiName = "api1";
+                });
         }
     }
 }

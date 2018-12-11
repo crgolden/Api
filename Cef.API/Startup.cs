@@ -1,9 +1,14 @@
 ﻿namespace Cef.API
 {
     using Core.Extensions;
+    using Core.Factories;
     using Core.Filters;
     using Core.Interfaces;
+    using Core.Options;
     using Core.Services;
+    using Extensions;
+    using Microsoft.ApplicationInsights.AspNetCore;
+    using Microsoft.ApplicationInsights.SnapshotCollector;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity.UI.Services;
@@ -25,25 +30,17 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<SnapshotCollectorConfiguration>(_configuration.GetSection(nameof(SnapshotCollectorConfiguration)));
+            services.Configure<EmailOptions>(_configuration.GetSection(nameof(EmailOptions)));
             services.AddApplicationInsightsTelemetry(_configuration);
             services.AddDatabase(_configuration);
             services.AddScoped<ISeedService, SeedDataService>();
             services.AddSingleton<IEmailSender, EmailSender>();
-            services.AddEmailOptions(_configuration);
-            services.AddPolicies();
+            services.AddSingleton<ITelemetryProcessorFactory>(sp => new SnapshotCollectorTelemetryProcessorFactory(sp));
             services.AddCors();
             services.AddMvc(setup => setup.Filters.Add(typeof(ModelStateFilter)))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddAuthentication("Bearer")
-                .AddIdentityServerAuthentication(options =>
-                {
-                    var identityServerAddress = _configuration.GetValue<string>("IdentityServerAddress");
-                    if (string.IsNullOrEmpty(identityServerAddress)) return;
-
-                    options.Authority = identityServerAddress;
-                    options.RequireHttpsMetadata = false;
-                    options.ApiName = "api1";
-                });
+            services.AddAuthentication(_configuration);
             services.AddSwagger("Cef-API", "v1");
         }
 
