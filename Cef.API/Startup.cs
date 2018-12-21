@@ -6,6 +6,7 @@
     using Core.Interfaces;
     using Core.Options;
     using Core.Services;
+    using Data;
     using Extensions;
     using Microsoft.ApplicationInsights.AspNetCore;
     using Microsoft.ApplicationInsights.SnapshotCollector;
@@ -13,9 +14,12 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Models;
+    using Relationships;
     using Services;
 
     public class Startup
@@ -30,11 +34,15 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddApplicationInsightsTelemetry(_configuration);
+            services.AddDbContext<ApiDbContext>(_configuration.GetDbContextOptions());
             services.Configure<SnapshotCollectorConfiguration>(_configuration.GetSection(nameof(SnapshotCollectorConfiguration)));
             services.Configure<EmailOptions>(_configuration.GetSection(nameof(EmailOptions)));
-            services.AddApplicationInsightsTelemetry(_configuration);
-            services.AddDatabase(_configuration);
+            services.AddScoped<DbContext, ApiDbContext>();
             services.AddScoped<ISeedService, SeedDataService>();
+            services.AddScoped<IModelService<Product>, ProductsService>();
+            services.AddScoped<IModelService<Cart>, CartsService>();
+            services.AddScoped<IRelationshipService<CartProduct, Cart, Product>, CartProductsService>();
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddSingleton<ITelemetryProcessorFactory>(sp => new SnapshotCollectorTelemetryProcessorFactory(sp));
             services.AddCors();

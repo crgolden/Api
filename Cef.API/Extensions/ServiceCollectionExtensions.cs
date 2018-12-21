@@ -1,5 +1,6 @@
 ﻿namespace Cef.API.Extensions
 {
+    using System.Security.Claims;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,7 @@
 
                     options.Authority = identityServerAddress;
                     options.ApiName = "api1";
+                    options.RoleClaimType = ClaimTypes.Role;
                 });
         }
     }
