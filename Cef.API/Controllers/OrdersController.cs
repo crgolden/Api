@@ -2,95 +2,118 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Security.Claims;
     using System.Threading.Tasks;
+    using Core.Controllers;
+    using Core.Interfaces;
+    using IdentityModel;
+    using Kendo.Mvc;
+    using Kendo.Mvc.UI;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Logging;
     using Models;
 
-    [Route("api/[controller]")]
-    [ApiController]
-    public class OrdersController : ControllerBase
+    public class OrdersController : BaseModelController<Order>
     {
-        private readonly DbContext _context;
-
-        public OrdersController(DbContext context)
+        public OrdersController(IModelService<Order> service, ILogger<OrdersController> logger)
+            : base(service, logger)
         {
-            _context = context;
         }
 
-        // GET: api/Orders
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrder()
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
+        [ProducesResponseType(typeof(IEnumerable<Order>), (int)HttpStatusCode.OK)]
+        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
         {
-            return await _context.Set<Order>().ToListAsync();
-        }
-
-        // GET: api/Orders/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrder(Guid id)
-        {
-            var order = await _context.Set<Order>().FindAsync(id);
-
-            if (order == null)
+            if (User.IsInRole("Admin")) return await base.Index(request);
+            var userIdFilter = new FilterDescriptor(
+                member: "userId",
+                filterOperator: FilterOperator.IsEqualTo,
+                filterValue: User.FindFirstValue(JwtClaimTypes.Subject));
+            if (request != null)
             {
-                return NotFound();
-            }
-
-            return order;
-        }
-
-        // PUT: api/Orders/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrder(Guid id, Order order)
-        {
-            if (id != order.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(order).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await _context.Set<Order>().AnyAsync(e => e.Id == id))
+                request.Filters = request.Filters ?? new List<IFilterDescriptor>();
+                var filter = request.Filters
+                    .Cast<FilterDescriptor>()
+                    .FirstOrDefault(x => x.Member.Equals(userIdFilter.Member));
+                if (filter != null)
                 {
-                    return NotFound();
+                    if ($"{filter.Value}" != $"{userIdFilter.Value}")
+                    {
+                        filter.Value = userIdFilter.Value;
+                    }
+
+                    if (filter.Operator != userIdFilter.Operator)
+                    {
+                        filter.Operator = userIdFilter.Operator;
+                    }
+                }
+                else
+                {
+                    request.Filters.Add(userIdFilter);
                 }
 
-                throw;
+                return await base.Index(request);
             }
 
-            return NoContent();
+            if (!User.IsInRole("User")) return Unauthorized();
+            return await base.Index(new DataSourceRequest
+            {
+                Filters = new List<IFilterDescriptor> {userIdFilter}
+            });
         }
 
-        // POST: api/Orders
-        [HttpPost]
-        public async Task<ActionResult<Order>> PostOrder(Order order)
+        [HttpGet("{id:guid}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
+        [ProducesResponseType(typeof(Order), (int)HttpStatusCode.OK)]
+        public override async Task<IActionResult> Details([FromRoute] Guid id)
         {
-            _context.Add(order);
-            await _context.SaveChangesAsync();
+            if (!Guid.TryParse(User.FindFirstValue(JwtClaimTypes.Subject), out var userId) ||
+                userId.Equals(Guid.Empty))
+            {
+                return Unauthorized();
+            }
 
-            return CreatedAtAction("GetOrder", new { id = order.Id }, order);
-        }
-
-        // DELETE: api/Orders/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Order>> DeleteOrder(Guid id)
-        {
-            var order = await _context.Set<Order>().FindAsync(id);
+            var order = await Service.Details(id);
             if (order == null)
             {
-                return NotFound();
+                return BadRequest(id);
             }
 
-            _context.Remove(order);
-            await _context.SaveChangesAsync();
+            if (!userId.Equals(order.UserId) && !User.IsInRole("Admin"))
+            {
+                return Forbid();
+            }
 
-            return order;
+            return Ok(order);
+        }
+
+        [HttpPut("{id:guid}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public override async Task<IActionResult> Edit([FromRoute] Guid id, [FromBody] Order model)
+        {
+            return await base.Edit(id, model);
+        }
+
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
+        [ProducesResponseType(typeof(Order), (int)HttpStatusCode.OK)]
+        public override async Task<IActionResult> Create([FromBody] Order model)
+        {
+            return await base.Create(model);
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpDelete("{id:guid}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public override async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            return await base.Delete(id);
         }
     }
 }

@@ -33,9 +33,10 @@
             await base.Edit(model);
         }
 
+#pragma warning disable 1998
         public override async Task Delete(Guid id)
         {
-            await base.Delete(id);
         }
+#pragma warning restore 1998
     }
 }

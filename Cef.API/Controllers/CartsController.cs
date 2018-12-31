@@ -1,6 +1,8 @@
 ﻿namespace Cef.API.Controllers
 {
     using System;
+    using System.Collections.Generic;
+    using System.Net;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Core.Controllers;
@@ -12,7 +14,6 @@
     using Microsoft.Extensions.Logging;
     using Models;
 
-    [Authorize(AuthenticationSchemes = "api1")]
     public class CartsController : BaseModelController<Cart>
     {
         public CartsController(IModelService<Cart> service, ILogger<CartsController> logger)
@@ -20,8 +21,10 @@
         {
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType(typeof(IEnumerable<Cart>), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
         {
             return await base.Index(request);
@@ -29,16 +32,44 @@
 
         [HttpGet("{id:guid}")]
         [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [ProducesResponseType(typeof(Cart), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Details([FromRoute] Guid id)
         {
-            return await base.Details(id);
+            var cart = await Service.Details(id);
+            if (cart?.UserId == null &&
+                Guid.TryParse(User.FindFirstValue(JwtClaimTypes.Subject), out var userId) &&
+                !userId.Equals(Guid.Empty))
+            {
+                if (cart == null)
+                {
+                    cart = await Service.Details(userId);
+                }
+                else
+                {
+                    cart.UserId = userId;
+                    await Service.Edit(cart);
+                }
+            }
+
+            if (cart == null)
+            {
+                return NotFound(id);
+            }
+
+            return Ok(cart);
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut("{id:guid}")]
         [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public override async Task<IActionResult> Edit([FromRoute] Guid id, [FromBody] Cart model)
         {
-            if (Guid.TryParse(User?.FindFirstValue(JwtClaimTypes.Subject), out var userId))
+            if (!model.UserId.HasValue &&
+                Guid.TryParse(User.FindFirstValue(JwtClaimTypes.Subject), out var userId) &&
+                !userId.Equals(Guid.Empty))
             {
                 model.UserId = userId;
             }
@@ -48,9 +79,13 @@
 
         [HttpPost]
         [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [ProducesResponseType(typeof(Cart), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Create([FromBody] Cart model)
         {
-            if (Guid.TryParse(User?.FindFirstValue(JwtClaimTypes.Subject), out var userId))
+            if (!model.UserId.HasValue &&
+                Guid.TryParse(User.FindFirstValue(JwtClaimTypes.Subject), out var userId) &&
+                !userId.Equals(Guid.Empty))
             {
                 model.UserId = userId;
             }
@@ -68,8 +103,10 @@
             }
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpDelete("{id:guid}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public override async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             return await base.Delete(id);

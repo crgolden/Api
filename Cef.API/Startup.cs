@@ -19,6 +19,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Models;
+    using Options;
     using Relationships;
     using Services;
 
@@ -38,18 +39,23 @@
             services.AddDbContext<ApiDbContext>(_configuration.GetDbContextOptions());
             services.Configure<SnapshotCollectorConfiguration>(_configuration.GetSection(nameof(SnapshotCollectorConfiguration)));
             services.Configure<EmailOptions>(_configuration.GetSection(nameof(EmailOptions)));
+            services.Configure<PaymentOptions>(_configuration.GetSection(nameof(PaymentOptions)));
+            services.Configure<ValidationOptions>(_configuration.GetSection(nameof(ValidationOptions)));
             services.AddScoped<DbContext, ApiDbContext>();
             services.AddScoped<ISeedService, SeedDataService>();
+            services.AddScoped<IModelService<Payment>, StripePaymentsService>();
             services.AddScoped<IModelService<Product>, ProductsService>();
+            services.AddScoped<IModelService<Order>, OrdersService>();
             services.AddScoped<IModelService<Cart>, CartsService>();
             services.AddScoped<IRelationshipService<CartProduct, Cart, Product>, CartProductsService>();
+            services.AddScoped<IRelationshipService<OrderProduct, Order, Product>, OrderProductsService>();
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddSingleton<ITelemetryProcessorFactory>(sp => new SnapshotCollectorTelemetryProcessorFactory(sp));
             services.AddCors();
             services.AddMvc(setup => setup.Filters.Add(typeof(ModelStateFilter)))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAuthentication(_configuration);
-            services.AddSwagger("Cef-API", "v1");
+            services.AddSwagger();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,7 +75,13 @@
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseCors(_configuration);
-            app.UseSwagger("Cef-API v1");
+            app.UseSwagger();
+            app.UseSwaggerUI(setup =>
+            {
+                setup.SwaggerEndpoint("/swagger/v1/swagger.json", "Cef-API v1");
+                setup.RoutePrefix = string.Empty;
+                setup.DocumentTitle = "Cef-API v1";
+            });
             app.UseMvcWithDefaultRoute();
 
             loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Warning);

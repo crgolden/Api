@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cef.API.Data.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20181221014413_ProductCartOrder")]
-    partial class ProductCartOrder
+    [Migration("20181230004417_ProductCartOrderPayment")]
+    partial class ProductCartOrderPayment
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,12 +26,23 @@ namespace Cef.API.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("Created");
+
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<Guid>("UserId");
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("Updated");
+
+                    b.Property<Guid?>("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Carts");
                 });
@@ -41,8 +52,17 @@ namespace Cef.API.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("Created");
+
                     b.Property<string>("Name")
                         .IsRequired();
+
+                    b.Property<string>("ShippingAddress");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("Updated");
 
                     b.Property<Guid>("UserId");
 
@@ -51,12 +71,56 @@ namespace Cef.API.Data.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("Cef.API.Models.Payment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("AuthorizationCode");
+
+                    b.Property<string>("ChargeId");
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<string>("Currency")
+                        .IsRequired();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<Guid>("OrderId");
+
+                    b.Property<string>("TokenId")
+                        .IsRequired();
+
+                    b.Property<DateTime?>("Updated");
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Payments");
+                });
+
             modelBuilder.Entity("Cef.API.Models.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("Active");
+
+                    b.Property<DateTime>("Created");
+
                     b.Property<string>("Description");
+
+                    b.Property<bool>("IsDownload");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -67,6 +131,8 @@ namespace Cef.API.Data.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("Updated");
 
                     b.HasKey("Id");
 
@@ -79,16 +145,23 @@ namespace Cef.API.Data.Migrations
 
                     b.Property<Guid>("Model2Id");
 
+                    b.Property<DateTime>("Created");
+
+                    b.Property<bool>("IsDownload");
+
                     b.Property<string>("Model1Name")
                         .IsRequired();
 
                     b.Property<string>("Model2Name")
                         .IsRequired();
 
-                    b.Property<decimal>("Price");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Quantity")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("Updated");
 
                     b.HasKey("Model1Id", "Model2Id");
 
@@ -103,20 +176,37 @@ namespace Cef.API.Data.Migrations
 
                     b.Property<Guid>("Model2Id");
 
+                    b.Property<DateTime>("Created");
+
+                    b.Property<bool>("IsDownload");
+
                     b.Property<string>("Model1Name")
                         .IsRequired();
 
                     b.Property<string>("Model2Name")
                         .IsRequired();
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<decimal>("Quantity")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("Updated");
 
                     b.HasKey("Model1Id", "Model2Id");
 
                     b.HasIndex("Model2Id");
 
                     b.ToTable("OrderProducts");
+                });
+
+            modelBuilder.Entity("Cef.API.Models.Payment", b =>
+                {
+                    b.HasOne("Cef.API.Models.Order", "Order")
+                        .WithMany("Payments")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Cef.API.Relationships.CartProduct", b =>

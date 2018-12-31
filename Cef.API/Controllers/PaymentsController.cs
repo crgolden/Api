@@ -3,50 +3,74 @@
     using System;
     using System.Collections.Generic;
     using System.Net;
+    using System.Security.Claims;
     using System.Threading.Tasks;
     using Core.Controllers;
     using Core.Interfaces;
+    using IdentityModel;
     using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Models;
 
-    public class ProductsController : BaseModelController<Product>
+    [Produces("application/json")]
+    [Route("v1/[controller]/[action]")]
+    [ApiController]
+    public class PaymentsController : BaseModelController<Payment>
     {
-        public ProductsController(IModelService<Product> service, ILogger<ProductsController> logger)
+        public PaymentsController(IModelService<Payment> service, ILogger<PaymentsController> logger)
             : base(service, logger)
         {
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet]
-        [AllowAnonymous]
-        [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType(typeof(IEnumerable<Payment>), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
         {
             return await base.Index(request);
         }
 
         [HttpGet("{id:guid}")]
-        [AllowAnonymous]
-        [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
+        [ProducesResponseType(typeof(Payment), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Details([FromRoute] Guid id)
         {
-            return await base.Details(id);
+            if (!Guid.TryParse(User.FindFirstValue(JwtClaimTypes.Subject), out var userId) ||
+                userId.Equals(Guid.Empty))
+            {
+                return Unauthorized();
+            }
+
+            var payment = await Service.Details(id);
+            if (payment == null)
+            {
+                return BadRequest(id);
+            }
+
+            if (!userId.Equals(payment.UserId) && !User.IsInRole("Admin"))
+            {
+                return Forbid();
+            }
+
+            return Ok(payment);
         }
 
         [HttpPut("{id:guid}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public override async Task<IActionResult> Edit([FromRoute] Guid id, [FromBody] Product model)
+        public override async Task<IActionResult> Edit([FromRoute] Guid id, [FromBody] Payment model)
         {
             return await base.Edit(id, model);
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
-        [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> Create([FromBody] Product model)
+        [ProducesResponseType(typeof(Payment), (int)HttpStatusCode.OK)]
+        public override async Task<IActionResult> Create([FromBody] Payment model)
         {
             return await base.Create(model);
         }

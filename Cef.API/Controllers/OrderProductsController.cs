@@ -13,9 +13,9 @@
     using Models;
     using Relationships;
 
-    public class CartProductsController : BaseRelationshipController<CartProduct, Cart, Product>
+    public class OrderProductsController : BaseRelationshipController<OrderProduct, Order, Product>
     {
-        public CartProductsController(IRelationshipService<CartProduct, Cart, Product> service, ILogger<CartProductsController> logger)
+        public OrderProductsController(IRelationshipService<OrderProduct, Order, Product> service, ILogger<OrderProductsController> logger)
             : base(service, logger)
         {
         }
@@ -23,7 +23,7 @@
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
-        [ProducesResponseType(typeof(IEnumerable<CartProduct>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<OrderProduct>), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
         {
             return await base.Index(request);
@@ -32,30 +32,32 @@
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet("{id1:guid}/{id2:guid}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
-        [ProducesResponseType(typeof(CartProduct), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(OrderProduct), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Details([FromRoute] Guid id1, [FromRoute] Guid id2)
         {
             return await base.Details(id1, id2);
         }
 
         [HttpPut("{id1:guid}/{id2:guid}")]
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public override async Task<IActionResult> Edit([FromRoute] Guid id1, [FromRoute] Guid id2, [FromBody] CartProduct relationship)
+        public override async Task<IActionResult> Edit([FromRoute] Guid id1, [FromRoute] Guid id2, [FromBody] OrderProduct relationship)
         {
             return await base.Edit(id1, id2, relationship);
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
-        [AllowAnonymous]
-        [ProducesResponseType(typeof(CartProduct), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> Create([FromBody] CartProduct relationship)
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType(typeof(OrderProduct), (int)HttpStatusCode.OK)]
+        public override async Task<IActionResult> Create([FromBody] OrderProduct relationship)
         {
             return await base.Create(relationship);
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpDelete("{id1:guid}/{id2:guid}")]
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public override async Task<IActionResult> Delete([FromRoute] Guid id1, [FromRoute] Guid id2)
         {
