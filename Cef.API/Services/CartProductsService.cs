@@ -14,9 +14,9 @@
         {
         }
 
-        public override IEnumerable<CartProduct> Index()
+        public override async Task<IEnumerable<CartProduct>> Index()
         {
-            return base.Index();
+            return await base.Index();
         }
 
         public override async Task<CartProduct> Details(Guid id1, Guid id2)
@@ -34,6 +34,11 @@
             return await base.Create(relationship);
         }
 
+        public override async Task<List<CartProduct>> CreateRange(List<CartProduct> relationships)
+        {
+            return await base.CreateRange(relationships);
+        }
+
         public override async Task Edit(CartProduct relationship)
         {
             var cartProduct = await Context.FindAsync<CartProduct>(relationship.Model1Id, relationship.Model2Id);
@@ -48,6 +53,11 @@
                 Context.Entry(relationship).State = EntityState.Modified;
                 await Context.SaveChangesAsync();
             }
+        }
+
+        public override async Task EditRange(List<CartProduct> relationships)
+        {
+            await base.EditRange(relationships);
         }
 
         public override async Task Delete(Guid id1, Guid id2)

@@ -40,6 +40,7 @@
             services.Configure<SnapshotCollectorConfiguration>(_configuration.GetSection(nameof(SnapshotCollectorConfiguration)));
             services.Configure<EmailOptions>(_configuration.GetSection(nameof(EmailOptions)));
             services.Configure<PaymentOptions>(_configuration.GetSection(nameof(PaymentOptions)));
+            services.Configure<StorageOptions>(_configuration.GetSection(nameof(StorageOptions)));
             services.Configure<ValidationOptions>(_configuration.GetSection(nameof(ValidationOptions)));
             services.AddScoped<DbContext, ApiDbContext>();
             services.AddScoped<ISeedService, SeedDataService>();
@@ -47,8 +48,10 @@
             services.AddScoped<IModelService<Product>, ProductsService>();
             services.AddScoped<IModelService<Order>, OrdersService>();
             services.AddScoped<IModelService<Cart>, CartsService>();
+            services.AddScoped<IModelService<File>, FilesService>();
             services.AddScoped<IRelationshipService<CartProduct, Cart, Product>, CartProductsService>();
             services.AddScoped<IRelationshipService<OrderProduct, Order, Product>, OrderProductsService>();
+            services.AddScoped<IRelationshipService<ProductFile, Product, File>, ProductFilesService>();
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddSingleton<ITelemetryProcessorFactory>(sp => new SnapshotCollectorTelemetryProcessorFactory(sp));
             services.AddCors();

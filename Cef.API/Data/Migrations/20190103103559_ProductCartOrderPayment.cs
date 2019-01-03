@@ -24,6 +24,25 @@ namespace Cef.API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Files",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false),
+                    Updated = table.Column<DateTime>(nullable: true),
+                    Uri = table.Column<string>(nullable: true),
+                    ContentType = table.Column<string>(nullable: true),
+                    ContentDisposition = table.Column<string>(nullable: true),
+                    Length = table.Column<long>(nullable: false),
+                    FileName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Files", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -51,8 +70,6 @@ namespace Cef.API.Data.Migrations
                     Active = table.Column<bool>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    PictureFileName = table.Column<string>(nullable: true),
-                    PictureUri = table.Column<string>(nullable: true),
                     IsDownload = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -150,6 +167,37 @@ namespace Cef.API.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ProductFiles",
+                columns: table => new
+                {
+                    Model1Id = table.Column<Guid>(nullable: false),
+                    Model2Id = table.Column<Guid>(nullable: false),
+                    Model1Name = table.Column<string>(nullable: false),
+                    Model2Name = table.Column<string>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false),
+                    Updated = table.Column<DateTime>(nullable: true),
+                    Uri = table.Column<string>(nullable: true),
+                    ContentType = table.Column<string>(nullable: true),
+                    Primary = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductFiles", x => new { x.Model1Id, x.Model2Id });
+                    table.ForeignKey(
+                        name: "FK_ProductFiles_Products_Model1Id",
+                        column: x => x.Model1Id,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductFiles_Files_Model2Id",
+                        column: x => x.Model2Id,
+                        principalTable: "Files",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_CartProducts_Model2Id",
                 table: "CartProducts",
@@ -171,6 +219,11 @@ namespace Cef.API.Data.Migrations
                 name: "IX_Payments_OrderId",
                 table: "Payments",
                 column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductFiles_Model2Id",
+                table: "ProductFiles",
+                column: "Model2Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -185,13 +238,19 @@ namespace Cef.API.Data.Migrations
                 name: "Payments");
 
             migrationBuilder.DropTable(
+                name: "ProductFiles");
+
+            migrationBuilder.DropTable(
                 name: "Carts");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Files");
         }
     }
 }

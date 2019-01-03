@@ -21,9 +21,9 @@
             _paymentService = paymentService;
         }
 
-        public override IEnumerable<Order> Index()
+        public override async Task<IEnumerable<Order>> Index()
         {
-            return base.Index();
+            return await base.Index();
         }
 
         public override async Task<Order> Details(Guid id)
@@ -36,7 +36,9 @@
 
         public override async Task<Order> Create(Order model)
         {
-            model.Created = DateTime.Now;
+            model.Created = model.Created > DateTime.MinValue
+                ? model.Created
+                : DateTime.Now;
             foreach (var orderProduct in model.OrderProducts)
             {
                 orderProduct.Created = model.Created;
@@ -66,9 +68,14 @@
             return model;
         }
 
+        public override async Task<List<Order>> CreateRange(List<Order> models)
+        {
+            return await base.CreateRange(models);
+        }
+
         public override async Task Edit(Order model)
         {
-            model.Updated = DateTime.Now;
+            model.Updated = model.Updated ?? DateTime.Now;
             foreach (var orderProduct in model.OrderProducts)
             {
                 orderProduct.Updated = model.Updated;
@@ -77,6 +84,11 @@
             model.Total = model.OrderProducts.Sum(x => x.ExtendedPrice);
             Context.Entry(model).State = EntityState.Modified;
             await Context.SaveChangesAsync();
+        }
+
+        public override async Task EditRange(List<Order> models)
+        {
+            await base.EditRange(models);
         }
 
 #pragma warning disable 1998

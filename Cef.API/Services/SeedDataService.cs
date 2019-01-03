@@ -39,12 +39,11 @@
                 .RuleFor(x => x.Created, f => DateTime.Now)
                 .RuleFor(x => x.Updated, f => null)
                 .RuleFor(x => x.Price, f => Random.Next(0, 100))
-                .RuleFor(x => x.PictureFileName, f => null)
-                .RuleFor(x => x.PictureUri, f => null)
                 .RuleFor(x => x.Description, Lorem.Sentences(3))
                 .RuleFor(x => x.CartProducts, f => new List<CartProduct>())
                 .RuleFor(x => x.IsDownload, f => f.Random.Bool())
-                .RuleFor(x => x.OrderProducts, f => new List<OrderProduct>());
+                .RuleFor(x => x.OrderProducts, f => new List<OrderProduct>())
+                .RuleFor(x => x.ProductFiles, f => new List<ProductFile>());
             _context.AddRange(product.Generate(100));
             await _context.SaveChangesAsync();
         }

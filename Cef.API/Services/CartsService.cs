@@ -15,9 +15,9 @@
         {
         }
 
-        public override IEnumerable<Cart> Index()
+        public override async Task<IEnumerable<Cart>> Index()
         {
-            return base.Index();
+            return await base.Index();
         }
 
         public override async Task<Cart> Details(Guid id)
@@ -39,7 +39,9 @@
 
             if (cart == null)
             {
-                model.Created = DateTime.Now;
+                model.Created = model.Created > DateTime.MinValue
+                    ? model.Created
+                    : DateTime.Now;
                 foreach (var cartProduct in model.CartProducts)
                 {
                     cartProduct.Created = model.Created;
@@ -73,9 +75,14 @@
             return cart;
         }
 
+        public override async Task<List<Cart>> CreateRange(List<Cart> models)
+        {
+            return await base.CreateRange(models);
+        }
+
         public override async Task Edit(Cart model)
         {
-            model.Updated = DateTime.Now;
+            model.Updated = model.Updated ?? DateTime.Now;
             if (model.UserId.HasValue)
             {
                 var cart = await Context.Set<Cart>()
@@ -125,6 +132,11 @@
             model.Total = model.CartProducts.Sum(x => x.ExtendedPrice);
             Context.Entry(model).State = EntityState.Modified;
             await Context.SaveChangesAsync();
+        }
+
+        public override async Task EditRange(List<Cart> models)
+        {
+            await base.EditRange(models);
         }
 
 #pragma warning disable 1998

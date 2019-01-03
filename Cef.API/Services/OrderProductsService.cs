@@ -14,9 +14,9 @@
         {
         }
 
-        public override IEnumerable<OrderProduct> Index()
+        public override async Task<IEnumerable<OrderProduct>> Index()
         {
-            return base.Index();
+            return await base.Index();
         }
 
         public override async Task<OrderProduct> Details(Guid id1, Guid id2)
@@ -27,6 +27,11 @@
         public override async Task<OrderProduct> Create(OrderProduct relationship)
         {
             return await base.Create(relationship);
+        }
+
+        public override async Task<List<OrderProduct>> CreateRange(List<OrderProduct> relationships)
+        {
+            return await base.CreateRange(relationships);
         }
 
         public override async Task Edit(OrderProduct relationship)
@@ -43,6 +48,11 @@
                 Context.Entry(relationship).State = EntityState.Modified;
                 await Context.SaveChangesAsync();
             }
+        }
+
+        public override async Task EditRange(List<OrderProduct> relationships)
+        {
+            await base.EditRange(relationships);
         }
 
 #pragma warning disable 1998

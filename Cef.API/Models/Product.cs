@@ -15,15 +15,13 @@
         [Required]
         public decimal Price { get; set; }
 
-        public string PictureFileName { get; set; }
-
-        public string PictureUri { get; set; }
-
         [Required]
         public bool IsDownload { get; set; }
 
         public virtual ICollection<CartProduct> CartProducts { get; set; }
 
         public virtual ICollection<OrderProduct> OrderProducts { get; set; }
+
+        public virtual ICollection<ProductFile> ProductFiles { get; set; }
     }
 }

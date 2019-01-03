@@ -19,9 +19,9 @@
             _chargeService = new ChargeService(options.Value?.Stripe?.SecretKey);
         }
 
-        public override IEnumerable<Payment> Index()
+        public override async Task<IEnumerable<Payment>> Index()
         {
-            return base.Index();
+            return await base.Index();
         }
 
         public override async Task<Payment> Details(Guid id)
@@ -48,6 +48,11 @@
             return model;
         }
 
+        public override async Task<List<Payment>> CreateRange(List<Payment> models)
+        {
+            return await base.CreateRange(models);
+        }
+
         public override async Task Edit(Payment model)
         {
             await _chargeService.UpdateAsync(model.ChargeId, new ChargeUpdateOptions
@@ -56,6 +61,11 @@
                 
             });
             await base.Edit(model);
+        }
+
+        public override async Task EditRange(List<Payment> models)
+        {
+            await base.EditRange(models);
         }
 
 #pragma warning disable 1998
