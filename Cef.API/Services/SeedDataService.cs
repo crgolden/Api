@@ -7,6 +7,7 @@
     using Core.Interfaces;
     using Bogus;
     using Bogus.DataSets;
+    using Core;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using Newtonsoft.Json;
@@ -58,7 +59,7 @@
                 var userId = Guid.NewGuid();
                 var created = DateTime.Now.AddDays(Random.Next(1, 100) * -1);
                 var mockAddress = new Address();
-                var address = new Faker<Core.Claims.Address>()
+                var address = new Faker<AddressClaim>()
                     .StrictMode(true)
                     .RuleFor(x => x.StreetAddress, f => mockAddress.StreetAddress())
                     .RuleFor(x => x.Locality, f => mockAddress.City())

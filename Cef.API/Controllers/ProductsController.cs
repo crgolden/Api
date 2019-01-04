@@ -2,21 +2,32 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
     using Core.Controllers;
     using Core.Interfaces;
+    using Kendo.Mvc.Extensions;
     using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
     using Models;
+    using Options;
+    using Utilities;
 
     public class ProductsController : BaseModelController<Product>
     {
-        public ProductsController(IModelService<Product> service, ILogger<ProductsController> logger)
+        private readonly AzureBlobStorage _azureBlobStorage;
+
+        public ProductsController(
+            IModelService<Product> service,
+            ILogger<ProductsController> logger,
+            IOptions<StorageOptions> options)
             : base(service, logger)
         {
+            _azureBlobStorage = options.Value.AzureBlobStorage;
         }
 
         [HttpGet]
@@ -24,7 +35,10 @@
         [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
         {
-            return await base.Index(request);
+            var products = await Service.Index();
+            return request != null
+                ? Ok(await products.ToDataSourceResultAsync(request, ModelState, GetSasTokens))
+                : Ok(products);
         }
 
         [HttpGet("{id:guid}")]
@@ -32,7 +46,21 @@
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Details([FromRoute] Guid id)
         {
-            return await base.Details(id);
+            try
+            {
+                var product = await Service.Details(id);
+                if (product == null)
+                {
+                    return NotFound(id);
+                }
+
+                return Ok(GetSasTokens(product));
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, e.Message);
+                return BadRequest(id);
+            }
         }
 
         [HttpPut("{id:guid}")]
@@ -58,6 +86,38 @@
         public override async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             return await base.Delete(id);
+        }
+
+        private Product GetSasTokens(Product product)
+        {
+            if (!product.ProductFiles.Any())
+            {
+                return product;
+            }
+
+            foreach (var productFile in product.ProductFiles)
+            {
+                string containerName = null;
+                if (productFile.Uri.Contains(_azureBlobStorage.ImageContainer))
+                {
+                    containerName = _azureBlobStorage.ImageContainer;
+                }
+                else if (productFile.Uri.Contains(_azureBlobStorage.ThumbnailContainer))
+                {
+                    containerName = _azureBlobStorage.ThumbnailContainer;
+                }
+
+                if (!string.IsNullOrEmpty(containerName))
+                {
+                    productFile.Uri += FilesUtility.GetSharedAccessSignature(
+                        accountName: _azureBlobStorage.AccountName,
+                        accountKey: _azureBlobStorage.AccountKey,
+                        containerName: containerName,
+                        fileName: productFile.Model2.FileName);
+                }
+            }
+
+            return product;
         }
     }
 }

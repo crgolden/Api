@@ -12,7 +12,6 @@
     using Microsoft.ApplicationInsights.SnapshotCollector;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -52,7 +51,7 @@
             services.AddScoped<IRelationshipService<CartProduct, Cart, Product>, CartProductsService>();
             services.AddScoped<IRelationshipService<OrderProduct, Order, Product>, OrderProductsService>();
             services.AddScoped<IRelationshipService<ProductFile, Product, File>, ProductFilesService>();
-            services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddSingleton<IEmailSender, SendGridEmailSender>();
             services.AddSingleton<ITelemetryProcessorFactory>(sp => new SnapshotCollectorTelemetryProcessorFactory(sp));
             services.AddCors();
             services.AddMvc(setup => setup.Filters.Add(typeof(ModelStateFilter)))

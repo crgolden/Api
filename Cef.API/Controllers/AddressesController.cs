@@ -1,7 +1,7 @@
 ﻿namespace Cef.API.Controllers
 {
     using System.IO;
-    using Core.Claims;
+    using Core;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -32,7 +32,7 @@
 
         [HttpPost]
         [Authorize(Roles = "User")]
-        public IActionResult Validate([FromBody] Address address)
+        public IActionResult Validate([FromBody] AddressClaim address)
         {
             try
             {

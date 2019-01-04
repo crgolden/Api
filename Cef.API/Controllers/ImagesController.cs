@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using Core.Controllers;
     using Core.Interfaces;
+    using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -75,21 +76,49 @@
             }
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType(typeof(IEnumerable<File>), (int)HttpStatusCode.OK)]
+        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
+        {
+            return await base.Index(request);
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpGet("{id:guid}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType(typeof(File), (int)HttpStatusCode.OK)]
+        public override async Task<IActionResult> Details([FromRoute] Guid id)
+        {
+            return await base.Details(id);
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpPut("{id:guid}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public override async Task<IActionResult> Edit([FromRoute] Guid id, [FromBody] File model)
+        {
+            return await base.Edit(id, model);
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
-        [ProducesResponseType(typeof(List<string>), (int)HttpStatusCode.OK)]
-        public IActionResult GetThumbNails([FromBody] ICollection<string> fileNames)
+        [ProducesResponseType(typeof(File), (int)HttpStatusCode.OK)]
+        public override async Task<IActionResult> Create([FromBody] File model)
         {
-            try
-            {
-                var thumbnailUrls = FilesUtility.GetThumbNailUrls(fileNames, _azureBlobStorage);
-                return Ok(thumbnailUrls);
-            }
-            catch (Exception e)
-            {
-                Logger.LogError(e, e.Message);
-                return BadRequest();
-            }
+            return await base.Create(model);
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpDelete("{id:guid}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public override async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            return await base.Delete(id);
         }
 
         private async Task<File> GetFile(IFormFile formFile, string fileName, string containerName)
