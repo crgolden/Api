@@ -71,12 +71,28 @@
             return await base.Edit(id, model);
         }
 
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public override async Task<IActionResult> EditRange([FromBody] List<Product> models)
+        {
+            return await base.EditRange(models);
+        }
+
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Create([FromBody] Product model)
         {
             return await base.Create(model);
+        }
+
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType(typeof(List<Product>), (int)HttpStatusCode.OK)]
+        public override async Task<IActionResult> CreateRange([FromBody] List<Product> models)
+        {
+            return await base.CreateRange(models);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]

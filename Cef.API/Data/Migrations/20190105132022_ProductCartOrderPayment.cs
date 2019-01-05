@@ -24,6 +24,21 @@ namespace Cef.API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false),
+                    Updated = table.Column<DateTime>(nullable: true),
+                    Description = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Files",
                 columns: table => new
                 {
@@ -32,10 +47,8 @@ namespace Cef.API.Data.Migrations
                     Created = table.Column<DateTime>(nullable: false),
                     Updated = table.Column<DateTime>(nullable: true),
                     Uri = table.Column<string>(nullable: true),
-                    ContentType = table.Column<string>(nullable: true),
-                    ContentDisposition = table.Column<string>(nullable: true),
-                    Length = table.Column<long>(nullable: false),
-                    FileName = table.Column<string>(nullable: true)
+                    FileName = table.Column<string>(nullable: true),
+                    ContentType = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -69,7 +82,11 @@ namespace Cef.API.Data.Migrations
                     Updated = table.Column<DateTime>(nullable: true),
                     Active = table.Column<bool>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    QuantityPerUnit = table.Column<string>(nullable: false),
+                    UnitsInStock = table.Column<int>(nullable: false),
+                    UnitsOnOrder = table.Column<int>(nullable: false),
+                    ReorderLevel = table.Column<int>(nullable: false),
                     IsDownload = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -168,6 +185,34 @@ namespace Cef.API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductCategories",
+                columns: table => new
+                {
+                    Model1Id = table.Column<Guid>(nullable: false),
+                    Model2Id = table.Column<Guid>(nullable: false),
+                    Model1Name = table.Column<string>(nullable: false),
+                    Model2Name = table.Column<string>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false),
+                    Updated = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductCategories", x => new { x.Model1Id, x.Model2Id });
+                    table.ForeignKey(
+                        name: "FK_ProductCategories_Products_Model1Id",
+                        column: x => x.Model1Id,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductCategories_Categories_Model2Id",
+                        column: x => x.Model2Id,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProductFiles",
                 columns: table => new
                 {
@@ -221,6 +266,11 @@ namespace Cef.API.Data.Migrations
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductCategories_Model2Id",
+                table: "ProductCategories",
+                column: "Model2Id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductFiles_Model2Id",
                 table: "ProductFiles",
                 column: "Model2Id");
@@ -238,6 +288,9 @@ namespace Cef.API.Data.Migrations
                 name: "Payments");
 
             migrationBuilder.DropTable(
+                name: "ProductCategories");
+
+            migrationBuilder.DropTable(
                 name: "ProductFiles");
 
             migrationBuilder.DropTable(
@@ -245,6 +298,9 @@ namespace Cef.API.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Products");

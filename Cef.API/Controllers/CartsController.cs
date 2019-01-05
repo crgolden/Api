@@ -77,6 +77,15 @@
             return await base.Edit(id, model);
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public override async Task<IActionResult> EditRange([FromBody] List<Cart> models)
+        {
+            return await base.EditRange(models);
+        }
+
         [HttpPost]
         [AllowAnonymous]
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -101,6 +110,15 @@
                 Logger.LogError(e, e.Message);
                 return BadRequest(model);
             }
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [ProducesResponseType(typeof(Cart), (int)HttpStatusCode.OK)]
+        public override async Task<IActionResult> CreateRange([FromBody] List<Cart> models)
+        {
+            return await base.CreateRange(models);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]

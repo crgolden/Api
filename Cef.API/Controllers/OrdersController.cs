@@ -99,12 +99,30 @@
             return await base.Edit(id, model);
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public override async Task<IActionResult> EditRange([FromBody] List<Order> models)
+        {
+            return await base.EditRange(models);
+        }
+
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
         [ProducesResponseType(typeof(Order), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Create([FromBody] Order model)
         {
             return await base.Create(model);
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
+        [ProducesResponseType(typeof(List<Order>), (int)HttpStatusCode.OK)]
+        public override async Task<IActionResult> CreateRange([FromBody] List<Order> models)
+        {
+            return await base.CreateRange(models);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]

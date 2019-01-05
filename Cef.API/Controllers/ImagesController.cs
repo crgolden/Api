@@ -58,12 +58,30 @@
 
                 foreach (var (fileName, file) in images)
                 {
-                    filesResult.Add(await GetFile(file, fileName, _azureBlobStorage.ImageContainer));
-                }
-
-                foreach (var (fileName, file) in images)
-                {
-                    filesResult.Add(await GetFile(file, fileName, _azureBlobStorage.ThumbnailContainer));
+                    var uri = await FilesUtility.UploadFileToStorage(
+                        file: file,
+                        fileName: fileName,
+                        accountName: _azureBlobStorage.AccountName,
+                        accountKey: _azureBlobStorage.AccountKey,
+                        containerName: _azureBlobStorage.ImageContainer);
+                    filesResult.Add(new File
+                    {
+                        ContentType = file.ContentType,
+                        FileName = fileName,
+                        Name = file.FileName,
+                        Uri = $"{uri}",
+                        ProductFiles = new List<ProductFile>()
+                    });
+                    filesResult.Add(new File
+                    {
+                        ContentType = file.ContentType,
+                        FileName = fileName,
+                        Name = file.FileName,
+                        Uri = $"{uri}".Replace(
+                            oldValue: $"{_azureBlobStorage.ImageContainer}/",
+                            newValue: $"{_azureBlobStorage.ThumbnailContainer}/"),
+                        ProductFiles = new List<ProductFile>()
+                    });
                 }
 
                 await Service.CreateRange(filesResult);
@@ -104,6 +122,15 @@
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public override async Task<IActionResult> EditRange([FromBody] List<File> models)
+        {
+            return await base.EditRange(models);
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [ProducesResponseType(typeof(File), (int)HttpStatusCode.OK)]
@@ -113,32 +140,21 @@
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType(typeof(List<File>), (int)HttpStatusCode.OK)]
+        public override async Task<IActionResult> CreateRange([FromBody] List<File> models)
+        {
+            return await base.EditRange(models);
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpDelete("{id:guid}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public override async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             return await base.Delete(id);
-        }
-
-        private async Task<File> GetFile(IFormFile formFile, string fileName, string containerName)
-        {
-            var uri = await FilesUtility.UploadFileToStorage(
-                file: formFile,
-                fileName: fileName,
-                accountName: _azureBlobStorage.AccountName,
-                accountKey: _azureBlobStorage.AccountKey,
-                containerName: containerName);
-            return new File
-            {
-                ContentDisposition = formFile.ContentDisposition,
-                ContentType = formFile.ContentType,
-                FileName = fileName,
-                Name = formFile.FileName,
-                Length = formFile.Length,
-                Uri = $"{uri}",
-                ProductFiles = new List<ProductFile>()
-            };
         }
     }
 }

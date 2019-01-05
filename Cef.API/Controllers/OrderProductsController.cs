@@ -47,12 +47,30 @@
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public override async Task<IActionResult> EditRange([FromBody] List<OrderProduct> relationships)
+        {
+            return await base.EditRange(relationships);
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [ProducesResponseType(typeof(OrderProduct), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Create([FromBody] OrderProduct relationship)
         {
             return await base.Create(relationship);
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType(typeof(List<OrderProduct>), (int)HttpStatusCode.OK)]
+        public override async Task<IActionResult> CreateRange([FromBody] List<OrderProduct> relationships)
+        {
+            return await base.CreateRange(relationships);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]

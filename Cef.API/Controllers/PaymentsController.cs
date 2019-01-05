@@ -66,6 +66,14 @@
             return await base.Edit(id, model);
         }
 
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public override async Task<IActionResult> EditRange([FromBody] List<Payment> models)
+        {
+            return await base.EditRange(models);
+        }
+
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
@@ -73,6 +81,15 @@
         public override async Task<IActionResult> Create([FromBody] Payment model)
         {
             return await base.Create(model);
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType(typeof(List<Payment>), (int)HttpStatusCode.OK)]
+        public override async Task<IActionResult> CreateRange([FromBody] List<Payment> models)
+        {
+            return await base.CreateRange(models);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]

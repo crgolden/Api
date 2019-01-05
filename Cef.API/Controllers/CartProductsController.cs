@@ -46,12 +46,30 @@
             return await base.Edit(id1, id2, relationship);
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public override async Task<IActionResult> EditRange([FromBody] List<CartProduct> relationships)
+        {
+            return await base.EditRange(relationships);
+        }
+
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(typeof(CartProduct), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Create([FromBody] CartProduct relationship)
         {
             return await base.Create(relationship);
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType(typeof(List<CartProduct>), (int)HttpStatusCode.NoContent)]
+        public override async Task<IActionResult> CreateRange([FromBody] List<CartProduct> relationships)
+        {
+            return await base.CreateRange(relationships);
         }
 
         [HttpDelete("{id1:guid}/{id2:guid}")]

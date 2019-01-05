@@ -45,20 +45,35 @@ namespace Cef.API.Data.Migrations
                     b.ToTable("Carts");
                 });
 
-            modelBuilder.Entity("Cef.API.Models.File", b =>
+            modelBuilder.Entity("Cef.API.Models.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ContentDisposition");
+                    b.Property<DateTime>("Created");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<DateTime?>("Updated");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Cef.API.Models.File", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ContentType");
 
                     b.Property<DateTime>("Created");
 
                     b.Property<string>("FileName");
-
-                    b.Property<long>("Length");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -150,8 +165,17 @@ namespace Cef.API.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<decimal>("Price")
+                    b.Property<string>("QuantityPerUnit")
+                        .IsRequired();
+
+                    b.Property<int>("ReorderLevel");
+
+                    b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("UnitsInStock");
+
+                    b.Property<int>("UnitsOnOrder");
 
                     b.Property<DateTime?>("Updated");
 
@@ -222,6 +246,29 @@ namespace Cef.API.Data.Migrations
                     b.ToTable("OrderProducts");
                 });
 
+            modelBuilder.Entity("Cef.API.Relationships.ProductCategory", b =>
+                {
+                    b.Property<Guid>("Model1Id");
+
+                    b.Property<Guid>("Model2Id");
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<string>("Model1Name")
+                        .IsRequired();
+
+                    b.Property<string>("Model2Name")
+                        .IsRequired();
+
+                    b.Property<DateTime?>("Updated");
+
+                    b.HasKey("Model1Id", "Model2Id");
+
+                    b.HasIndex("Model2Id");
+
+                    b.ToTable("ProductCategories");
+                });
+
             modelBuilder.Entity("Cef.API.Relationships.ProductFile", b =>
                 {
                     b.Property<Guid>("Model1Id");
@@ -281,6 +328,19 @@ namespace Cef.API.Data.Migrations
 
                     b.HasOne("Cef.API.Models.Product", "Model2")
                         .WithMany("OrderProducts")
+                        .HasForeignKey("Model2Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Cef.API.Relationships.ProductCategory", b =>
+                {
+                    b.HasOne("Cef.API.Models.Product", "Model1")
+                        .WithMany("ProductCategories")
+                        .HasForeignKey("Model1Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Cef.API.Models.Category", "Model2")
+                        .WithMany("ProductCategories")
                         .HasForeignKey("Model2Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
