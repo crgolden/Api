@@ -6,6 +6,7 @@
     using Core.Interfaces;
     using Core.Options;
     using Core.Services;
+    using Core.Transformers;
     using Data;
     using Extensions;
     using Microsoft.ApplicationInsights.AspNetCore;
@@ -13,6 +14,7 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ApplicationModels;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -48,13 +50,18 @@
             services.AddScoped<IModelService<Order>, OrdersService>();
             services.AddScoped<IModelService<Cart>, CartsService>();
             services.AddScoped<IModelService<File>, FilesService>();
+            services.AddScoped<IModelService<Category>, CategoriesService>();
             services.AddScoped<IRelationshipService<CartProduct, Cart, Product>, CartProductsService>();
             services.AddScoped<IRelationshipService<OrderProduct, Order, Product>, OrderProductsService>();
             services.AddScoped<IRelationshipService<ProductFile, Product, File>, ProductFilesService>();
             services.AddSingleton<IEmailSender, SendGridEmailSender>();
             services.AddSingleton<ITelemetryProcessorFactory>(sp => new SnapshotCollectorTelemetryProcessorFactory(sp));
             services.AddCors();
-            services.AddMvc(setup => setup.Filters.Add(typeof(ModelStateFilter)))
+            services.AddMvc(setup =>
+                {
+                    setup.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
+                    setup.Filters.Add(typeof(ModelStateFilter));
+                })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAuthentication(_configuration);
             services.AddSwagger();

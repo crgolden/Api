@@ -114,8 +114,8 @@
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        [ProducesResponseType(typeof(Cart), (int)HttpStatusCode.OK)]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [ProducesResponseType(typeof(List<Cart>), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> CreateRange([FromBody] List<Cart> models)
         {
             return await base.CreateRange(models);
