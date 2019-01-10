@@ -56,6 +56,7 @@
             services.AddScoped<IRelationshipService<ProductFile, Product, File>, ProductFilesService>();
             services.AddSingleton<IEmailSender, SendGridEmailSender>();
             services.AddSingleton<ITelemetryProcessorFactory>(sp => new SnapshotCollectorTelemetryProcessorFactory(sp));
+            services.AddHealthChecks();
             services.AddCors();
             services.AddMvc(setup =>
                 {
@@ -83,6 +84,7 @@
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
+            app.UseHealthChecks("/health");
             app.UseCors(_configuration);
             app.UseSwagger();
             app.UseSwaggerUI(setup =>

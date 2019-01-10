@@ -20,6 +20,7 @@
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Authorize(AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(typeof(IEnumerable<Category>), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
@@ -54,7 +55,6 @@
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [ProducesResponseType(typeof(Category), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Create([FromBody] Category model)
