@@ -62,13 +62,18 @@
             services.AddCors();
             services.ConfigureApplicationCookie(configure =>
                 {
-                    //configure.Cookie.Domain = _configuration.GetValue<string>("CookieDomain");
+                    configure.Cookie.Domain = _configuration.GetValue<string>("CookieDomain");
                     configure.Cookie.HttpOnly = false;
                     configure.Cookie.IsEssential = true;
                     configure.Cookie.SameSite = SameSiteMode.None;
                     configure.Cookie.Path = "/";
                     //configure.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 });
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.HttpOnly = HttpOnlyPolicy.None;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
             services.AddMvc(setup =>
                 {
                     setup.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
