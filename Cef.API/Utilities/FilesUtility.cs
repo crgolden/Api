@@ -71,7 +71,7 @@
             var blockBlob = container.GetBlockBlobReference(fileName);
             return blockBlob.GetSharedAccessSignature(new SharedAccessBlobPolicy
             {
-                SharedAccessStartTime = DateTimeOffset.UtcNow,
+                SharedAccessStartTime = DateTimeOffset.UtcNow.AddMinutes(-5),
                 SharedAccessExpiryTime = DateTimeOffset.UtcNow.AddHours(24),
                 Permissions = SharedAccessBlobPermissions.Read
             });
