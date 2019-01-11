@@ -10,23 +10,15 @@
     using IdentityModel;
     using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
     using Models;
 
     public class CartsController : BaseModelController<Cart>
     {
-        private readonly IConfiguration _configuration;
-
-        public CartsController(
-            IModelService<Cart> service,
-            ILogger<CartsController> logger,
-            IConfiguration configuration)
+        public CartsController(IModelService<Cart> service, ILogger<CartsController> logger)
             : base(service, logger)
         {
-            _configuration = configuration;
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -110,15 +102,6 @@
             try
             {
                 var cart = await Service.Create(model);
-                Response.Cookies.Append("CartId", $"{cart.Id}", new CookieOptions
-                {
-                    Domain = _configuration.GetValue<string>("CookieDomain"),
-                    Path = "/",
-                    IsEssential = true,
-                    SameSite = SameSiteMode.None,
-                    HttpOnly = false,
-                    //Secure = true
-                });
                 return Ok(cart);
             }
             catch (Exception e)
