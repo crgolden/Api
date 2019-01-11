@@ -13,6 +13,7 @@
     using Microsoft.ApplicationInsights.SnapshotCollector;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ApplicationModels;
     using Microsoft.EntityFrameworkCore;
@@ -58,6 +59,15 @@
             services.AddSingleton<ITelemetryProcessorFactory>(sp => new SnapshotCollectorTelemetryProcessorFactory(sp));
             services.AddHealthChecks();
             services.AddCors();
+            services.ConfigureApplicationCookie(configure =>
+                {
+                    configure.Cookie.Domain = _configuration.GetValue<string>("CookieDomain");
+                    configure.Cookie.HttpOnly = false;
+                    configure.Cookie.IsEssential = true;
+                    configure.Cookie.SameSite = SameSiteMode.None;
+                    configure.Cookie.Path = "/";
+                    configure.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                });
             services.AddMvc(setup =>
                 {
                     setup.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));

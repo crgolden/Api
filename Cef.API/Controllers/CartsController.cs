@@ -110,15 +110,7 @@
             try
             {
                 var cart = await Service.Create(model);
-                Response.Cookies.Append("CartId", $"{cart.Id}", new CookieOptions
-                {
-                    Domain = _configuration.GetValue<string>("CookieDomain"),
-                    Path = "/",
-                    IsEssential = true,
-                    SameSite = SameSiteMode.None,
-                    HttpOnly = false,
-                    Secure = true
-                });
+                Response.Cookies.Append("CartId", $"{cart.Id}");
                 return Ok(cart);
             }
             catch (Exception e)
