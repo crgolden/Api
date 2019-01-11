@@ -112,12 +112,12 @@
                 var cart = await Service.Create(model);
                 Response.Cookies.Append("CartId", $"{cart.Id}", new CookieOptions
                 {
-                    Domain = _configuration.GetValue<string>("CookieDomain"),
+                    //Domain = _configuration.GetValue<string>("CookieDomain"),
                     Path = "/",
                     IsEssential = true,
                     SameSite = SameSiteMode.None,
                     HttpOnly = false,
-                    Secure = true
+                    //Secure = true
                 });
                 return Ok(cart);
             }

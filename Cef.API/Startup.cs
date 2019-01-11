@@ -62,12 +62,12 @@
             services.AddCors();
             services.ConfigureApplicationCookie(configure =>
                 {
-                    configure.Cookie.Domain = _configuration.GetValue<string>("CookieDomain");
+                    //configure.Cookie.Domain = _configuration.GetValue<string>("CookieDomain");
                     configure.Cookie.HttpOnly = false;
                     configure.Cookie.IsEssential = true;
                     configure.Cookie.SameSite = SameSiteMode.None;
                     configure.Cookie.Path = "/";
-                    configure.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                    //configure.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 });
             services.AddMvc(setup =>
                 {
@@ -100,7 +100,7 @@
             app.UseCookiePolicy(new CookiePolicyOptions
             {
                 HttpOnly = HttpOnlyPolicy.None,
-                Secure = CookieSecurePolicy.Always,
+                //Secure = CookieSecurePolicy.Always,
                 MinimumSameSitePolicy = SameSiteMode.None
             });
             app.UseSwagger();
