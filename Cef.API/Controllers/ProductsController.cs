@@ -36,6 +36,11 @@
         public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
         {
             var products = await Service.Index();
+            if (!User.IsInRole("Admin"))
+            {
+                products = products.Where(x => x.Active);
+            }
+
             return request != null
                 ? Ok(await products.ToDataSourceResultAsync(request, ModelState, GetSasTokens))
                 : Ok(products);
@@ -52,6 +57,11 @@
                 if (product == null)
                 {
                     return NotFound(id);
+                }
+
+                if (!product.Active && !User.IsInRole("Admin"))
+                {
+                    return Forbid();
                 }
 
                 return Ok(GetSasTokens(product));
