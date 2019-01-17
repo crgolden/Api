@@ -6,13 +6,19 @@
     using System.Threading.Tasks;
     using Core.Services;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Options;
     using Models;
+    using Options;
     using Relationships;
+    using Utilities;
 
     public class CartsService : BaseModelService<Cart>
     {
-        public CartsService(DbContext context) : base(context)
+        private readonly AzureBlobStorage _azureBlobStorage;
+
+        public CartsService(DbContext context, IOptions<StorageOptions> options) : base(context)
         {
+            _azureBlobStorage = options.Value.AzureBlobStorage;
         }
 
         public override async Task<IEnumerable<Cart>> Index()
@@ -22,9 +28,24 @@
 
         public override async Task<Cart> Details(Guid id)
         {
-            return await Context.Set<Cart>()
+            var cart = await Context.Set<Cart>()
                 .Include(x => x.CartProducts)
+                .ThenInclude(x => x.Model2)
+                .ThenInclude(x => x.ProductFiles)
+                .ThenInclude(x => x.Model2)
                 .SingleOrDefaultAsync(x => x.Id.Equals(id) || x.UserId.HasValue && x.UserId.Value.Equals(id));
+            foreach (var cartProduct in cart.CartProducts.Where(x =>
+                x.Model2.ProductFiles.SingleOrDefault(y => y.ContentType.Contains("image") && y.Primary) != null))
+            {
+                var file = cartProduct.Model2.ProductFiles.Single(z => z.ContentType.Contains("image") && z.Primary).Model2;
+                cartProduct.ThumbnailUri = file.Uri.Replace("images/", "thumbnails/") + FilesUtility.GetSharedAccessSignature(
+                    accountName: _azureBlobStorage.AccountName,
+                    accountKey: _azureBlobStorage.AccountKey,
+                    containerName: _azureBlobStorage.ThumbnailContainer,
+                    fileName: file.FileName);
+            }
+
+            return cart;
         }
 
         public override async Task<Cart> Create(Cart model)

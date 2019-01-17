@@ -8,17 +8,23 @@
     using Core.Services;
     using Kendo.Mvc.Extensions;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Options;
     using Models;
+    using Options;
+    using Utilities;
 
     public class OrdersService : BaseModelService<Order>
     {
         private readonly IModelService<Payment> _paymentService;
+        private readonly AzureBlobStorage _azureBlobStorage;
 
         public OrdersService(
             IModelService<Payment> paymentService,
-            DbContext context) : base(context)
+            DbContext context,
+            IOptions<StorageOptions> options) : base(context)
         {
             _paymentService = paymentService;
+            _azureBlobStorage = options.Value.AzureBlobStorage;
         }
 
         public override async Task<IEnumerable<Order>> Index()
@@ -28,10 +34,25 @@
 
         public override async Task<Order> Details(Guid id)
         {
-            return await Context.Set<Order>()
+            var order = await Context.Set<Order>()
                 .Include(x => x.OrderProducts)
+                .ThenInclude(x => x.Model2)
+                .ThenInclude(x => x.ProductFiles)
+                .ThenInclude(x => x.Model2)
                 .Include(x => x.Payments)
                 .SingleOrDefaultAsync(x => x.Id.Equals(id));
+            foreach (var orderProduct in order.OrderProducts.Where(x =>
+                x.Model2.ProductFiles.SingleOrDefault(y => y.ContentType.Contains("image") && y.Primary) != null))
+            {
+                var file = orderProduct.Model2.ProductFiles.Single(z => z.ContentType.Contains("image") && z.Primary).Model2;
+                orderProduct.ThumbnailUri = file.Uri.Replace("images/", "thumbnails/") + FilesUtility.GetSharedAccessSignature(
+                                               accountName: _azureBlobStorage.AccountName,
+                                               accountKey: _azureBlobStorage.AccountKey,
+                                               containerName: _azureBlobStorage.ThumbnailContainer,
+                                               fileName: file.FileName);
+            }
+
+            return order;
         }
 
         public override async Task<Order> Create(Order model)

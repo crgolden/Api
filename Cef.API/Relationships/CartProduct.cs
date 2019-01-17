@@ -1,6 +1,7 @@
 ﻿namespace Cef.API.Relationships
 {
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using Core;
     using Models;
     using Newtonsoft.Json;
@@ -21,5 +22,9 @@
         [Required]
         [JsonProperty("isDownload")]
         public bool IsDownload { get; set; }
+
+        [NotMapped]
+        [JsonProperty("thumbnailUri")]
+        public string ThumbnailUri { get; set; }
     }
 }
