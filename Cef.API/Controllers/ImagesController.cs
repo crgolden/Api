@@ -15,6 +15,7 @@
     using Microsoft.Extensions.Options;
     using Models;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
     using Options;
     using Relationships;
     using Utilities;
@@ -85,7 +86,10 @@
                 }
 
                 await Service.CreateRange(filesResult);
-                return Content(JsonConvert.SerializeObject(filesResult));
+                return Content(JsonConvert.SerializeObject(filesResult, new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                }));
             }
             catch (Exception e)
             {

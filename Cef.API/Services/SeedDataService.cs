@@ -13,6 +13,7 @@
     using Microsoft.Extensions.Options;
     using Models;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
     using Options;
     using Relationships;
     using Utilities;
@@ -129,11 +130,11 @@
                 var mockAddress = new Address();
                 var address = new Faker<AddressClaim>()
                     .StrictMode(true)
-                    .RuleFor(x => x.StreetAddress, f => mockAddress.StreetAddress())
-                    .RuleFor(x => x.Locality, f => mockAddress.City())
-                    .RuleFor(x => x.Region, f => mockAddress.State())
-                    .RuleFor(x => x.PostalCode, f => mockAddress.ZipCode())
-                    .RuleFor(x => x.Country, f => mockAddress.CountryCode())
+                    .RuleFor(x => x.StreetAddress, mockAddress.StreetAddress())
+                    .RuleFor(x => x.Locality, mockAddress.City())
+                    .RuleFor(x => x.Region, mockAddress.State())
+                    .RuleFor(x => x.PostalCode, mockAddress.ZipCode())
+                    .RuleFor(x => x.Country, mockAddress.CountryCode())
                     .Generate();
                 var orderProductsCount = Random.Next(1, 10);
                 var orderProducts = new OrderProduct[orderProductsCount];
@@ -146,17 +147,17 @@
                     var product = products[j];
                     orderProducts[j] = new Faker<OrderProduct>()
                         .StrictMode(true)
-                        .RuleFor(x => x.Created, f => created)
-                        .RuleFor(x => x.Updated, f => null)
-                        .RuleFor(x => x.IsDownload, f => product.IsDownload)
-                        .RuleFor(x => x.Price, f => product.UnitPrice)
-                        .RuleFor(x => x.Quantity, f => Random.Next(1, 5))
-                        .RuleFor(x => x.Model1, f => null)
-                        .RuleFor(x => x.Model1Name, f => orderName)
-                        .RuleFor(x => x.Model1Id, f => orderId)
-                        .RuleFor(x => x.Model2, f => product)
-                        .RuleFor(x => x.Model2Name, f => product.Name)
-                        .RuleFor(x => x.Model2Id, f => product.Id)
+                        .RuleFor(x => x.Created, created)
+                        .RuleFor(x => x.Updated, (DateTime?) null)
+                        .RuleFor(x => x.IsDownload, product.IsDownload)
+                        .RuleFor(x => x.Price, product.UnitPrice)
+                        .RuleFor(x => x.Quantity, Random.Next(1, 5))
+                        .RuleFor(x => x.Model1, (Order) null)
+                        .RuleFor(x => x.Model1Name, orderName)
+                        .RuleFor(x => x.Model1Id, orderId)
+                        .RuleFor(x => x.Model2, product)
+                        .RuleFor(x => x.Model2Name, product.Name)
+                        .RuleFor(x => x.Model2Id, product.Id)
                         .Generate();
                 }
 
@@ -172,33 +173,36 @@
                     var paymentIndex = j + 1;
                     payments[j] = new Faker<Payment>()
                         .StrictMode(true)
-                        .RuleFor(x => x.Id, f => Guid.NewGuid())
-                        .RuleFor(x => x.Name, f => $"Payment {orderIndex}-{paymentIndex}")
-                        .RuleFor(x => x.Amount, f => orderTotal / payments.Length)
-                        .RuleFor(x => x.AuthorizationCode, f => null)
-                        .RuleFor(x => x.ChargeId, f => $"{Guid.NewGuid()}")
-                        .RuleFor(x => x.Currency, f => "USD")
-                        .RuleFor(x => x.Description, f => $"Payment for {orderName}")
-                        .RuleFor(x => x.Order, f => null)
-                        .RuleFor(x => x.OrderId, f => orderId)
-                        .RuleFor(x => x.TokenId, f => $"{Guid.NewGuid()}")
-                        .RuleFor(x => x.UserId, f => userId)
-                        .RuleFor(x => x.Created, f => now.AddDays(Random.Next(0, daysDiff) * -1))
-                        .RuleFor(x => x.Updated, f => null)
+                        .RuleFor(x => x.Id, Guid.NewGuid())
+                        .RuleFor(x => x.Name, $"Payment {orderIndex}-{paymentIndex}")
+                        .RuleFor(x => x.Amount, orderTotal / payments.Length)
+                        .RuleFor(x => x.AuthorizationCode, (string) null)
+                        .RuleFor(x => x.ChargeId, $"{Guid.NewGuid()}")
+                        .RuleFor(x => x.Currency, "USD")
+                        .RuleFor(x => x.Description, $"Payment for {orderName}")
+                        .RuleFor(x => x.Order, (Order) null)
+                        .RuleFor(x => x.OrderId, orderId)
+                        .RuleFor(x => x.TokenId, $"{Guid.NewGuid()}")
+                        .RuleFor(x => x.UserId, userId)
+                        .RuleFor(x => x.Created, now.AddDays(Random.Next(0, daysDiff) * -1))
+                        .RuleFor(x => x.Updated, (DateTime?) null)
                         .Generate();
                 }
 
                 var order = new Faker<Order>()
                     .StrictMode(true)
-                    .RuleFor(x => x.Id, f => orderId)
-                    .RuleFor(x => x.Name, f => orderName)
-                    .RuleFor(x => x.UserId, f => userId)
-                    .RuleFor(x => x.ShippingAddress, f => JsonConvert.SerializeObject(address))
-                    .RuleFor(x => x.Total, f => orderTotal)
-                    .RuleFor(x => x.OrderProducts, f => orderProducts)
-                    .RuleFor(x => x.Payments, f => payments)
-                    .RuleFor(x => x.Created, f => created)
-                    .RuleFor(x => x.Updated, f => null)
+                    .RuleFor(x => x.Id, orderId)
+                    .RuleFor(x => x.Name, orderName)
+                    .RuleFor(x => x.UserId, userId)
+                    .RuleFor(x => x.ShippingAddress, JsonConvert.SerializeObject(address, new JsonSerializerSettings
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver()
+                    }))
+                    .RuleFor(x => x.Total, orderTotal)
+                    .RuleFor(x => x.OrderProducts, orderProducts)
+                    .RuleFor(x => x.Payments, payments)
+                    .RuleFor(x => x.Created, created)
+                    .RuleFor(x => x.Updated, (DateTime?) null)
                     .Generate();
                 _context.Add(order);
             }
