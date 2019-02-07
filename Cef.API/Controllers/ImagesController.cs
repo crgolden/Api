@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using Core.Controllers;
     using Core.Interfaces;
+    using Core.Utilities;
     using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
@@ -18,7 +19,6 @@
     using Newtonsoft.Json.Serialization;
     using Options;
     using Relationships;
-    using Utilities;
 
     [Produces("application/json")]
     [Route("v1/[controller]/[action]")]
@@ -49,7 +49,7 @@
 
                 var filesResult = new List<File>();
                 var images = files
-                    .Where(x => FilesUtility.IsImage(x) && x.Length > 0)
+                    .Where(x => AzureFilesUtility.IsImage(x) && x.Length > 0)
                     .ToDictionary(x =>
                 {
                     var index = x.FileName.LastIndexOf('.');
@@ -59,7 +59,7 @@
 
                 foreach (var (fileName, file) in images)
                 {
-                    var uri = await FilesUtility.UploadFileToStorage(
+                    var uri = await AzureFilesUtility.UploadFileToStorageAsync(
                         file: file,
                         fileName: fileName,
                         accountName: _azureBlobStorage.AccountName,

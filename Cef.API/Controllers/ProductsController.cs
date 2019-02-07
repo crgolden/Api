@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using Core.Controllers;
     using Core.Interfaces;
+    using Cef.Core.Utilities;
     using Kendo.Mvc.Extensions;
     using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Authorization;
@@ -15,7 +16,6 @@
     using Microsoft.Extensions.Options;
     using Models;
     using Options;
-    using Utilities;
 
     public class ProductsController : BaseModelController<Product>
     {
@@ -135,7 +135,7 @@
 
                 if (!string.IsNullOrEmpty(containerName))
                 {
-                    productFile.Uri += FilesUtility.GetSharedAccessSignature(
+                    productFile.Uri += AzureFilesUtility.GetSharedAccessSignature(
                         accountName: _azureBlobStorage.AccountName,
                         accountKey: _azureBlobStorage.AccountKey,
                         containerName: containerName,

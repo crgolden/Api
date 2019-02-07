@@ -94,8 +94,6 @@
                 setup.DocumentTitle = "Cef-API v1";
             });
             app.UseMvcWithDefaultRoute();
-
-            loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Warning);
         }
     }
 }

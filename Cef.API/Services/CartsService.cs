@@ -5,12 +5,12 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Core.Services;
+    using Core.Utilities;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
     using Models;
     using Options;
     using Relationships;
-    using Utilities;
 
     public class CartsService : BaseModelService<Cart>
     {
@@ -38,7 +38,7 @@
                 x.Model2.ProductFiles.SingleOrDefault(y => y.ContentType.Contains("image") && y.Primary) != null))
             {
                 var file = cartProduct.Model2.ProductFiles.Single(z => z.ContentType.Contains("image") && z.Primary).Model2;
-                cartProduct.ThumbnailUri = file.Uri.Replace("images/", "thumbnails/") + FilesUtility.GetSharedAccessSignature(
+                cartProduct.ThumbnailUri = file.Uri.Replace("images/", "thumbnails/") + AzureFilesUtility.GetSharedAccessSignature(
                     accountName: _azureBlobStorage.AccountName,
                     accountKey: _azureBlobStorage.AccountKey,
                     containerName: _azureBlobStorage.ThumbnailContainer,

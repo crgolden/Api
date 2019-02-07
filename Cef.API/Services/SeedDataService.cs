@@ -6,6 +6,7 @@
     using System.Net;
     using System.Threading.Tasks;
     using Core.Interfaces;
+    using Core.Utilities;
     using Bogus;
     using Bogus.DataSets;
     using Core;
@@ -16,7 +17,6 @@
     using Newtonsoft.Json.Serialization;
     using Options;
     using Relationships;
-    using Utilities;
 
     public class SeedDataService : ISeedService
     {
@@ -47,7 +47,7 @@
 
         private async Task SeedProducts()
         {
-            await FilesUtility.DeleteAllFromStorage(
+            await AzureFilesUtility.DeleteAllFromStorageAsync(
                 accountName: _azureBlobStorage.AccountName,
                 accountKey: _azureBlobStorage.AccountKey,
                 containerNames: new[]
@@ -65,7 +65,7 @@
                     var imageUri = new Uri($"https://demos.telerik.com/kendo-ui/content/web/foods/{imageName}");
                     var imageData = await client.DownloadDataTaskAsync(imageUri);
                     var fileName = $"{Guid.NewGuid()}.jpg";
-                    var uri = await FilesUtility.UploadByteArrayToStorage(
+                    var uri = await AzureFilesUtility.UploadByteArrayToStorageAsync(
                         buffer: imageData,
                         fileName: fileName,
                         accountName: _azureBlobStorage.AccountName,
