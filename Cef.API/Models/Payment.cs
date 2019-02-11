@@ -2,9 +2,11 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.Diagnostics.CodeAnalysis;
     using Core;
     using Newtonsoft.Json;
 
+    [ExcludeFromCodeCoverage]
     public class Payment : BaseModel
     {
         [Required]

@@ -1,10 +1,14 @@
 ﻿namespace Cef.API.Options
 {
+    using System.Diagnostics.CodeAnalysis;
+
+    [ExcludeFromCodeCoverage]
     public class StorageOptions
     {
         public AzureBlobStorage AzureBlobStorage { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     public class AzureBlobStorage
     {
         public string AccountName { get; set; }

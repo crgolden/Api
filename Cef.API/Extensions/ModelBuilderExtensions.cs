@@ -1,9 +1,11 @@
 ﻿namespace Cef.API.Extensions
 {
+    using System.Diagnostics.CodeAnalysis;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using Relationships;
 
+    [ExcludeFromCodeCoverage]
     public static class ModelBuilderExtensions
     {
         public static void ConfigureECommerceContext(this ModelBuilder modelBuilder)

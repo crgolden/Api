@@ -2,10 +2,12 @@
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Diagnostics.CodeAnalysis;
     using Core;
     using Models;
     using Newtonsoft.Json;
 
+    [ExcludeFromCodeCoverage]
     public class CartProduct : BaseRelationship<Cart, Product>
     {
         [Required]

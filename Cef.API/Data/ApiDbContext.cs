@@ -1,8 +1,10 @@
 ﻿namespace Cef.API.Data
 {
+    using System.Diagnostics.CodeAnalysis;
     using Extensions;
     using Microsoft.EntityFrameworkCore;
 
+    [ExcludeFromCodeCoverage]
     public class ApiDbContext : DbContext
     {
         /// <inheritdoc />

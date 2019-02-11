@@ -1,5 +1,6 @@
 ﻿namespace Cef.API
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     using Core.Extensions;
     using Microsoft.AspNetCore;
@@ -10,6 +11,7 @@
     using Microsoft.Extensions.Configuration.AzureKeyVault;
     using Microsoft.Extensions.Logging;
 
+    [ExcludeFromCodeCoverage]
     public class Program
     {
         public static async Task Main(string[] args)

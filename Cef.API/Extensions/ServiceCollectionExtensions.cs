@@ -1,5 +1,6 @@
 ﻿namespace Cef.API.Extensions
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Security.Claims;
     using Filters;
     using Microsoft.AspNetCore.Builder;
@@ -7,6 +8,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using Swashbuckle.AspNetCore.Swagger;
 
+    [ExcludeFromCodeCoverage]
     public static class ServiceCollectionExtensions
     {
         public static void AddAuthentication(this IServiceCollection services, IConfiguration configuration)

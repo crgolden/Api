@@ -1,5 +1,6 @@
 ﻿namespace Cef.API
 {
+    using System.Diagnostics.CodeAnalysis;
     using Core.Extensions;
     using Core.Factories;
     using Core.Filters;
@@ -18,12 +19,12 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
     using Models;
     using Options;
     using Relationships;
     using Services;
 
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         private readonly IConfiguration _configuration;
@@ -61,7 +62,7 @@
             services.AddMvc(setup =>
                 {
                     setup.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
-                    setup.Filters.Add(typeof(ModelStateFilter));
+                    setup.Filters.Add<ModelStateActionFilter>();
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAuthentication(_configuration);
@@ -69,7 +70,7 @@
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
