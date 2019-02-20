@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RootNamespace>Clarity.Api</RootNamespace>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bogus" Version="25.0.4" />
+    <PackageReference Include="Clarity.Core.Services" Version="2019.2.18.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Clarity.Api.Entities\Clarity.Api.Entities.csproj" />
+    <ProjectReference Include="..\Clarity.Api.Interfaces\Clarity.Api.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

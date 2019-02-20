@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RootNamespace>Clarity.Api</RootNamespace>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <UserSecretsId>6bb1238a-df31-46a9-ae40-012d456ed241</UserSecretsId>
+    <ApplicationInsightsResourceId>/subscriptions/71eb0568-25ab-4be5-b85a-a043d609410f/resourcegroups/Default-ApplicationInsights-WestUS2/providers/microsoft.insights/components/DotNetCore</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/71eb0568-25ab-4be5-b85a-a043d609410f/resourcegroups/Default-ApplicationInsights-WestUS2/providers/microsoft.insights/components/DotNetCore</ApplicationInsightsAnnotationResourceId>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+   <_ContentIncludedByDefault Remove="Connected Services\Application Insights\ConnectedService.json" />
+   <_ContentIncludedByDefault Remove="Connected Services\Key Vault\ConnectedService.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Clarity.Core.Factories" Version="2019.2.18.1" />
+    <PackageReference Include="Clarity.Core.Transformers" Version="2019.2.18.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="6.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.9.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.2" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Clarity.Api.Controllers\Clarity.Api.Controllers.csproj" />
+    <ProjectReference Include="..\Clarity.Api.Data\Clarity.Api.Data.csproj" />
+    <ProjectReference Include="..\Clarity.Api.Extensions\Clarity.Api.Extensions.csproj" />
+    <ProjectReference Include="..\Clarity.Api.RequestHandlers\Clarity.Api.RequestHandlers.csproj" />
+    <ProjectReference Include="..\Clarity.Api.Services\Clarity.Api.Services.csproj" />
+  </ItemGroup>
+
+</Project>
