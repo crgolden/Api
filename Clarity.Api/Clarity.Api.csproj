@@ -20,14 +20,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Clarity.Core.Factories" Version="2019.2.18.1" />
-    <PackageReference Include="Clarity.Core.Transformers" Version="2019.2.18.1" />
+    <PackageReference Include="Clarity.Core.Factories" Version="1.0.0" />
+    <PackageReference Include="Clarity.Core.Services" Version="1.0.0" />
+    <PackageReference Include="Clarity.Core.Transformers" Version="1.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.9.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="2.2.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.2" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

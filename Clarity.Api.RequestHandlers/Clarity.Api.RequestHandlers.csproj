@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Clarity.Core.Extensions" Version="2019.2.18.1" />
-    <PackageReference Include="Clarity.Core.Interfaces" Version="2019.2.18.1" />
-    <PackageReference Include="Clarity.Core.Options" Version="2019.2.18.1" />
-    <PackageReference Include="Clarity.Core.RequestHandlers" Version="2019.2.18.1" />
+    <PackageReference Include="Clarity.Core.Extensions" Version="1.0.0" />
+    <PackageReference Include="Clarity.Core.Interfaces" Version="1.0.0" />
+    <PackageReference Include="Clarity.Core.Options" Version="1.0.0" />
+    <PackageReference Include="Clarity.Core.RequestHandlers" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
