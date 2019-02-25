@@ -1,20 +1,13 @@
 ﻿namespace Clarity.Api.Categories
 {
-    using System.Threading;
-    using System.Threading.Tasks;
+    using AutoMapper;
     using Core;
-    using MediatR;
     using Microsoft.EntityFrameworkCore;
 
-    public class CategoryEditRequestHandler : EditRequestHandler<CategoryEditRequest, Category>
+    public class CategoryEditRequestHandler : EditRequestHandler<CategoryEditRequest, Category, CategoryModel>
     {
-        public CategoryEditRequestHandler(DbContext context) : base(context)
+        public CategoryEditRequestHandler(DbContext context, IMapper mapper) : base(context, mapper)
         {
-        }
-
-        public override async Task<Unit> Handle(CategoryEditRequest request, CancellationToken cancellationToken)
-        {
-            return await base.Handle(request, cancellationToken);
         }
     }
 }

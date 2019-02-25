@@ -2,9 +2,9 @@
 {
     using Core;
 
-    public class ProductCreateRequest : CreateRequest<Product>
+    public class ProductCreateRequest : CreateRequest<Product, ProductModel>
     {
-        public ProductCreateRequest(Product product) : base(product)
+        public ProductCreateRequest(ProductModel product) : base(product)
         {
         }
     }

@@ -20,9 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Clarity.Core.Factories" Version="1.0.0" />
-    <PackageReference Include="Clarity.Core.Services" Version="1.0.0" />
-    <PackageReference Include="Clarity.Core.Transformers" Version="1.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Clarity.Core.Factories" Version="1.1.0-CI-20190223-130656" />
+    <PackageReference Include="Clarity.Core.Services" Version="1.1.0-CI-20190225-000449" />
+    <PackageReference Include="Clarity.Core.Transformers" Version="1.1.0-CI-20190223-132521" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
@@ -32,11 +33,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Clarity.Api.Clients\Clarity.Api.Clients.csproj" />
     <ProjectReference Include="..\Clarity.Api.Controllers\Clarity.Api.Controllers.csproj" />
     <ProjectReference Include="..\Clarity.Api.Data\Clarity.Api.Data.csproj" />
-    <ProjectReference Include="..\Clarity.Api.Extensions\Clarity.Api.Extensions.csproj" />
+    <ProjectReference Include="..\Clarity.Api.NotificationHandlers\Clarity.Api.NotificationHandlers.csproj" />
+    <ProjectReference Include="..\Clarity.Api.Profiles\Clarity.Api.Profiles.csproj" />
     <ProjectReference Include="..\Clarity.Api.RequestHandlers\Clarity.Api.RequestHandlers.csproj" />
-    <ProjectReference Include="..\Clarity.Api.Services\Clarity.Api.Services.csproj" />
   </ItemGroup>
 
 </Project>

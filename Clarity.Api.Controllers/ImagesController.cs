@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Net;
+    using System.Threading;
     using System.Threading.Tasks;
     using Core;
     using Files;
@@ -11,15 +12,12 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Serialization;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class ImagesController : Controller<File, Guid>
+    public class ImagesController : Controller<File, FileModel, Guid>
     {
-        public ImagesController(IMediator mediator, ILogger<ImagesController> logger)
-            : base(mediator, logger)
+        public ImagesController(IMediator mediator) : base(mediator)
         {
         }
 
@@ -28,43 +26,29 @@
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         public async Task<IActionResult> Upload(ICollection<IFormFile> files)
         {
-            try
+            if (files.Count == 0) return BadRequest("No files received from the upload");
+            using (var tokenSource = new CancellationTokenSource())
             {
-                if (files.Count == 0)
+                var request = new FileUploadRequest(files);
+                var notification = new FileUploadNotification();
+                try
                 {
-                    return BadRequest("No files received from the upload");
+                    notification.Files = request.Files;
+                    notification.EventId = EventIds.UploadStart;
+                    await Mediator.Publish(notification, tokenSource.Token).ConfigureAwait(false);
+
+                    notification.Models = await Mediator.Send(request, tokenSource.Token).ConfigureAwait(false);
+                    notification.EventId = EventIds.UploadEnd;
+                    await Mediator.Publish(notification, tokenSource.Token).ConfigureAwait(false);
+                    return Content(JsonConvert.SerializeObject(notification.Models));
                 }
-
-                Logger.LogInformation(
-                    eventId: new EventId((int)EventIds.UploadStart, $"{EventIds.UploadStart}"),
-                    message: "Uploading files {Files} at {Time}",
-                    args: new object[] { files, DateTime.UtcNow });
-                var createRangeRequest = new FileCreateRangeRequest(new File[0])
+                catch (Exception e)
                 {
-                    Files = files
-                };
-                var response = await Mediator.Send(createRangeRequest).ConfigureAwait(false);
-                var result = JsonConvert.SerializeObject(
-                    value: response,
-                    settings: new JsonSerializerSettings
-                    {
-                        ContractResolver = new CamelCasePropertyNamesContractResolver()
-
-                    });
-                Logger.LogInformation(
-                    eventId: new EventId((int)EventIds.UploadEnd, $"{EventIds.UploadEnd}"),
-                    message: "Uploaded files {Files} at {Time}",
-                    args: new object[] { files, DateTime.UtcNow });
-                return Content(result);
-            }
-            catch (Exception e)
-            {
-                Logger.LogError(
-                    eventId: new EventId((int)EventIds.UploadError, $"{EventIds.UploadError}"),
-                    exception: e,
-                    message: "Error uploading files {Files} at {Time}",
-                    args: new object[] { files, DateTime.UtcNow });
-                return BadRequest(files);
+                    notification.EventId = EventIds.UploadError;
+                    notification.Exception = e;
+                    await Mediator.Publish(notification, tokenSource.Token).ConfigureAwait(false);
+                    return BadRequest(request.Files);
+                }
             }
         }
 
@@ -72,10 +56,11 @@
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(IEnumerable<File>), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
+        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request)
         {
-            var indexRequest = new FileIndexRequest(ModelState, request);
-            return await base.Index(indexRequest).ConfigureAwait(false);
+            return await base.Index(
+                request: new FileIndexRequest(ModelState, request),
+                notification: new FileIndexNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -85,48 +70,53 @@
         public override async Task<IActionResult> Details([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            var detailsRequest = new FileDetailsRequest(ids[0]);
-            return await base.Details(detailsRequest).ConfigureAwait(false);
+            return await base.Details(
+                request: new FileDetailsRequest(ids[0]),
+                notification: new FileDetailsNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public override async Task<IActionResult> Edit([FromBody] File file)
+        public override async Task<IActionResult> Edit([FromBody] FileModel file)
         {
-            var editRequest = new FileEditRequest(file);
-            return await base.Edit(editRequest).ConfigureAwait(false);
+            return await base.Edit(
+                request: new FileEditRequest(file),
+                notification: new FileEditNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public override async Task<IActionResult> EditRange([FromBody] IEnumerable<File> files)
+        public override async Task<IActionResult> EditRange([FromBody] IEnumerable<FileModel> files)
         {
-            var editRangeRequest = new FileEditRangeRequest(files);
-            return await base.EditRange(editRangeRequest).ConfigureAwait(false);
+            return await base.EditRange(
+                request: new FileEditRangeRequest(files),
+                notification: new FileEditRangeNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(File), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> Create([FromBody] File file)
+        public override async Task<IActionResult> Create([FromBody] FileModel file)
         {
-            var createRequest = new FileCreateRequest(file);
-            return await base.Create(createRequest).ConfigureAwait(false);
+            return await base.Create(
+                request: new FileCreateRequest(file),
+                notification: new FileCreateNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(List<File>), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<File> files)
+        public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<FileModel> files)
         {
-            var createRangeRequest = new FileCreateRangeRequest(files);
-            return await base.CreateRange(createRangeRequest).ConfigureAwait(false);
+            return await base.CreateRange(
+                request: new FileCreateRangeRequest(files),
+                notification: new FileCreateRangeNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -136,8 +126,9 @@
         public override async Task<IActionResult> Delete([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            var deleteRequest = new FileDeleteRequest(ids[0]);
-            return await base.Delete(deleteRequest).ConfigureAwait(false);
+            return await base.Delete(
+                request: new FileDeleteRequest(ids[0]),
+                notification: new FileDeleteNotification()).ConfigureAwait(false);
         }
     }
 }

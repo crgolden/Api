@@ -2,9 +2,9 @@
 {
     using Core;
 
-    public class OrderEditRequest : EditRequest<Order>
+    public class OrderEditRequest : EditRequest<Order, OrderModel>
     {
-        public OrderEditRequest(Order order) : base(order)
+        public OrderEditRequest(OrderModel order) : base(order)
         {
         }
     }

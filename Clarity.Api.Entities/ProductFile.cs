@@ -5,24 +5,20 @@
 
     public class ProductFile : Entity
     {
-        public string Name { get; set; }
+        public bool IsPrimary { get; set; }
 
-        public string Uri { get; set; }
+        public Guid ProductId { get; private set; }
 
-        public string ContentType { get; set; }
+        public virtual Product Product { get; private set; }
 
-        public bool Primary { get; set; }
+        public Guid FileId { get; private set; }
 
-        public Guid ProductId { get; set; }
+        public virtual File File { get; private set; }
 
-        public string ProductName { get; set; }
-
-        public virtual Product Product { get; set; }
-
-        public Guid FileId { get; set; }
-
-        public string FileName { get; set; }
-
-        public virtual File File { get; set; }
+        public ProductFile(Guid productId, Guid fileId)
+        {
+            ProductId = productId;
+            FileId = fileId;
+        }
     }
 }

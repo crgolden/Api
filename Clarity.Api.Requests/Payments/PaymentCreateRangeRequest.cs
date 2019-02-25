@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using Core;
 
-    public class PaymentCreateRangeRequest : CreateRangeRequest<IEnumerable<Payment>, Payment>
+    public class PaymentCreateRangeRequest : CreateRangeRequest<IEnumerable<PaymentModel>, Payment, PaymentModel>
     {
-        public PaymentCreateRangeRequest(IEnumerable<Payment> payments) : base(payments)
+        public PaymentCreateRangeRequest(IEnumerable<PaymentModel> payments) : base(payments)
         {
         }
     }

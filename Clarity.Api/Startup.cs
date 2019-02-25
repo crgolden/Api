@@ -1,6 +1,7 @@
 ﻿namespace Clarity.Api
 {
     using System.Reflection;
+    using AutoMapper;
     using Core;
     using MediatR;
     using Microsoft.ApplicationInsights.AspNetCore;
@@ -27,21 +28,30 @@
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplicationInsightsTelemetry(_configuration);
-            services.AddDbContext<ApiDbContext>(_configuration.GetDbContextOptions("Clarity.Api.Data"));
+            services.AddDbContext<ApiDbContext>(_configuration.GetDbContextOptions(assemblyName: "Clarity.Api.Data"));
             services.Configure<SnapshotCollectorConfiguration>(_configuration.GetSection(nameof(SnapshotCollectorConfiguration)));
             services.Configure<EmailOptions>(_configuration.GetSection(nameof(EmailOptions)));
             services.Configure<PaymentOptions>(_configuration.GetSection(nameof(PaymentOptions)));
             services.Configure<StorageOptions>(_configuration.GetSection(nameof(StorageOptions)));
             services.Configure<AddressOptions>(_configuration.GetSection(nameof(AddressOptions)));
             services.Configure<CorsOptions>(_configuration.GetSection(nameof(CorsOptions)));
+            services.Configure<DatabaseOptions>(_configuration.GetSection(nameof(DatabaseOptions)));
             services.AddScoped<DbContext, ApiDbContext>();
-            services.AddScoped<ISeedService, SeedDataService>();
+            services.AddHttpClient<IDemoFilesClient, TelerikDemoFilesClient>();
             services.AddSingleton<IEmailService, SendGridEmailService>();
             services.AddSingleton<IPaymentService, StripePaymentService>();
             services.AddSingleton<IStorageService, AzureBlobStorageService>();
             services.AddSingleton<IAddressService, SmartyStreetsAddressService>();
             services.AddSingleton<ITelemetryProcessorFactory>(sp => new SnapshotCollectorTelemetryProcessorFactory(sp));
-            services.AddMediatR(Assembly.Load("Clarity.Api.RequestHandlers"));
+            services.AddMediatR(assemblies: new[]
+            {
+                Assembly.Load("Clarity.Api.RequestHandlers"),
+                Assembly.Load("Clarity.Api.NotificationHandlers")
+            });
+            services.AddAutoMapper(assemblies: new []
+            {
+                Assembly.Load("Clarity.Api.Profiles")
+            });
             services.AddHealthChecks();
             services.AddCors();
             services.AddMvc(setup =>

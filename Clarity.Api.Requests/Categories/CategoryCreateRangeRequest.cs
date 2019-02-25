@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using Core;
 
-    public class CategoryCreateRangeRequest : CreateRangeRequest<IEnumerable<Category>, Category>
+    public class CategoryCreateRangeRequest : CreateRangeRequest<IEnumerable<CategoryModel>, Category, CategoryModel>
     {
-        public CategoryCreateRangeRequest(IEnumerable<Category> categories) : base(categories)
+        public CategoryCreateRangeRequest(IEnumerable<CategoryModel> categories) : base(categories)
         {
         }
     }

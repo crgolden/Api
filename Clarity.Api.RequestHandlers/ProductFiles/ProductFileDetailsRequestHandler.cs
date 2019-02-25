@@ -1,19 +1,13 @@
 ﻿namespace Clarity.Api.ProductFiles
 {
-    using System.Threading;
-    using System.Threading.Tasks;
+    using AutoMapper;
     using Core;
     using Microsoft.EntityFrameworkCore;
 
-    public class ProductFileDetailsRequestHandler : DetailsRequestHandler<ProductFileDetailsRequest, ProductFile>
+    public class ProductFileDetailsRequestHandler : DetailsRequestHandler<ProductFileDetailsRequest, ProductFile, ProductFileModel>
     {
-        public ProductFileDetailsRequestHandler(DbContext context) : base(context)
+        public ProductFileDetailsRequestHandler(DbContext context, IMapper mapper) : base(context, mapper)
         {
-        }
-
-        public override async Task<ProductFile> Handle(ProductFileDetailsRequest request, CancellationToken cancellationToken)
-        {
-            return await base.Handle(request, cancellationToken);
         }
     }
 }

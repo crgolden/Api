@@ -5,10 +5,11 @@
 
     public class AddressValidateRequest : IRequest<bool>
     {
-        public Address Address { get; set; }
+        public readonly Address Model;
 
-        public AddressValidateRequest(Address address)
+        public AddressValidateRequest(Address model)
         {
+            Model = model;
         }
     }
 }

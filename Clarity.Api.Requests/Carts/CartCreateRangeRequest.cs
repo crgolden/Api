@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using Core;
 
-    public class CartCreateRangeRequest : CreateRangeRequest<IEnumerable<Cart>, Cart>
+    public class CartCreateRangeRequest : CreateRangeRequest<IEnumerable<CartModel>, Cart, CartModel>
     {
-        public CartCreateRangeRequest(IEnumerable<Cart> carts) : base(carts)
+        public CartCreateRangeRequest(IEnumerable<CartModel> carts) : base(carts)
         {
         }
     }

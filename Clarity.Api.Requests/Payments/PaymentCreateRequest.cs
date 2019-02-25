@@ -2,9 +2,11 @@
 {
     using Core;
 
-    public class PaymentCreateRequest : CreateRequest<Payment>
+    public class PaymentCreateRequest : CreateRequest<Payment, PaymentModel>
     {
-        public PaymentCreateRequest(Payment payment) : base(payment)
+        public string Email { get; set; }
+
+        public PaymentCreateRequest(PaymentModel payment) : base(payment)
         {
         }
     }

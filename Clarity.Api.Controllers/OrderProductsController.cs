@@ -9,14 +9,12 @@
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
     using OrderProducts;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class OrderProductsController : Controller<OrderProduct, Guid>
+    public class OrderProductsController : Controller<OrderProduct, OrderProductModel, Guid>
     {
-        public OrderProductsController(IMediator mediator, ILogger<OrderProductsController> logger)
-            : base(mediator, logger)
+        public OrderProductsController(IMediator mediator) : base(mediator)
         {
         }
 
@@ -24,10 +22,11 @@
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(IEnumerable<OrderProduct>), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
+        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request)
         {
-            var indexRequest = new OrderProductIndexRequest(ModelState, request);
-            return await base.Index(indexRequest).ConfigureAwait(false);
+            return await base.Index(
+                request: new OrderProductIndexRequest(ModelState, request),
+                notification: new OrderProductIndexNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -37,47 +36,52 @@
         public override async Task<IActionResult> Details([FromQuery] Guid[] ids)
         {
             if (ids.Length != 2) return BadRequest(ids);
-            var detailsRequest = new OrderProductDetailsRequest(ids[0], ids[1]);
-            return await base.Details(detailsRequest).ConfigureAwait(false);
+            return await base.Details(
+                request: new OrderProductDetailsRequest(ids[0], ids[1]),
+                notification: new OrderProductDetailsNotification()).ConfigureAwait(false);
         }
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public override async Task<IActionResult> Edit([FromBody] OrderProduct orderProduct)
+        public override async Task<IActionResult> Edit([FromBody] OrderProductModel orderProduct)
         {
-            var editRequest = new OrderProductEditRequest(orderProduct);
-            return await base.Edit(editRequest).ConfigureAwait(false);
+            return await base.Edit(
+                request: new OrderProductEditRequest(orderProduct),
+                notification: new OrderProductEditNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public override async Task<IActionResult> EditRange([FromBody] IEnumerable<OrderProduct> orderProducts)
+        public override async Task<IActionResult> EditRange([FromBody] IEnumerable<OrderProductModel> orderProducts)
         {
-            var editRangeRequest = new OrderProductEditRangeRequest(orderProducts);
-            return await base.EditRange(editRangeRequest).ConfigureAwait(false);
+            return await base.EditRange(
+                request: new OrderProductEditRangeRequest(orderProducts),
+                notification: new OrderProductEditRangeNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(OrderProduct), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> Create([FromBody] OrderProduct orderProduct)
+        public override async Task<IActionResult> Create([FromBody] OrderProductModel orderProduct)
         {
-            var createRequest = new OrderProductCreateRequest(orderProduct);
-            return await base.Create(createRequest).ConfigureAwait(false);
+            return await base.Create(
+                request: new OrderProductCreateRequest(orderProduct),
+                notification: new OrderProductCreateNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(IEnumerable<OrderProduct>), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<OrderProduct> orderProducts)
+        public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<OrderProductModel> orderProducts)
         {
-            var createRangeRequest = new OrderProductCreateRangeRequest(orderProducts);
-            return await base.CreateRange(createRangeRequest).ConfigureAwait(false);
+            return await base.CreateRange(
+                request: new OrderProductCreateRangeRequest(orderProducts),
+                notification: new OrderProductCreateRangeNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -87,8 +91,9 @@
         public override async Task<IActionResult> Delete([FromQuery] Guid[] ids)
         {
             if (ids.Length != 2) return BadRequest(ids);
-            var deleteRequest = new OrderProductDeleteRequest(ids[0], ids[1]);
-            return await base.Delete(deleteRequest).ConfigureAwait(false);
+            return await base.Delete(
+                request: new OrderProductDeleteRequest(ids[0], ids[1]),
+                notification: new OrderProductDeleteNotification()).ConfigureAwait(false);
         }
     }
 }

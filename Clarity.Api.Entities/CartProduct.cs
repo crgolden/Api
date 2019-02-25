@@ -7,22 +7,18 @@
     {
         public decimal Quantity { get; set; }
 
-        public decimal Price { get; set; }
+        public Guid CartId { get; private set; }
 
-        public decimal ExtendedPrice => Quantity * Price;
+        public virtual Cart Cart { get; private set; }
 
-        public bool IsDownload { get; set; }
+        public Guid ProductId { get; private set; }
 
-        public string ThumbnailUri { get; set; }
+        public virtual Product Product {get; private set;}
 
-        public Guid CartId { get; set; }
-
-        public virtual Cart Cart { get; set; }
-
-        public Guid ProductId { get; set; }
-
-        public string ProductName { get; set; }
-
-        public virtual Product Product {get; set;}
+        public CartProduct(Guid cartId, Guid productId)
+        {
+            CartId = cartId;
+            ProductId = productId;
+        }
     }
 }

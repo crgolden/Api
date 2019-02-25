@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Clarity.Core.Claims" Version="1.1.0" />
-    <PackageReference Include="Clarity.Core.Controllers" Version="1.0.0" />
+    <PackageReference Include="Clarity.Core.Claims" Version="1.2.0" />
+    <PackageReference Include="Clarity.Core.Controllers" Version="1.1.0-CI-20190224-183425" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Clarity.Api.Enums\Clarity.Api.Enums.csproj" />
+    <ProjectReference Include="..\Clarity.Api.Notifications\Clarity.Api.Notifications.csproj" />
     <ProjectReference Include="..\Clarity.Api.Requests\Clarity.Api.Requests.csproj" />
   </ItemGroup>
 

@@ -9,14 +9,12 @@
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
     using Payments;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class PaymentsController : Controller<Payment, Guid>
+    public class PaymentsController : Controller<Payment, PaymentModel, Guid>
     {
-        public PaymentsController(IMediator mediator, ILogger<PaymentsController> logger)
-            : base(mediator, logger)
+        public PaymentsController(IMediator mediator) : base(mediator)
         {
         }
 
@@ -24,10 +22,11 @@
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(IEnumerable<Payment>), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
+        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request)
         {
-            var indexRequest = new PaymentIndexRequest(ModelState, request);
-            return await base.Index(indexRequest).ConfigureAwait(false);
+            return await base.Index(
+                request: new PaymentIndexRequest(ModelState, request),
+                notification: new PaymentIndexNotification()).ConfigureAwait(false);
         }
 
         [HttpGet]
@@ -36,46 +35,59 @@
         public override async Task<IActionResult> Details([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            var detailsRequest = new PaymentDetailsRequest(ids[0], UserId);
-            return await base.Details(detailsRequest).ConfigureAwait(false);
+            return await base.Details(
+                request: new PaymentDetailsRequest(ids[0], UserId),
+                notification: new PaymentDetailsNotification()).ConfigureAwait(false);
         }
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public override async Task<IActionResult> Edit([FromBody] Payment payment)
+        public override async Task<IActionResult> Edit([FromBody] PaymentModel payment)
         {
-            var editRequest = new PaymentEditRequest(payment);
-            return await base.Edit(editRequest).ConfigureAwait(false);
+            return await base.Edit(
+                request: new PaymentEditRequest(payment),
+                notification: new PaymentEditNotification()).ConfigureAwait(false);
         }
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public override async Task<IActionResult> EditRange([FromBody] IEnumerable<Payment> payments)
+        public override async Task<IActionResult> EditRange([FromBody] IEnumerable<PaymentModel> payments)
         {
-            var editRangeRequest = new PaymentEditRangeRequest(payments);
-            return await base.EditRange(editRangeRequest).ConfigureAwait(false);
+            return await base.EditRange(
+                request: new PaymentEditRangeRequest(payments),
+                notification: new PaymentEditRangeNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(Payment), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> Create([FromBody] Payment payment)
+        public override async Task<IActionResult> Create([FromBody] PaymentModel payment)
         {
-            var createRequest = new PaymentCreateRequest(payment);
-            return await base.Create(createRequest).ConfigureAwait(false);
+            if (User.HasClaim(x => x.Type.Equals("customer_code")))
+            {
+                payment.CustomerCode = User.FindFirst("customer_code").Value;
+            }
+
+            return await base.Create(
+                request: new PaymentCreateRequest(payment)
+                {
+                    Email = UserEmail
+                },
+                notification: new PaymentCreateNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(IEnumerable<Payment>), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<Payment> payments)
+        public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<PaymentModel> payments)
         {
-            var createRangeRequest = new PaymentCreateRangeRequest(payments);
-            return await base.CreateRange(createRangeRequest).ConfigureAwait(false);
+            return await base.CreateRange(
+                request: new PaymentCreateRangeRequest(payments),
+                notification: new PaymentCreateRangeNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -85,8 +97,9 @@
         public override async Task<IActionResult> Delete([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            var deleteRequest = new PaymentDeleteRequest(ids[0]);
-            return await base.Delete(deleteRequest).ConfigureAwait(false);
+            return await base.Delete(
+                request: new PaymentDeleteRequest(ids[0]),
+                notification: new PaymentDeleteNotification()).ConfigureAwait(false);
         }
     }
 }

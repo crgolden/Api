@@ -1,19 +1,13 @@
 ﻿namespace Clarity.Api.CartProducts
 {
-    using System.Threading;
-    using System.Threading.Tasks;
+    using AutoMapper;
     using Core;
     using Microsoft.EntityFrameworkCore;
 
-    public class CartProductDetailsRequestHandler : DetailsRequestHandler<CartProductDetailsRequest, CartProduct>
+    public class CartProductDetailsRequestHandler : DetailsRequestHandler<CartProductDetailsRequest, CartProduct, CartProductModel>
     {
-        public CartProductDetailsRequestHandler(DbContext context) : base(context)
+        public CartProductDetailsRequestHandler(DbContext context, IMapper mapper) : base(context, mapper)
         {
-        }
-
-        public override async Task<CartProduct> Handle(CartProductDetailsRequest request, CancellationToken cancellationToken)
-        {
-            return await base.Handle(request, cancellationToken);
         }
     }
 }

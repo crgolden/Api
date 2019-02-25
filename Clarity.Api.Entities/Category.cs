@@ -6,12 +6,34 @@
     
     public class Category : Entity
     {
-        public Guid Id { get; set; }
+        private readonly List<ProductCategory> _productCategories;
+
+        public Guid Id { get; private set; }
 
         public string Name { get; set; }
 
         public string Description { get; set; }
 
-        public virtual ICollection<ProductCategory> ProductCategories { get; set; } = new List<ProductCategory>();
+        public virtual IReadOnlyCollection<ProductCategory> ProductCategories => _productCategories;
+
+        public Category()
+        {
+            _productCategories = new List<ProductCategory>();
+        }
+
+        public Category(Guid id) : this()
+        {
+            Id = id;
+        }
+
+        public void AddProductCategory(ProductCategory productCategory)
+        {
+            _productCategories.Add(productCategory);
+        }
+
+        public bool RemoveProductCategory(ProductCategory productCategory)
+        {
+            return _productCategories.Remove(productCategory);
+        }
     }
 }

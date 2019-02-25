@@ -9,14 +9,12 @@
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
     using ProductFiles;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class ProductFilesController : Controller<ProductFile, Guid>
+    public class ProductFilesController : Controller<ProductFile, ProductFileModel, Guid>
     {
-        public ProductFilesController(IMediator mediator, ILogger<ProductFilesController> logger)
-            : base(mediator, logger)
+        public ProductFilesController(IMediator mediator) : base(mediator)
         {
         }
 
@@ -24,10 +22,11 @@
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(IEnumerable<ProductFile>), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
+        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request)
         {
-            var indexRequest = new ProductFileIndexRequest(ModelState, request);
-            return await base.Index(indexRequest).ConfigureAwait(false);
+            return await base.Index(
+                request: new ProductFileIndexRequest(ModelState, request),
+                notification: new ProductFileIndexNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -37,48 +36,53 @@
         public override async Task<IActionResult> Details([FromQuery] Guid[] ids)
         {
             if (ids.Length != 2) return BadRequest(ids);
-            var detailsRequest = new ProductFileDetailsRequest(ids[0], ids[1]);
-            return await base.Details(detailsRequest).ConfigureAwait(false);
+            return await base.Details(
+                request: new ProductFileDetailsRequest(ids[0], ids[1]),
+                notification: new ProductFileDetailsNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public override async Task<IActionResult> Edit([FromBody] ProductFile productFile)
+        public override async Task<IActionResult> Edit([FromBody] ProductFileModel productFile)
         {
-            var editRequest = new ProductFileEditRequest(productFile);
-            return await base.Edit(editRequest).ConfigureAwait(false);
+            return await base.Edit(
+                request: new ProductFileEditRequest(productFile),
+                notification: new ProductFileEditNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public override async Task<IActionResult> EditRange([FromBody] IEnumerable<ProductFile> productFiles)
+        public override async Task<IActionResult> EditRange([FromBody] IEnumerable<ProductFileModel> productFiles)
         {
-            var editRangeRequest = new ProductFileEditRangeRequest(productFiles);
-            return await base.EditRange(editRangeRequest).ConfigureAwait(false);
+            return await base.EditRange(
+                request: new ProductFileEditRangeRequest(productFiles),
+                notification: new ProductFileEditRangeNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(ProductFile), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> Create([FromBody] ProductFile productFile)
+        public override async Task<IActionResult> Create([FromBody] ProductFileModel productFile)
         {
-            var createRequest = new ProductFileCreateRequest(productFile);
-            return await base.Create(createRequest).ConfigureAwait(false);
+            return await base.Create(
+                request: new ProductFileCreateRequest(productFile),
+                notification: new ProductFileCreateNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(List<ProductFile>), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<ProductFile> productFiles)
+        public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<ProductFileModel> productFiles)
         {
-            var createRangeRequest = new ProductFileCreateRangeRequest(productFiles);
-            return await base.CreateRange(createRangeRequest).ConfigureAwait(false);
+            return await base.CreateRange(
+                request: new ProductFileCreateRangeRequest(productFiles),
+                notification: new ProductFileCreateRangeNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -88,8 +92,9 @@
         public override async Task<IActionResult> Delete([FromQuery] Guid[] ids)
         {
             if (ids.Length != 2) return BadRequest(ids);
-            var deleteRequest = new ProductFileDeleteRequest(ids[0], ids[1]);
-            return await base.Delete(deleteRequest).ConfigureAwait(false);
+            return await base.Delete(
+                request: new ProductFileDeleteRequest(ids[0], ids[1]),
+                notification: new ProductFileDeleteNotification()).ConfigureAwait(false);
         }
     }
 }

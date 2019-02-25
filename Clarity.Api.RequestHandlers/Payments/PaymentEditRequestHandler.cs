@@ -2,24 +2,32 @@
 {
     using System.Threading;
     using System.Threading.Tasks;
+    using AutoMapper;
     using Core;
     using MediatR;
     using Microsoft.EntityFrameworkCore;
 
-    public class PaymentEditRequestHandler : EditRequestHandler<PaymentEditRequest, Payment>
+    public class PaymentEditRequestHandler : EditRequestHandler<PaymentEditRequest, Payment, PaymentModel>
     {
         private readonly IPaymentService _paymentService;
 
-        public PaymentEditRequestHandler(DbContext context, IPaymentService paymentService) : base(context)
+        public PaymentEditRequestHandler(
+            DbContext context,
+            IMapper mapper,
+            IPaymentService paymentService) : base(context, mapper)
         {
             _paymentService = paymentService;
         }
 
         public override async Task<Unit> Handle(PaymentEditRequest request, CancellationToken cancellationToken)
         {
-            if (!string.IsNullOrEmpty(request.Entity.ChargeId) && !string.IsNullOrEmpty(request.Entity.Description))
+            cancellationToken.ThrowIfCancellationRequested();
+            if (!string.IsNullOrEmpty(request.Model.ChargeId) && !string.IsNullOrEmpty(request.Model.Description))
             {
-                await _paymentService.UpdateAsync(request.Entity.ChargeId, request.Entity.Description).ConfigureAwait(false);
+                await _paymentService.UpdateAsync(
+                    chargeId: request.Model.ChargeId,
+                    description: request.Model.Description,
+                    cancellationToken: cancellationToken).ConfigureAwait(false);
             }
 
             return await base.Handle(request, cancellationToken).ConfigureAwait(false);

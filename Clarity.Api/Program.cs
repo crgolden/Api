@@ -16,7 +16,6 @@
         {
             var webHost = CreateWebHostBuilder(args).Build();
             await webHost.MigrateDatabaseAsync();
-            await webHost.SeedDatabaseAsync();
             await webHost.RunAsync();
         }
 

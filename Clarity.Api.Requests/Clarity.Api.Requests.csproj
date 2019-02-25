@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Clarity.Core.Claims" Version="1.1.0" />
-    <PackageReference Include="Clarity.Core.Requests" Version="1.0.0" />
+    <PackageReference Include="Clarity.Core.Requests" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Clarity.Api.Entities\Clarity.Api.Entities.csproj" />
+    <ProjectReference Include="..\Clarity.Api.Models\Clarity.Api.Models.csproj" />
   </ItemGroup>
 
 </Project>

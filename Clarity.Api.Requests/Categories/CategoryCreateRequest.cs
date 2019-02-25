@@ -2,9 +2,9 @@
 {
     using Core;
 
-    public class CategoryCreateRequest : CreateRequest<Category>
+    public class CategoryCreateRequest : CreateRequest<Category, CategoryModel>
     {
-        public CategoryCreateRequest(Category category) : base(category)
+        public CategoryCreateRequest(CategoryModel category) : base(category)
         {
         }
     }

@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RootNamespace>Clarity.Api</RootNamespace>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Clarity.Api.Entities.Seeds\Clarity.Api.Entities.Seeds.csproj" />
+    <ProjectReference Include="..\Clarity.Api.Interfaces\Clarity.Api.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

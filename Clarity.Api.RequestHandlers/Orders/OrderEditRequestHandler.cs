@@ -1,22 +1,13 @@
 ﻿namespace Clarity.Api.Orders
 {
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
+    using AutoMapper;
     using Core;
-    using MediatR;
     using Microsoft.EntityFrameworkCore;
 
-    public class OrderEditRequestHandler : EditRequestHandler<OrderEditRequest, Order>
+    public class OrderEditRequestHandler : EditRequestHandler<OrderEditRequest, Order, OrderModel>
     {
-        public OrderEditRequestHandler(DbContext context) : base(context)
+        public OrderEditRequestHandler(DbContext context, IMapper mapper) : base(context, mapper)
         {
-        }
-
-        public override async Task<Unit> Handle(OrderEditRequest request, CancellationToken cancellationToken)
-        {
-            request.Entity.Total = request.Entity.OrderProducts.Sum(x => x.ExtendedPrice);
-            return await base.Handle(request, cancellationToken).ConfigureAwait(false);
         }
     }
 }

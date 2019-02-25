@@ -10,13 +10,11 @@
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class CartProductsController : Controller<CartProduct, Guid>
+    public class CartProductsController : Controller<CartProduct, CartProductModel, Guid>
     {
-        public CartProductsController(IMediator mediator, ILogger<CartProductsController> logger)
-            : base(mediator, logger)
+        public CartProductsController(IMediator mediator) : base(mediator)
         {
         }
 
@@ -24,10 +22,11 @@
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(IEnumerable<CartProduct>), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
+        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request)
         {
-            var indexRequest = new CartProductIndexRequest(ModelState, request);
-            return await base.Index(indexRequest).ConfigureAwait(false);
+            return await base.Index(
+                request: new CartProductIndexRequest(ModelState, request),
+                notification: new CartProductIndexNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -37,46 +36,51 @@
         public override async Task<IActionResult> Details([FromQuery] Guid[] ids)
         {
             if (ids.Length != 2) return BadRequest(ids);
-            var detailsRequest = new CartProductDetailsRequest(ids[0], ids[1]);
-            return await base.Details(detailsRequest).ConfigureAwait(false);
+            return await base.Details(
+                request: new CartProductDetailsRequest(ids[0], ids[1]),
+                notification: new CartProductDetailsNotification()).ConfigureAwait(false);
         }
 
         [HttpPut]
         [AllowAnonymous]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public override async Task<IActionResult> Edit([FromBody] CartProduct cartProduct)
+        public override async Task<IActionResult> Edit([FromBody] CartProductModel cartProduct)
         {
-            var editRequest = new CartProductEditRequest(cartProduct);
-            return await base.Edit(editRequest).ConfigureAwait(false);
+            return await base.Edit(
+                request: new CartProductEditRequest(cartProduct),
+                notification: new CartProductEditNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public override async Task<IActionResult> EditRange([FromBody] IEnumerable<CartProduct> cartProducts)
+        public override async Task<IActionResult> EditRange([FromBody] IEnumerable<CartProductModel> cartProducts)
         {
-            var editRangeRequest = new CartProductEditRangeRequest(cartProducts);
-            return await base.EditRange(editRangeRequest).ConfigureAwait(false);
+            return await base.EditRange(
+                request: new CartProductEditRangeRequest(cartProducts),
+                notification: new CartProductEditRangeNotification()).ConfigureAwait(false);
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(typeof(CartProduct), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> Create([FromBody] CartProduct cartProduct)
+        public override async Task<IActionResult> Create([FromBody] CartProductModel cartProduct)
         {
-            var createRequest = new CartProductCreateRequest(cartProduct);
-            return await base.Create(createRequest).ConfigureAwait(false);
+            return await base.Create(
+                request: new CartProductCreateRequest(cartProduct),
+                notification: new CartProductCreateNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(IEnumerable<CartProduct>), (int)HttpStatusCode.NoContent)]
-        public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<CartProduct> cartProducts)
+        public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<CartProductModel> cartProducts)
         {
-            var createRangeRequest = new CartProductCreateRangeRequest(cartProducts);
-            return await base.CreateRange(createRangeRequest).ConfigureAwait(false);
+            return await base.CreateRange(
+                request: new CartProductCreateRangeRequest(cartProducts),
+                notification: new CartProductCreateRangeNotification()).ConfigureAwait(false);
         }
 
         [HttpDelete]
@@ -85,8 +89,9 @@
         public override async Task<IActionResult> Delete([FromQuery] Guid[] ids)
         {
             if (ids.Length != 2) return BadRequest(ids);
-            var deleteRequest = new CartProductDeleteRequest(ids[0], ids[1]);
-            return await base.Delete(deleteRequest).ConfigureAwait(false);
+            return await base.Delete(
+                request: new CartProductDeleteRequest(ids[0], ids[1]),
+                notification: new CartProductDeleteNotification()).ConfigureAwait(false);
         }
     }
 }

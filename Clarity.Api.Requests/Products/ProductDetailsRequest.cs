@@ -3,7 +3,7 @@
     using System;
     using Core;
 
-    public class ProductDetailsRequest : DetailsRequest<Product>
+    public class ProductDetailsRequest : DetailsRequest<Product, ProductModel>
     {
         public readonly Guid ProductId;
 

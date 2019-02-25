@@ -1,19 +1,13 @@
 ﻿namespace Clarity.Api.Products
 {
-    using System.Threading;
-    using System.Threading.Tasks;
+    using AutoMapper;
     using Core;
     using Microsoft.EntityFrameworkCore;
 
-    public class ProductCreateRequestHandler : CreateRequestHandler<ProductCreateRequest, Product>
+    public class ProductCreateRequestHandler : CreateRequestHandler<ProductCreateRequest, Product, ProductModel>
     {
-        public ProductCreateRequestHandler(DbContext context) : base(context)
+        public ProductCreateRequestHandler(DbContext context, IMapper mapper) : base(context, mapper)
         {
-        }
-
-        public override async Task<Product> Handle(ProductCreateRequest request, CancellationToken cancellationToken)
-        {
-            return await base.Handle(request, cancellationToken);
         }
     }
 }

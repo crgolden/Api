@@ -3,24 +3,22 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using AutoMapper;
     using Core;
     using Kendo.Mvc;
     using Kendo.Mvc.UI;
     using Microsoft.EntityFrameworkCore;
 
-    public class OrderIndexRequestHandler : IndexRequestHandler<OrderIndexRequest, Order>
+    public class OrderIndexRequestHandler : IndexRequestHandler<OrderIndexRequest, Order, OrderModel>
     {
-        public OrderIndexRequestHandler(DbContext context) : base(context)
+        public OrderIndexRequestHandler(DbContext context, IMapper mapper) : base(context, mapper)
         {
         }
 
         public override async Task<DataSourceResult> Handle(OrderIndexRequest request, CancellationToken cancellationToken)
         {
-            if (!request.UserId.HasValue)
-            {
-                return await base.Handle(request, cancellationToken).ConfigureAwait(false);
-            }
-
+            cancellationToken.ThrowIfCancellationRequested();
+            if (!request.UserId.HasValue) return await base.Handle(request, cancellationToken).ConfigureAwait(false);
             var userIdFilter = new FilterDescriptor(
                 member: "userId",
                 filterOperator: FilterOperator.IsEqualTo,

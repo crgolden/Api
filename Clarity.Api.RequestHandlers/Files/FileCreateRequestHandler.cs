@@ -1,19 +1,13 @@
 ﻿namespace Clarity.Api.Files
 {
-    using System.Threading;
-    using System.Threading.Tasks;
+    using AutoMapper;
     using Core;
     using Microsoft.EntityFrameworkCore;
 
-    public class FileCreateRequestHandler : CreateRequestHandler<FileCreateRequest, File>
+    public class FileCreateRequestHandler : CreateRequestHandler<FileCreateRequest, File, FileModel>
     {
-        public FileCreateRequestHandler(DbContext context) : base(context)
+        public FileCreateRequestHandler(DbContext context, IMapper mapper) : base(context, mapper)
         {
-        }
-
-        public override async Task<File> Handle(FileCreateRequest request, CancellationToken cancellationToken)
-        {
-            return await base.Handle(request, cancellationToken);
         }
     }
 }

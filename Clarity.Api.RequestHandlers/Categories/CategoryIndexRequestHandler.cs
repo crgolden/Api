@@ -1,20 +1,13 @@
 ﻿namespace Clarity.Api.Categories
 {
-    using System.Threading;
-    using System.Threading.Tasks;
+    using AutoMapper;
     using Core;
-    using Kendo.Mvc.UI;
     using Microsoft.EntityFrameworkCore;
 
-    public class CategoryIndexRequestHandler : IndexRequestHandler<CategoryIndexRequest, Category>
+    public class CategoryIndexRequestHandler : IndexRequestHandler<CategoryIndexRequest, Category, CategoryModel>
     {
-        public CategoryIndexRequestHandler(DbContext context) : base(context)
+        public CategoryIndexRequestHandler(DbContext context, IMapper mapper) : base(context, mapper)
         {
-        }
-
-        public override async Task<DataSourceResult> Handle(CategoryIndexRequest request, CancellationToken cancellationToken)
-        {
-            return await base.Handle(request, cancellationToken);
         }
     }
 }

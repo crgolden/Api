@@ -4,10 +4,9 @@
     using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-    public class PaymentIndexRequest : IndexRequest
+    public class PaymentIndexRequest : IndexRequest<Payment, PaymentModel>
     {
-        public PaymentIndexRequest(ModelStateDictionary modelState = null, DataSourceRequest request = null)
-            : base(modelState, request)
+        public PaymentIndexRequest(ModelStateDictionary modelState, DataSourceRequest request) : base(modelState, request)
         {
         }
     }

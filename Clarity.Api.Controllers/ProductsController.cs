@@ -9,27 +9,26 @@
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
     using Products;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class ProductsController : Controller<Product, Guid>
+    public class ProductsController : Controller<Product, ProductModel, Guid>
     {
-        public ProductsController(IMediator mediator, ILogger<ProductsController> logger)
-            : base(mediator, logger)
+        public ProductsController(IMediator mediator) : base(mediator)
         {
         }
 
         [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
+        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request)
         {
-            var indexRequest = new ProductIndexRequest(ModelState, request)
-            {
-                Active = !User.IsInRole("Admin")
-            };
-            return await base.Index(indexRequest).ConfigureAwait(false);
+            return await base.Index(
+                request: new ProductIndexRequest(ModelState, request)
+                {
+                    Active = !User.IsInRole("Admin")
+                },
+                notification: new ProductIndexNotification()).ConfigureAwait(false);
         }
 
         [HttpGet]
@@ -38,47 +37,52 @@
         public override async Task<IActionResult> Details([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            var detailsRequest = new ProductDetailsRequest(ids[0])
-            {
-                Active = !User.IsInRole("Admin")
-            };
-            return await base.Details(detailsRequest).ConfigureAwait(false);
+            return await base.Details(
+                request: new ProductDetailsRequest(ids[0])
+                {
+                    Active = !User.IsInRole("Admin")
+                },
+                notification: new ProductDetailsNotification()).ConfigureAwait(false);
         }
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public override async Task<IActionResult> Edit([FromBody] Product product)
+        public override async Task<IActionResult> Edit([FromBody] ProductModel product)
         {
-            var editRequest = new ProductEditRequest(product);
-            return await base.Edit(editRequest).ConfigureAwait(false);
+            return await base.Edit(
+                request: new ProductEditRequest(product),
+                notification: new ProductEditNotification()).ConfigureAwait(false);
         }
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public override async Task<IActionResult> EditRange([FromBody] IEnumerable<Product> products)
+        public override async Task<IActionResult> EditRange([FromBody] IEnumerable<ProductModel> products)
         {
-            var editRangeRequest = new ProductEditRangeRequest(products);
-            return await base.EditRange(editRangeRequest).ConfigureAwait(false);
+            return await base.EditRange(
+                request: new ProductEditRangeRequest(products),
+                notification: new ProductEditRangeNotification()).ConfigureAwait(false);
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> Create([FromBody] Product product)
+        public override async Task<IActionResult> Create([FromBody] ProductModel product)
         {
-            var createRequest = new ProductCreateRequest(product);
-            return await base.Create(createRequest).ConfigureAwait(false);
+            return await base.Create(
+                request: new ProductCreateRequest(product),
+                notification: new ProductCreateNotification()).ConfigureAwait(false);
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(List<Product>), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<Product> products)
+        public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<ProductModel> products)
         {
-            var createRangeRequest = new ProductCreateRangeRequest(products);
-            return await base.CreateRange(createRangeRequest).ConfigureAwait(false);
+            return await base.CreateRange(
+                request: new ProductCreateRangeRequest(products),
+                notification: new ProductCreateRangeNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -88,8 +92,9 @@
         public override async Task<IActionResult> Delete([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            var deleteRequest = new ProductDeleteRequest(ids[0]);
-            return await base.Delete(deleteRequest).ConfigureAwait(false);
+            return await base.Delete(
+                request: new ProductDeleteRequest(ids[0]),
+                notification: new ProductDeleteNotification()).ConfigureAwait(false);
         }
     }
 }

@@ -4,10 +4,9 @@
     using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-    public class OrderProductIndexRequest : IndexRequest
+    public class OrderProductIndexRequest : IndexRequest<OrderProduct, OrderProductModel>
     {
-        public OrderProductIndexRequest(ModelStateDictionary modelState = null, DataSourceRequest request = null)
-            : base(modelState, request)
+        public OrderProductIndexRequest(ModelStateDictionary modelState, DataSourceRequest request) : base(modelState, request)
         {
         }
     }

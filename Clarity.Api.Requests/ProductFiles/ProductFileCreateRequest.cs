@@ -2,9 +2,9 @@
 {
     using Core;
 
-    public class ProductFileCreateRequest : CreateRequest<ProductFile>
+    public class ProductFileCreateRequest : CreateRequest<ProductFile, ProductFileModel>
     {
-        public ProductFileCreateRequest(ProductFile productFile) : base(productFile)
+        public ProductFileCreateRequest(ProductFileModel productFile) : base(productFile)
         {
         }
     }

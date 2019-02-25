@@ -4,10 +4,9 @@
     using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-    public class FileIndexRequest : IndexRequest
+    public class FileIndexRequest : IndexRequest<File, FileModel>
     {
-        public FileIndexRequest(ModelStateDictionary modelState = null, DataSourceRequest request = null)
-            : base(modelState, request)
+        public FileIndexRequest(ModelStateDictionary modelState, DataSourceRequest request) : base(modelState, request)
         {
         }
     }

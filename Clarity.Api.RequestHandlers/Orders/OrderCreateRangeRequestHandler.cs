@@ -1,21 +1,14 @@
 ﻿namespace Clarity.Api.Orders
 {
     using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
+    using AutoMapper;
     using Core;
     using Microsoft.EntityFrameworkCore;
 
-    public class OrderCreateRangeRequestHandler
-        : CreateRangeRequestHandler<OrderCreateRangeRequest, IEnumerable<Order>, Order>
+    public class OrderCreateRangeRequestHandler : CreateRangeRequestHandler<OrderCreateRangeRequest, IEnumerable<OrderModel>, Order, OrderModel>
     {
-        public OrderCreateRangeRequestHandler(DbContext context) : base(context)
+        public OrderCreateRangeRequestHandler(DbContext context, IMapper mapper) : base(context, mapper)
         {
-        }
-
-        public override async Task<IEnumerable<Order>> Handle(OrderCreateRangeRequest request, CancellationToken cancellationToken)
-        {
-            return await base.Handle(request, cancellationToken);
         }
     }
 }

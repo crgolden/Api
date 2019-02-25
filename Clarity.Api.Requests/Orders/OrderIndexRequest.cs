@@ -5,12 +5,11 @@
     using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-    public class OrderIndexRequest : IndexRequest
+    public class OrderIndexRequest : IndexRequest<Order, OrderModel>
     {
         public Guid? UserId { get; set; }
 
-        public OrderIndexRequest(ModelStateDictionary modelState = null, DataSourceRequest request = null)
-            : base(modelState, request)
+        public OrderIndexRequest(ModelStateDictionary modelState, DataSourceRequest request) : base(modelState, request)
         {
         }
     }

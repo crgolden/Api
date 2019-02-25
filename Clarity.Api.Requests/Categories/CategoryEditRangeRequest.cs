@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using Core;
 
-    public class CategoryEditRangeRequest : EditRangeRequest<Category>
+    public class CategoryEditRangeRequest : EditRangeRequest<Category, CategoryModel>
     {
-        public CategoryEditRangeRequest(IEnumerable<Category> categories) : base(categories)
+        public CategoryEditRangeRequest(IEnumerable<CategoryModel> categories) : base(categories)
         {
         }
     }

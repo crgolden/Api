@@ -1,20 +1,13 @@
 ﻿namespace Clarity.Api.Carts
 {
-    using System.Threading;
-    using System.Threading.Tasks;
+    using AutoMapper;
     using Core;
-    using Kendo.Mvc.UI;
     using Microsoft.EntityFrameworkCore;
 
-    public class CartIndexRequestHandler : IndexRequestHandler<CartIndexRequest, Cart>
+    public class CartIndexRequestHandler : IndexRequestHandler<CartIndexRequest, Cart, CartModel>
     {
-        public CartIndexRequestHandler(DbContext context) : base(context)
+        public CartIndexRequestHandler(DbContext context, IMapper mapper) : base(context, mapper)
         {
-        }
-
-        public override async Task<DataSourceResult> Handle(CartIndexRequest request, CancellationToken cancellationToken)
-        {
-            return await base.Handle(request, cancellationToken);
         }
     }
 }

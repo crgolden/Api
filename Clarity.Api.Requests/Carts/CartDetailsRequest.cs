@@ -3,7 +3,7 @@
     using System;
     using Core;
 
-    public class CartDetailsRequest : DetailsRequest<Cart>
+    public class CartDetailsRequest : DetailsRequest<Cart, CartModel>
     {
         public readonly Guid CartId;
 

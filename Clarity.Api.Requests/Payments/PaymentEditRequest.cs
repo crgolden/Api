@@ -2,9 +2,9 @@
 {
     using Core;
 
-    public class PaymentEditRequest : EditRequest<Payment>
+    public class PaymentEditRequest : EditRequest<Payment, PaymentModel>
     {
-        public PaymentEditRequest(Payment payment) : base(payment)
+        public PaymentEditRequest(PaymentModel payment) : base(payment)
         {
         }
     }

@@ -10,23 +10,22 @@
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class CategoriesController : Controller<Category, Guid>
+    public class CategoriesController : Controller<Category, CategoryModel, Guid>
     {
-        public CategoriesController(IMediator mediator, ILogger<CategoriesController> logger)
-            : base(mediator, logger)
+        public CategoriesController(IMediator mediator) : base(mediator)
         {
         }
 
         [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(IEnumerable<Category>), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
+        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request)
         {
-            var indexRequest = new CategoryIndexRequest(ModelState, request);
-            return await base.Index(indexRequest).ConfigureAwait(false);
+            return await base.Index(
+                request: new CategoryIndexRequest(ModelState, request),
+                notification: new CategoryIndexNotification()).ConfigureAwait(false);
         }
 
         [HttpGet]
@@ -35,46 +34,51 @@
         public override async Task<IActionResult> Details([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            var detailsRequest = new CategoryDetailsRequest(ids[0]);
-            return await base.Details(detailsRequest).ConfigureAwait(false);
+            return await base.Details(
+                request: new CategoryDetailsRequest(ids[0]),
+                notification: new CategoryDetailsNotification()).ConfigureAwait(false);
         }
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public override async Task<IActionResult> Edit([FromBody] Category category)
+        public override async Task<IActionResult> Edit([FromBody] CategoryModel category)
         {
-            var editRequest = new CategoryEditRequest(category);
-            return await base.Edit(editRequest).ConfigureAwait(false);
+            return await base.Edit(
+                request: new CategoryEditRequest(category),
+                notification: new CategoryEditNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public override async Task<IActionResult> EditRange([FromBody] IEnumerable<Category> categories)
+        public override async Task<IActionResult> EditRange([FromBody] IEnumerable<CategoryModel> categories)
         {
-            var editRangeRequest = new CategoryEditRangeRequest(categories);
-            return await base.EditRange(editRangeRequest).ConfigureAwait(false);
+            return await base.EditRange(
+                request: new CategoryEditRangeRequest(categories),
+                notification: new CategoryEditRangeNotification()).ConfigureAwait(false);
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(Category), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> Create([FromBody] Category category)
+        public override async Task<IActionResult> Create([FromBody] CategoryModel category)
         {
-            var createRequest = new CategoryCreateRequest(category);
-            return await base.Create(createRequest).ConfigureAwait(false);
+            return await base.Create(
+                request: new CategoryCreateRequest(category),
+                notification: new CategoryCreateNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(IEnumerable<Category>), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<Category> categories)
+        public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<CategoryModel> categories)
         {
-            var creteRangeRequest = new CategoryCreateRangeRequest(categories);
-            return await base.CreateRange(creteRangeRequest).ConfigureAwait(false);
+            return await base.CreateRange(
+                request: new CategoryCreateRangeRequest(categories),
+                notification: new CategoryCreateRangeNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -84,8 +88,9 @@
         public override async Task<IActionResult> Delete([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            var deleteRequest = new CategoryDeleteRequest(ids[0]);
-            return await base.Delete(deleteRequest).ConfigureAwait(false);
+            return await base.Delete(
+                request: new CategoryDeleteRequest(ids[0]),
+                notification: new CategoryDeleteNotification()).ConfigureAwait(false);
         }
     }
 }

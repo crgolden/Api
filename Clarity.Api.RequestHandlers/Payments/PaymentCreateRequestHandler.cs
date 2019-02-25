@@ -2,29 +2,43 @@
 {
     using System.Threading;
     using System.Threading.Tasks;
+    using AutoMapper;
     using Core;
     using Microsoft.EntityFrameworkCore;
 
-    public class PaymentCreateRequestHandler : CreateRequestHandler<PaymentCreateRequest, Payment>
+    public class PaymentCreateRequestHandler : CreateRequestHandler<PaymentCreateRequest, Payment, PaymentModel>
     {
         private readonly IPaymentService _paymentService;
 
-        public PaymentCreateRequestHandler(DbContext context, IPaymentService paymentService) : base(context)
+        public PaymentCreateRequestHandler(
+            DbContext context,
+            IMapper mapper,
+            IPaymentService paymentService) : base(context, mapper)
         {
             _paymentService = paymentService;
         }
 
-        public override async Task<Payment> Handle(PaymentCreateRequest request, CancellationToken cancellationToken)
+        public override async Task<PaymentModel> Handle(PaymentCreateRequest request, CancellationToken cancellationToken)
         {
-            if (!string.IsNullOrEmpty(request.Entity.CustomerCode))
+            cancellationToken.ThrowIfCancellationRequested();
+            if (string.IsNullOrEmpty(request.Model.TokenId)) return null;
+            if (string.IsNullOrEmpty(request.Model.CustomerCode) && !string.IsNullOrEmpty(request.Email))
             {
-                request.Entity.ChargeId = await _paymentService.CaptureAsync(
-                    customerId: request.Entity.CustomerCode,
-                    amount: request.Entity.Amount,
-                    currency: request.Entity.Currency,
-                    description: request.Entity.Description).ConfigureAwait(false);
+                request.Model.CustomerCode = await _paymentService
+                    .CreateCustomerAsync(
+                        email: request.Email,
+                        tokenId: request.Model.TokenId,
+                        cancellationToken: cancellationToken)
+                    .ConfigureAwait(false);
             }
 
+            if (string.IsNullOrEmpty(request.Model.CustomerCode)) return null;
+            request.Model.ChargeId = await _paymentService.CaptureAsync(
+                customerId: request.Model.CustomerCode,
+                amount: request.Model.Amount,
+                currency: request.Model.Currency,
+                description: request.Model.Description,
+                cancellationToken: cancellationToken).ConfigureAwait(false);
             return await base.Handle(request, cancellationToken).ConfigureAwait(false);
         }
     }

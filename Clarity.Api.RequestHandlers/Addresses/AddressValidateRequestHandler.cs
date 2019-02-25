@@ -1,9 +1,11 @@
 ﻿namespace Clarity.Api.Addresses
 {
+    using System.Threading;
+    using System.Threading.Tasks;
     using Core;
     using MediatR;
 
-    public class AddressValidateRequestHandler : RequestHandler<AddressValidateRequest, bool>
+    public class AddressValidateRequestHandler : IRequestHandler<AddressValidateRequest, bool>
     {
         private readonly IAddressService _service;
 
@@ -12,9 +14,10 @@
             _service = service;
         }
 
-        protected override bool Handle(AddressValidateRequest request)
+        public async Task<bool> Handle(AddressValidateRequest request, CancellationToken cancellationToken)
         {
-            return _service.ValidateUsAddress(request.Address);
+            cancellationToken.ThrowIfCancellationRequested();
+            return await _service.ValidateUsAddressAsync(request.Model, cancellationToken);
         }
     }
 }

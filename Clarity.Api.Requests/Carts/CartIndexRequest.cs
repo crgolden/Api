@@ -4,10 +4,9 @@
     using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-    public class CartIndexRequest : IndexRequest
+    public class CartIndexRequest : IndexRequest<Cart, CartModel>
     {
-        public CartIndexRequest(ModelStateDictionary modelState = null, DataSourceRequest request = null)
-            : base(modelState, request)
+        public CartIndexRequest(ModelStateDictionary modelState, DataSourceRequest request) : base(modelState, request)
         {
         }
     }

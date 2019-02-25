@@ -3,7 +3,7 @@
     using System;
     using Core;
 
-    public class PaymentDetailsRequest : DetailsRequest<Payment>
+    public class PaymentDetailsRequest : DetailsRequest<Payment, PaymentModel>
     {
         public readonly Guid PaymentId;
 

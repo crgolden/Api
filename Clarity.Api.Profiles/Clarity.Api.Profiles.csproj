@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RootNamespace>Clarity.Api</RootNamespace>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Clarity.Core.Profiles" Version="1.0.0-CI-20190224-110841" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Clarity.Api.Entities\Clarity.Api.Entities.csproj" />
+    <ProjectReference Include="..\Clarity.Api.Models\Clarity.Api.Models.csproj" />
+  </ItemGroup>
+
+</Project>

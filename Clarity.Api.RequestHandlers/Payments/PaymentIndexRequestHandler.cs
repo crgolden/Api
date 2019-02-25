@@ -1,20 +1,13 @@
 ﻿namespace Clarity.Api.Payments
 {
-    using System.Threading;
-    using System.Threading.Tasks;
+    using AutoMapper;
     using Core;
-    using Kendo.Mvc.UI;
     using Microsoft.EntityFrameworkCore;
 
-    public class PaymentIndexRequestHandler : IndexRequestHandler<PaymentIndexRequest, Payment>
+    public class PaymentIndexRequestHandler : IndexRequestHandler<PaymentIndexRequest, Payment, PaymentModel>
     {
-        public PaymentIndexRequestHandler(DbContext context) : base(context)
+        public PaymentIndexRequestHandler(DbContext context, IMapper mapper) : base(context, mapper)
         {
-        }
-
-        public override async Task<DataSourceResult> Handle(PaymentIndexRequest request, CancellationToken cancellationToken)
-        {
-            return await base.Handle(request, cancellationToken);
         }
     }
 }

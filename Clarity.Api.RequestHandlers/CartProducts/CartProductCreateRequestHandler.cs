@@ -1,26 +1,13 @@
 ﻿namespace Clarity.Api.CartProducts
 {
-    using System.Threading;
-    using System.Threading.Tasks;
+    using AutoMapper;
     using Core;
     using Microsoft.EntityFrameworkCore;
 
-    public class CartProductCreateRequestHandler : CreateRequestHandler<CartProductCreateRequest, CartProduct>
+    public class CartProductCreateRequestHandler : CreateRequestHandler<CartProductCreateRequest, CartProduct, CartProductModel>
     {
-        public CartProductCreateRequestHandler(DbContext context) : base(context)
+        public CartProductCreateRequestHandler(DbContext context, IMapper mapper) : base(context, mapper)
         {
-        }
-
-        public override async Task<CartProduct> Handle(CartProductCreateRequest request, CancellationToken cancellationToken)
-        {
-            var cart = await Context
-                .FindAsync<Cart>(new object[] { request.Entity.CartId }, cancellationToken)
-                .ConfigureAwait(false);
-            if (cart == null) return null;
-
-            cart.Total += request.Entity.ExtendedPrice;
-
-            return await base.Handle(request, cancellationToken);
         }
     }
 }

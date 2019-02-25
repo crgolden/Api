@@ -1,21 +1,14 @@
 ﻿namespace Clarity.Api.CartProducts
 {
     using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
+    using AutoMapper;
     using Core;
     using Microsoft.EntityFrameworkCore;
 
-    public class CartProductCreateRangeRequestHandler
-        : CreateRangeRequestHandler<CreateRangeRequest<IEnumerable<CartProduct>, CartProduct>, IEnumerable<CartProduct>, CartProduct>
+    public class CartProductCreateRangeRequestHandler : CreateRangeRequestHandler<CartProductCreateRangeRequest, IEnumerable<CartProductModel>, CartProduct, CartProductModel>
     {
-        public CartProductCreateRangeRequestHandler(DbContext context) : base(context)
+        public CartProductCreateRangeRequestHandler(DbContext context, IMapper mapper) : base(context, mapper)
         {
-        }
-
-        public override async Task<IEnumerable<CartProduct>> Handle(CreateRangeRequest<IEnumerable<CartProduct>, CartProduct> request, CancellationToken cancellationToken)
-        {
-            return await base.Handle(request, cancellationToken);
         }
     }
 }

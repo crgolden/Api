@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using Core;
 
-    public class OrderCreateRangeRequest : CreateRangeRequest<IEnumerable<Order>, Order>
+    public class OrderCreateRangeRequest : CreateRangeRequest<IEnumerable<OrderModel>, Order, OrderModel>
     {
-        public OrderCreateRangeRequest(IEnumerable<Order> orders) : base(orders)
+        public OrderCreateRangeRequest(IEnumerable<OrderModel> orders) : base(orders)
         {
         }
     }

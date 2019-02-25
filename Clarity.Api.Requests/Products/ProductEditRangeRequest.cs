@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using Core;
 
-    public class ProductEditRangeRequest : EditRangeRequest<Product>
+    public class ProductEditRangeRequest : EditRangeRequest<Product, ProductModel>
     {
-        public ProductEditRangeRequest(IEnumerable<Product> products) : base(products)
+        public ProductEditRangeRequest(IEnumerable<ProductModel> products) : base(products)
         {
         }
     }

@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using Core;
 
-    public class CartEditRangeRequest : EditRangeRequest<Cart>
+    public class CartEditRangeRequest : EditRangeRequest<Cart, CartModel>
     {
-        public CartEditRangeRequest(IEnumerable<Cart> carts) : base(carts)
+        public CartEditRangeRequest(IEnumerable<CartModel> carts) : base(carts)
         {
         }
     }

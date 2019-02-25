@@ -2,13 +2,9 @@
 {
     using Core;
 
-    public class OrderCreateRequest : CreateRequest<Order>
+    public class OrderCreateRequest : CreateRequest<Order, OrderModel>
     {
-        public string Email { get; set; }
-
-        public string CustomerCode { get; set; }
-
-        public OrderCreateRequest(Order order) : base(order)
+        public OrderCreateRequest(OrderModel order) : base(order)
         {
         }
     }

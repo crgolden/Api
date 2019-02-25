@@ -2,9 +2,9 @@
 {
     using Core;
 
-    public class CategoryEditRequest : EditRequest<Category>
+    public class CategoryEditRequest : EditRequest<Category, CategoryModel>
     {
-        public CategoryEditRequest(Category category) : base(category)
+        public CategoryEditRequest(CategoryModel category) : base(category)
         {
         }
     }

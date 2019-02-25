@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RootNamespace>Clarity.Api</RootNamespace>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Clarity.Core.NotificationHandlers" Version="1.1.0-CI-20190225-000144" />
+    <PackageReference Include="Clarity.Core.Options" Version="1.1.0-CI-20190223-230728" />
+    <PackageReference Include="Microsoft.Azure.ServiceBus" Version="3.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Clarity.Api.Notifications\Clarity.Api.Notifications.csproj" />
+  </ItemGroup>
+
+</Project>

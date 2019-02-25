@@ -1,20 +1,13 @@
 ﻿namespace Clarity.Api.Products
 {
-    using System.Threading;
-    using System.Threading.Tasks;
+    using AutoMapper;
     using Core;
-    using MediatR;
     using Microsoft.EntityFrameworkCore;
 
-    public class ProductEditRangeRequestHandler : EditRangeRequestHandler<ProductEditRangeRequest, Product>
+    public class ProductEditRangeRequestHandler : EditRangeRequestHandler<ProductEditRangeRequest, Product, ProductModel>
     {
-        public ProductEditRangeRequestHandler(DbContext context) : base(context)
+        public ProductEditRangeRequestHandler(DbContext context, IMapper mapper) : base(context, mapper)
         {
-        }
-
-        public override async Task<Unit> Handle(ProductEditRangeRequest request, CancellationToken cancellationToken)
-        {
-            return await base.Handle(request, cancellationToken);
         }
     }
 }

@@ -3,7 +3,7 @@
     using System;
     using Core;
 
-    public class CategoryDetailsRequest : DetailsRequest<Category>
+    public class CategoryDetailsRequest : DetailsRequest<Category, CategoryModel>
     {
         public readonly Guid CategoryId;
 

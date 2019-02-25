@@ -1,30 +1,38 @@
 ﻿namespace Clarity.Api
 {
-    using Configurations;
     using Core;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Options;
 
     public class ApiDbContext : Context
     {
-        /// <inheritdoc />
-        /// <param name="options"></param>
-        public ApiDbContext(DbContextOptions<ApiDbContext> options) : base(options) { }
+        private readonly IDemoFilesClient _demoFilesClient;
+        private readonly IOptions<DatabaseOptions> _databaseOptions;
 
         /// <inheritdoc />
-        /// <param name="modelBuilder"></param>
+        public ApiDbContext(
+            DbContextOptions<ApiDbContext> options,
+            IDemoFilesClient demoFilesClient,
+            IOptions<DatabaseOptions> databaseOptions) : base(options)
+        {
+            _demoFilesClient = demoFilesClient;
+            _databaseOptions = databaseOptions;
+        }
+
+        /// <inheritdoc />
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new ProductConfiguration(_databaseOptions));
             modelBuilder.ApplyConfiguration(new CartConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration(_databaseOptions));
+            modelBuilder.ApplyConfiguration(new FileConfiguration(_demoFilesClient, _databaseOptions));
+            modelBuilder.ApplyConfiguration(new OrderConfiguration(_databaseOptions));
+            modelBuilder.ApplyConfiguration(new PaymentConfiguration(_databaseOptions));
             modelBuilder.ApplyConfiguration(new CartProductConfiguration());
-            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
-            modelBuilder.ApplyConfiguration(new FileConfiguration());
-            modelBuilder.ApplyConfiguration(new OrderConfiguration());
-            modelBuilder.ApplyConfiguration(new OrderProductConfiguration());
-            modelBuilder.ApplyConfiguration(new PaymentConfiguration());
-            modelBuilder.ApplyConfiguration(new ProductConfiguration());
-            modelBuilder.ApplyConfiguration(new ProductCategoryConfiguration());
-            modelBuilder.ApplyConfiguration(new ProductFileConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderProductConfiguration(_databaseOptions));
+            modelBuilder.ApplyConfiguration(new ProductCategoryConfiguration(_databaseOptions));
+            modelBuilder.ApplyConfiguration(new ProductFileConfiguration(_databaseOptions));
         }
     }
 }

@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using Core;
 
-    public class ProductFileEditRangeRequest : EditRangeRequest<ProductFile>
+    public class ProductFileEditRangeRequest : EditRangeRequest<ProductFile, ProductFileModel>
     {
-        public ProductFileEditRangeRequest(IEnumerable<ProductFile> productFiles) : base(productFiles)
+        public ProductFileEditRangeRequest(IEnumerable<ProductFileModel> productFiles) : base(productFiles)
         {
 
         }

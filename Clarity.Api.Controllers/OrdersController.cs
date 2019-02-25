@@ -9,29 +9,26 @@
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
     using Orders;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class OrdersController : Controller<Order, Guid>
+    public class OrdersController : Controller<Order, OrderModel, Guid>
     {
-        public OrdersController(IMediator mediator, ILogger<OrdersController> logger)
-            : base(mediator, logger)
+        public OrdersController(IMediator mediator) : base(mediator)
         {
         }
 
         [HttpGet]
         [Authorize(Roles = "User")]
         [ProducesResponseType(typeof(IEnumerable<Order>), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
+        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request)
         {
-            var indexRequest = new OrderIndexRequest(ModelState, request);
-            if (User.IsInRole("Admin"))
-            {
-                indexRequest.UserId = UserId;
-            }
-
-            return await base.Index(indexRequest).ConfigureAwait(false);
+            return await base.Index(
+                request: new OrderIndexRequest(ModelState, request)
+                {
+                    UserId = User.IsInRole("Admin") ? null : UserId
+                },
+                notification: new OrderIndexNotification()).ConfigureAwait(false);
         }
 
         [HttpGet]
@@ -40,60 +37,57 @@
         public override async Task<IActionResult> Details([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            var detailsRequest = new OrderDetailsRequest(ids[0]);
-            if (!User.IsInRole("Admin"))
-            {
-                detailsRequest.UserId = UserId;
-            }
-
-            return await base.Details(detailsRequest).ConfigureAwait(false);
+            return await base.Details(
+                request: new OrderDetailsRequest(ids[0])
+                {
+                    UserId = User.IsInRole("Admin") ? null : UserId
+                },
+                notification: new OrderDetailsNotification()).ConfigureAwait(false);
         }
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public override async Task<IActionResult> Edit([FromBody] Order order)
+        public override async Task<IActionResult> Edit([FromBody] OrderModel order)
         {
-            var editRequest = new OrderEditRequest(order);
-            return await base.Edit(editRequest).ConfigureAwait(false);
+            return await base.Edit(
+                request: new OrderEditRequest(order),
+                notification: new OrderEditNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public override async Task<IActionResult> EditRange([FromBody] IEnumerable<Order> orders)
+        public override async Task<IActionResult> EditRange([FromBody] IEnumerable<OrderModel> orders)
         {
-            var editRangeRequest = new OrderEditRangeRequest(orders);
-            return await base.EditRange(editRangeRequest).ConfigureAwait(false);
+            return await base.EditRange(
+                request: new OrderEditRangeRequest(orders),
+                notification: new OrderEditRangeNotification()).ConfigureAwait(false);
         }
 
         [HttpPost]
         [Authorize(Roles = "User")]
         [ProducesResponseType(typeof(Order), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> Create([FromBody] Order order)
+        public override async Task<IActionResult> Create([FromBody] OrderModel order)
         {
-            var createRequest = new OrderCreateRequest(order);
-            if (User.HasClaim(x => x.Type.Equals("customer_code")))
-            {
-                createRequest.CustomerCode = User.FindFirst("customer_code").Value;
-            }
-            else
-            {
-                createRequest.Email = UserEmail;
-            }
-
-            return await base.Create(createRequest).ConfigureAwait(false);
+            return await base.Create(
+                request: new OrderCreateRequest(order),
+                notification: new OrderCreateNotification
+                {
+                    UserEmail = UserEmail
+                }).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [Authorize(Roles = "User")]
         [ProducesResponseType(typeof(IEnumerable<Order>), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<Order> orders)
+        public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<OrderModel> orders)
         {
-            var createRangeRequest = new OrderCreateRangeRequest(orders);
-            return await base.CreateRange(createRangeRequest).ConfigureAwait(false);
+            return await base.CreateRange(
+                request: new OrderCreateRangeRequest(orders),
+                notification: new OrderCreateRangeNotification()).ConfigureAwait(false);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -103,8 +97,9 @@
         public override async Task<IActionResult> Delete([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            var deleteRequest = new OrderDeleteRequest(ids[0]);
-            return await base.Delete(deleteRequest).ConfigureAwait(false);
+            return await base.Delete(
+                request: new OrderDeleteRequest(ids[0]),
+                notification: new OrderDeleteNotification()).ConfigureAwait(false);
         }
     }
 }

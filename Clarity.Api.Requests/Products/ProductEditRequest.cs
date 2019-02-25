@@ -2,9 +2,9 @@
 {
     using Core;
 
-    public class ProductEditRequest : EditRequest<Product>
+    public class ProductEditRequest : EditRequest<Product, ProductModel>
     {
-        public ProductEditRequest(Product product) : base(product)
+        public ProductEditRequest(ProductModel product) : base(product)
         {
         }
     }

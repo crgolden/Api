@@ -2,9 +2,9 @@
 {
     using Core;
 
-    public class FileCreateRequest : CreateRequest<File>
+    public class FileCreateRequest : CreateRequest<File, FileModel>
     {
-        public FileCreateRequest(File file) : base(file)
+        public FileCreateRequest(FileModel file) : base(file)
         {
         }
     }

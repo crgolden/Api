@@ -1,20 +1,13 @@
 ﻿namespace Clarity.Api.Orders
 {
-    using System.Threading;
-    using System.Threading.Tasks;
+    using AutoMapper;
     using Core;
-    using MediatR;
     using Microsoft.EntityFrameworkCore;
 
-    public class OrderEditRangeRequestHandler : EditRangeRequestHandler<OrderEditRangeRequest, Order>
+    public class OrderEditRangeRequestHandler : EditRangeRequestHandler<OrderEditRangeRequest, Order, OrderModel>
     {
-        public OrderEditRangeRequestHandler(DbContext context) : base(context)
+        public OrderEditRangeRequestHandler(DbContext context, IMapper mapper) : base(context, mapper)
         {
-        }
-
-        public override async Task<Unit> Handle(OrderEditRangeRequest request, CancellationToken cancellationToken)
-        {
-            return await base.Handle(request, cancellationToken);
         }
     }
 }

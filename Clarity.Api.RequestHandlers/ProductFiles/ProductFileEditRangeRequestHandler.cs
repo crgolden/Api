@@ -1,20 +1,13 @@
 ﻿namespace Clarity.Api.ProductFiles
 {
-    using System.Threading;
-    using System.Threading.Tasks;
+    using AutoMapper;
     using Core;
-    using MediatR;
     using Microsoft.EntityFrameworkCore;
 
-    public class ProductFileEditRangeRequestHandler : EditRangeRequestHandler<ProductFileEditRangeRequest, ProductFile>
+    public class ProductFileEditRangeRequestHandler : EditRangeRequestHandler<ProductFileEditRangeRequest, ProductFile, ProductFileModel>
     {
-        public ProductFileEditRangeRequestHandler(DbContext context) : base(context)
+        public ProductFileEditRangeRequestHandler(DbContext context, IMapper mapper) : base(context, mapper)
         {
-        }
-
-        public override async Task<Unit> Handle(ProductFileEditRangeRequest request, CancellationToken cancellationToken)
-        {
-            return await base.Handle(request, cancellationToken);
         }
     }
 }

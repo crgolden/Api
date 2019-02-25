@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using Core;
 
-    public class PaymentEditRangeRequest : EditRangeRequest<Payment>
+    public class PaymentEditRangeRequest : EditRangeRequest<Payment, PaymentModel>
     {
-        public PaymentEditRangeRequest(IEnumerable<Payment> payments) : base(payments)
+        public PaymentEditRangeRequest(IEnumerable<PaymentModel> payments) : base(payments)
         {
         }
     }

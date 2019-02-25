@@ -1,20 +1,13 @@
 ﻿namespace Clarity.Api.ProductFiles
 {
-    using System.Threading;
-    using System.Threading.Tasks;
+    using AutoMapper;
     using Core;
-    using Kendo.Mvc.UI;
     using Microsoft.EntityFrameworkCore;
 
-    public class ProductFileIndexRequestHandler : IndexRequestHandler<ProductFileIndexRequest, ProductFile>
+    public class ProductFileIndexRequestHandler : IndexRequestHandler<ProductFileIndexRequest, ProductFile, ProductFileModel>
     {
-        public ProductFileIndexRequestHandler(DbContext context) : base(context)
+        public ProductFileIndexRequestHandler(DbContext context, IMapper mapper) : base(context, mapper)
         {
-        }
-
-        public override async Task<DataSourceResult> Handle(ProductFileIndexRequest request, CancellationToken cancellationToken)
-        {
-            return await base.Handle(request, cancellationToken);
         }
     }
 }

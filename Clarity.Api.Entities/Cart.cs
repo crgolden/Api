@@ -2,26 +2,43 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Core;
 
     public class Cart : Entity
     {
+        private readonly List<CartProduct> _cartProducts;
+
         public Guid Id { get; private set; }
 
         public Guid? UserId { get; set; }
 
-        public decimal Total { get; set; }
-
-        public virtual ICollection<CartProduct> CartProducts { get; set; } = new List<CartProduct>();
+        public virtual IReadOnlyCollection<CartProduct> CartProducts => _cartProducts;
 
         public Cart()
         {
+            _cartProducts = new List<CartProduct>();
         }
 
-        public Cart(Guid? id = null, Guid? userId = null)
+        public Cart(Guid id, Guid? userId = null) : this()
         {
-            if (id.HasValue) Id = id.Value;
+            Id = id;
             if (userId.HasValue) UserId = userId.Value;
+        }
+
+        public void AddCartProduct(CartProduct cartProduct)
+        {
+            _cartProducts.Add(cartProduct);
+        }
+
+        public bool RemoveCartProduct(CartProduct cartProduct)
+        {
+            return _cartProducts.Remove(cartProduct);
+        }
+
+        public decimal GetTotal()
+        {
+            return _cartProducts.Sum(x => x.Product.UnitPrice * x.Quantity);
         }
     }
 }
