@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Clarity.Core.Claims" Version="1.2.0" />
-    <PackageReference Include="Clarity.Core.Controllers" Version="1.1.0-CI-20190224-183425" />
+    <PackageReference Include="Clarity.Core.Controllers" Version="1.1.0-CI-20190226-020203" />
   </ItemGroup>
 
   <ItemGroup>

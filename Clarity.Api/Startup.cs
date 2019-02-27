@@ -10,6 +10,7 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ApplicationModels;
+    using Microsoft.Azure.ServiceBus;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -27,33 +28,37 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApplicationInsightsTelemetry(_configuration);
-            services.AddDbContext<ApiDbContext>(_configuration.GetDbContextOptions(assemblyName: "Clarity.Api.Data"));
-            services.Configure<SnapshotCollectorConfiguration>(_configuration.GetSection(nameof(SnapshotCollectorConfiguration)));
-            services.Configure<EmailOptions>(_configuration.GetSection(nameof(EmailOptions)));
-            services.Configure<PaymentOptions>(_configuration.GetSection(nameof(PaymentOptions)));
-            services.Configure<StorageOptions>(_configuration.GetSection(nameof(StorageOptions)));
-            services.Configure<AddressOptions>(_configuration.GetSection(nameof(AddressOptions)));
-            services.Configure<CorsOptions>(_configuration.GetSection(nameof(CorsOptions)));
-            services.Configure<DatabaseOptions>(_configuration.GetSection(nameof(DatabaseOptions)));
-            services.AddScoped<DbContext, ApiDbContext>();
-            services.AddHttpClient<IDemoFilesClient, TelerikDemoFilesClient>();
-            services.AddSingleton<IEmailService, SendGridEmailService>();
-            services.AddSingleton<IPaymentService, StripePaymentService>();
-            services.AddSingleton<IStorageService, AzureBlobStorageService>();
-            services.AddSingleton<IAddressService, SmartyStreetsAddressService>();
-            services.AddSingleton<ITelemetryProcessorFactory>(sp => new SnapshotCollectorTelemetryProcessorFactory(sp));
-            services.AddMediatR(assemblies: new[]
-            {
-                Assembly.Load("Clarity.Api.RequestHandlers"),
-                Assembly.Load("Clarity.Api.NotificationHandlers")
-            });
-            services.AddAutoMapper(assemblies: new []
-            {
-                Assembly.Load("Clarity.Api.Profiles")
-            });
+            services.AddApplicationInsightsTelemetry(_configuration)
+                .AddDbContext<ApiDbContext>(_configuration.GetDbContextOptions(assemblyName: "Clarity.Api.Data"))
+                .Configure<SnapshotCollectorConfiguration>(_configuration.GetSection(nameof(SnapshotCollectorConfiguration)))
+                .Configure<EmailOptions>(_configuration.GetSection(nameof(EmailOptions)))
+                .Configure<PaymentOptions>(_configuration.GetSection(nameof(PaymentOptions)))
+                .Configure<StorageOptions>(_configuration.GetSection(nameof(StorageOptions)))
+                .Configure<AddressOptions>(_configuration.GetSection(nameof(AddressOptions)))
+                .Configure<CorsOptions>(_configuration.GetSection(nameof(CorsOptions)))
+                .Configure<DatabaseOptions>(_configuration.GetSection(nameof(DatabaseOptions)))
+                .Configure<ServiceBusOptions>(_configuration.GetSection(nameof(ServiceBusOptions)))
+                .AddScoped<DbContext, ApiDbContext>()
+                .AddSingleton<IPaymentService, StripePaymentService>()
+                .AddSingleton<IStorageService, AzureBlobStorageService>()
+                .AddSingleton<IAddressService, SmartyStreetsAddressService>()
+                .AddSingleton<ITelemetryProcessorFactory>(sp => new SnapshotCollectorTelemetryProcessorFactory(sp))
+                .AddSingleton<IQueueClient, EmailQueueClient>()
+                .AddMediatR(assemblies: new[]
+                {
+                    Assembly.Load("Clarity.Api.RequestHandlers"),
+                    Assembly.Load("Clarity.Api.NotificationHandlers")
+
+                })
+                .AddAutoMapper(assemblies: new []
+                {
+                    Assembly.Load("Clarity.Api.Profiles")
+
+                })
+                .AddCors()
+                .AddSwagger("Clarity-API", "v1");
             services.AddHealthChecks();
-            services.AddCors();
+            services.AddHttpClient<IDemoFilesClient, TelerikDemoFilesClient>();
             services.AddMvc(setup =>
                 {
                     setup.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
@@ -61,7 +66,6 @@
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddIdentityServerAuthentication(_configuration, "api1");
-            services.AddSwagger("Clarity-API", "v1");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,8 +73,7 @@
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseDeveloperExceptionPage().UseDatabaseErrorPage();
             }
 
             if (env.IsProduction())
@@ -78,12 +81,12 @@
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseAuthentication();
-            app.UseHealthChecks("/health");
-            app.UseCors(corsOptions);
-            app.UseSwagger("Clarity-API v1");
-            app.UseMvcWithDefaultRoute();
+            app.UseHttpsRedirection()
+                .UseAuthentication()
+                .UseHealthChecks("/health")
+                .UseCors(corsOptions.Value)
+                .UseSwagger("Clarity-API v1")
+                .UseMvcWithDefaultRoute();
         }
     }
 }

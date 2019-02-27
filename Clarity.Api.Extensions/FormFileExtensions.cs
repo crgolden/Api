@@ -15,11 +15,11 @@
         {
             cancellationToken.ThrowIfCancellationRequested();
             var index = file.FileName.LastIndexOf('.');
-            var extension = file.FileName.Substring(index);
+            var extension = file.FileName.Substring(index + 1);
             var id = Guid.NewGuid();
             var uri = await storageService.UploadFileToStorageAsync(
                 file: file,
-                fileName: $"{id}{extension}",
+                fileName: $"{id}.{extension}",
                 cancellationToken: cancellationToken).ConfigureAwait(false);
             return new File(id)
             {

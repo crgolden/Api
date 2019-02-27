@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Clarity.Core.NotificationHandlers" Version="1.1.0-CI-20190225-000144" />
-    <PackageReference Include="Clarity.Core.Options" Version="1.1.0-CI-20190223-230728" />
+    <PackageReference Include="Clarity.Core.NotificationHandlers" Version="1.1.0-CI-20190226-020842" />
+    <PackageReference Include="Clarity.Core.Options" Version="1.4.0" />
     <PackageReference Include="Microsoft.Azure.ServiceBus" Version="3.3.0" />
   </ItemGroup>
 

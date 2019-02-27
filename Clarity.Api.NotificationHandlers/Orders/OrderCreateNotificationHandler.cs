@@ -1,5 +1,7 @@
 ﻿namespace Clarity.Api.Orders
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
@@ -14,16 +16,11 @@
         private const string Subject = "Order Details (#{0})";
 
         public OrderCreateNotificationHandler(
-            ILogger<OrderCreateNotificationHandler> logger,
-            IOptions<ServiceBusOptions> serviceBusOptions) : base(logger)
+            IEnumerable<IQueueClient> queueClients,
+            IOptions<ServiceBusOptions> serviceBusOptions,
+            ILogger<OrderCreateNotificationHandler> logger) : base(logger)
         {
-            _emailQueueClient = new QueueClient(
-                connectionStringBuilder: new ServiceBusConnectionStringBuilder(
-                    endpoint: serviceBusOptions.Value.Endpoint,
-                    entityPath: serviceBusOptions.Value.EmailQueueName,
-                    sharedAccessKeyName: serviceBusOptions.Value.SharedAccessKeyName,
-                    sharedAccessKey: serviceBusOptions.Value.PrimaryKey,
-                    transportType: TransportType.Amqp));
+            _emailQueueClient = queueClients.Single(x => x.QueueName == serviceBusOptions.Value.EmailQueueName);
         }
 
         public override async Task Handle(OrderCreateNotification notification, CancellationToken cancellationToken)
@@ -33,7 +30,6 @@
             message.UserProperties.Add("email", notification.UserEmail);
             message.UserProperties.Add("subject", string.Format(Subject, notification.Model.Number));
             await _emailQueueClient.SendAsync(message).ConfigureAwait(false);
-            await _emailQueueClient.CloseAsync().ConfigureAwait(false);
             await base.Handle(notification, cancellationToken).ConfigureAwait(false);
         }
     }
