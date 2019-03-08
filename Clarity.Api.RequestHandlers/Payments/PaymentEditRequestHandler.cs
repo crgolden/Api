@@ -19,18 +19,17 @@
             _paymentService = paymentService;
         }
 
-        public override async Task<Unit> Handle(PaymentEditRequest request, CancellationToken cancellationToken)
+        public override async Task<Unit> Handle(PaymentEditRequest request, CancellationToken token)
         {
-            cancellationToken.ThrowIfCancellationRequested();
             if (!string.IsNullOrEmpty(request.Model.ChargeId) && !string.IsNullOrEmpty(request.Model.Description))
             {
                 await _paymentService.UpdateAsync(
                     chargeId: request.Model.ChargeId,
                     description: request.Model.Description,
-                    cancellationToken: cancellationToken).ConfigureAwait(false);
+                    token: token).ConfigureAwait(false);
             }
 
-            return await base.Handle(request, cancellationToken).ConfigureAwait(false);
+            return await base.Handle(request, token).ConfigureAwait(false);
         }
     }
 }

@@ -1,12 +1,15 @@
 ﻿namespace Clarity.Api
 {
-    using Core;
+    using AutoMapper;
 
     public class ProductCategoryProfile : Profile
     {
         public ProductCategoryProfile()
         {
-            CreateMap<ProductCategory, ProductCategoryModel>();
+            CreateMap<ProductCategoryModel, ProductCategory>(MemberList.Destination)
+                .ForMember(dest => dest.Category, opt => opt.Ignore())
+                .ForMember(dest => dest.Product, opt => opt.Ignore())
+                .ReverseMap();
         }
     }
 }

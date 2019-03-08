@@ -13,6 +13,7 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class ImagesController : Controller<File, FileModel, Guid>
@@ -24,7 +25,7 @@
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
-        public async Task<IActionResult> Upload(ICollection<IFormFile> files)
+        public async Task<IActionResult> Upload(IFormFileCollection files)
         {
             if (files.Count == 0) return BadRequest("No files received from the upload");
             using (var tokenSource = new CancellationTokenSource())
@@ -40,7 +41,10 @@
                     notification.Models = await Mediator.Send(request, tokenSource.Token).ConfigureAwait(false);
                     notification.EventId = EventIds.UploadEnd;
                     await Mediator.Publish(notification, tokenSource.Token).ConfigureAwait(false);
-                    return Content(JsonConvert.SerializeObject(notification.Models));
+                    return Content(JsonConvert.SerializeObject(notification.Models, new JsonSerializerSettings
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver()
+                    }));
                 }
                 catch (Exception e)
                 {
@@ -58,7 +62,7 @@
         [ProducesResponseType(typeof(IEnumerable<File>), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request)
         {
-            return await base.Index(
+            return await Index(
                 request: new FileIndexRequest(ModelState, request),
                 notification: new FileIndexNotification()).ConfigureAwait(false);
         }
@@ -70,7 +74,7 @@
         public override async Task<IActionResult> Details([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            return await base.Details(
+            return await Details(
                 request: new FileDetailsRequest(ids[0]),
                 notification: new FileDetailsNotification()).ConfigureAwait(false);
         }
@@ -81,7 +85,7 @@
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public override async Task<IActionResult> Edit([FromBody] FileModel file)
         {
-            return await base.Edit(
+            return await Edit(
                 request: new FileEditRequest(file),
                 notification: new FileEditNotification()).ConfigureAwait(false);
         }
@@ -92,7 +96,7 @@
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public override async Task<IActionResult> EditRange([FromBody] IEnumerable<FileModel> files)
         {
-            return await base.EditRange(
+            return await EditRange(
                 request: new FileEditRangeRequest(files),
                 notification: new FileEditRangeNotification()).ConfigureAwait(false);
         }
@@ -103,7 +107,7 @@
         [ProducesResponseType(typeof(File), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Create([FromBody] FileModel file)
         {
-            return await base.Create(
+            return await Create(
                 request: new FileCreateRequest(file),
                 notification: new FileCreateNotification()).ConfigureAwait(false);
         }
@@ -114,7 +118,7 @@
         [ProducesResponseType(typeof(List<File>), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<FileModel> files)
         {
-            return await base.CreateRange(
+            return await CreateRange(
                 request: new FileCreateRangeRequest(files),
                 notification: new FileCreateRangeNotification()).ConfigureAwait(false);
         }
@@ -126,7 +130,7 @@
         public override async Task<IActionResult> Delete([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            return await base.Delete(
+            return await Delete(
                 request: new FileDeleteRequest(ids[0]),
                 notification: new FileDeleteNotification()).ConfigureAwait(false);
         }

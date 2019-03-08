@@ -16,7 +16,7 @@
             _logger = logger;
         }
 
-        public Task Handle(FileUploadNotification notification, CancellationToken cancellationToken)
+        public Task Handle(FileUploadNotification notification, CancellationToken token)
         {
             switch (notification.EventId)
             {

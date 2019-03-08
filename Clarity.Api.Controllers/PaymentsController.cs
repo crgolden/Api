@@ -24,7 +24,7 @@
         [ProducesResponseType(typeof(IEnumerable<Payment>), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request)
         {
-            return await base.Index(
+            return await Index(
                 request: new PaymentIndexRequest(ModelState, request),
                 notification: new PaymentIndexNotification()).ConfigureAwait(false);
         }
@@ -35,8 +35,8 @@
         public override async Task<IActionResult> Details([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            return await base.Details(
-                request: new PaymentDetailsRequest(ids[0], UserId),
+            return await Details(
+                request: new PaymentDetailsRequest(ids[0], Guid.Parse(User.FindFirst("sub").Value)),
                 notification: new PaymentDetailsNotification()).ConfigureAwait(false);
         }
 
@@ -45,7 +45,7 @@
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public override async Task<IActionResult> Edit([FromBody] PaymentModel payment)
         {
-            return await base.Edit(
+            return await Edit(
                 request: new PaymentEditRequest(payment),
                 notification: new PaymentEditNotification()).ConfigureAwait(false);
         }
@@ -55,7 +55,7 @@
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public override async Task<IActionResult> EditRange([FromBody] IEnumerable<PaymentModel> payments)
         {
-            return await base.EditRange(
+            return await EditRange(
                 request: new PaymentEditRangeRequest(payments),
                 notification: new PaymentEditRangeNotification()).ConfigureAwait(false);
         }
@@ -66,15 +66,16 @@
         [ProducesResponseType(typeof(Payment), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Create([FromBody] PaymentModel payment)
         {
-            if (User.HasClaim(x => x.Type.Equals("customer_code")))
+            if (User.HasClaim(x => x.Type == "customer_code"))
             {
                 payment.CustomerCode = User.FindFirst("customer_code").Value;
             }
 
-            return await base.Create(
+            return await Create(
                 request: new PaymentCreateRequest(payment)
                 {
-                    Email = UserEmail
+                    UserId = Guid.Parse(User.FindFirst("sub").Value),
+                    Email = User.FindFirst("email").Value
                 },
                 notification: new PaymentCreateNotification()).ConfigureAwait(false);
         }
@@ -85,7 +86,7 @@
         [ProducesResponseType(typeof(IEnumerable<Payment>), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<PaymentModel> payments)
         {
-            return await base.CreateRange(
+            return await CreateRange(
                 request: new PaymentCreateRangeRequest(payments),
                 notification: new PaymentCreateRangeNotification()).ConfigureAwait(false);
         }
@@ -97,7 +98,7 @@
         public override async Task<IActionResult> Delete([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            return await base.Delete(
+            return await Delete(
                 request: new PaymentDeleteRequest(ids[0]),
                 notification: new PaymentDeleteNotification()).ConfigureAwait(false);
         }

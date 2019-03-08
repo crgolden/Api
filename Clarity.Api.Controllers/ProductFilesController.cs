@@ -24,7 +24,7 @@
         [ProducesResponseType(typeof(IEnumerable<ProductFile>), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request)
         {
-            return await base.Index(
+            return await Index(
                 request: new ProductFileIndexRequest(ModelState, request),
                 notification: new ProductFileIndexNotification()).ConfigureAwait(false);
         }
@@ -36,7 +36,7 @@
         public override async Task<IActionResult> Details([FromQuery] Guid[] ids)
         {
             if (ids.Length != 2) return BadRequest(ids);
-            return await base.Details(
+            return await Details(
                 request: new ProductFileDetailsRequest(ids[0], ids[1]),
                 notification: new ProductFileDetailsNotification()).ConfigureAwait(false);
         }
@@ -47,7 +47,7 @@
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public override async Task<IActionResult> Edit([FromBody] ProductFileModel productFile)
         {
-            return await base.Edit(
+            return await Edit(
                 request: new ProductFileEditRequest(productFile),
                 notification: new ProductFileEditNotification()).ConfigureAwait(false);
         }
@@ -58,7 +58,7 @@
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public override async Task<IActionResult> EditRange([FromBody] IEnumerable<ProductFileModel> productFiles)
         {
-            return await base.EditRange(
+            return await EditRange(
                 request: new ProductFileEditRangeRequest(productFiles),
                 notification: new ProductFileEditRangeNotification()).ConfigureAwait(false);
         }
@@ -69,7 +69,7 @@
         [ProducesResponseType(typeof(ProductFile), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Create([FromBody] ProductFileModel productFile)
         {
-            return await base.Create(
+            return await Create(
                 request: new ProductFileCreateRequest(productFile),
                 notification: new ProductFileCreateNotification()).ConfigureAwait(false);
         }
@@ -80,7 +80,7 @@
         [ProducesResponseType(typeof(List<ProductFile>), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<ProductFileModel> productFiles)
         {
-            return await base.CreateRange(
+            return await CreateRange(
                 request: new ProductFileCreateRangeRequest(productFiles),
                 notification: new ProductFileCreateRangeNotification()).ConfigureAwait(false);
         }
@@ -92,7 +92,7 @@
         public override async Task<IActionResult> Delete([FromQuery] Guid[] ids)
         {
             if (ids.Length != 2) return BadRequest(ids);
-            return await base.Delete(
+            return await Delete(
                 request: new ProductFileDeleteRequest(ids[0], ids[1]),
                 notification: new ProductFileDeleteNotification()).ConfigureAwait(false);
         }

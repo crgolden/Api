@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Clarity.Core.Notifications" Version="1.2.0-CI-20190226-002249" />
+    <PackageReference Include="Clarity.Core.Notifications" Version="1.3.0-CI-20190303-202519" />
   </ItemGroup>
 
   <ItemGroup>

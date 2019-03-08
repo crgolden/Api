@@ -17,7 +17,7 @@
 
         public string QuantityPerUnit { get; set; }
 
-        public int ReorderLevel { get; set; }
+        public int? ReorderLevel { get; set; }
 
         public string Sku { get; set; }
 
@@ -25,10 +25,10 @@
 
         public string ImageThumbnailUri { get; set; }
 
-        public int UnitsInStock { get; set; }
+        public int? UnitsInStock { get; set; }
 
         public decimal UnitPrice { get; set; }
 
-        public int UnitsOnOrder { get; set; }
+        public int? UnitsOnOrder { get; set; }
     }
 }

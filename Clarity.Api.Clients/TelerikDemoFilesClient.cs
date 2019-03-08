@@ -19,10 +19,9 @@
             _storageService = storageService;
         }
 
-        public async Task<Uri[]> GetDemoFileUris(CancellationToken cancellationToken)
+        public async Task<Uri[]> GetDemoFileUris(CancellationToken token)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            await _storageService.DeleteAllFromStorageAsync(cancellationToken);
+            await _storageService.DeleteAllFromStorageAsync(token);
             var uris = new Uri[Count];
             for (var i = 0; i < Count; i++)
             {
@@ -32,7 +31,7 @@
                 var uri = await _storageService.UploadByteArrayToStorageAsync(
                     buffer: imageData,
                     fileName: $"{file.Id}.jpg",
-                    cancellationToken: cancellationToken);
+                    token: token);
                 uris[i] = uri;
             }
 

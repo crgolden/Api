@@ -25,9 +25,8 @@
             _storageOptions = storageOptions.Value;
         }
 
-        public override async Task<DataSourceResult> Handle(ProductIndexRequest request, CancellationToken cancellationToken)
+        public override async Task<DataSourceResult> Handle(ProductIndexRequest request, CancellationToken token)
         {
-            cancellationToken.ThrowIfCancellationRequested();
             var products = request.Active
                 ? Context.Set<Product>().Where(x => x.Active)
                 : Context.Set<Product>();

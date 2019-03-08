@@ -11,16 +11,15 @@
         public static async Task<File> ToFileAsync(
             this IFormFile file,
             IStorageService storageService,
-            CancellationToken cancellationToken)
+            CancellationToken token)
         {
-            cancellationToken.ThrowIfCancellationRequested();
             var index = file.FileName.LastIndexOf('.');
-            var extension = file.FileName.Substring(index + 1);
+            var extension = file.FileName.Substring(index);
             var id = Guid.NewGuid();
             var uri = await storageService.UploadFileToStorageAsync(
                 file: file,
-                fileName: $"{id}.{extension}",
-                cancellationToken: cancellationToken).ConfigureAwait(false);
+                fileName: $"{id}{extension}",
+                token: token).ConfigureAwait(false);
             return new File(id)
             {
                 ContentType = file.ContentType,

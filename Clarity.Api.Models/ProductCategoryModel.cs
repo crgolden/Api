@@ -9,6 +9,14 @@
 
         public string ProductName { get; set; }
 
+        public bool ProductActive { get; set; }
+
+        public bool ProductIsDownload { get; set; }
+
+        public string ProductQuantityPerUnit { get; set; }
+
+        public decimal ProductUnitPrice { get; set; }
+
         public Guid CategoryId { get; set; }
 
         public string CategoryName { get; set; }

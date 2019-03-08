@@ -42,6 +42,7 @@
                 .AddSingleton<IPaymentService, StripePaymentService>()
                 .AddSingleton<IStorageService, AzureBlobStorageService>()
                 .AddSingleton<IAddressService, SmartyStreetsAddressService>()
+                .AddSingleton<IEmailService, SendGridEmailService>()
                 .AddSingleton<ITelemetryProcessorFactory>(sp => new SnapshotCollectorTelemetryProcessorFactory(sp))
                 .AddSingleton<IQueueClient, EmailQueueClient>()
                 .AddMediatR(assemblies: new[]
@@ -53,7 +54,6 @@
                 .AddAutoMapper(assemblies: new []
                 {
                     Assembly.Load("Clarity.Api.Profiles")
-
                 })
                 .AddCors()
                 .AddSwagger("Clarity-API", "v1");
@@ -69,7 +69,11 @@
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IOptions<CorsOptions> corsOptions)
+        public void Configure(
+            IApplicationBuilder app,
+            IHostingEnvironment env,
+            IMapper mapper,
+            IOptions<CorsOptions> corsOptions)
         {
             if (env.IsDevelopment())
             {
@@ -87,6 +91,8 @@
                 .UseCors(corsOptions.Value)
                 .UseSwagger("Clarity-API v1")
                 .UseMvcWithDefaultRoute();
+
+            mapper.ConfigurationProvider.AssertConfigurationIsValid();
         }
     }
 }

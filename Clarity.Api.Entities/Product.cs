@@ -16,7 +16,7 @@
 
         public Guid Id { get; private set; }
 
-        public bool Active { get; set; }
+        public bool Active { get; set; } = true;
 
         public string Description { get; set; }
 
@@ -26,15 +26,15 @@
 
         public string QuantityPerUnit { get; set; }
 
-        public int ReorderLevel { get; set; }
+        public int? ReorderLevel { get; set; }
 
         public string Sku { get; set; }
 
-        public int UnitsInStock { get; set; }
+        public int? UnitsInStock { get; set; }
 
         public decimal UnitPrice { get; set; }
 
-        public int UnitsOnOrder { get; set; }
+        public int? UnitsOnOrder { get; set; }
 
         public virtual IReadOnlyCollection<CartProduct> CartProducts => _cartProducts;
 

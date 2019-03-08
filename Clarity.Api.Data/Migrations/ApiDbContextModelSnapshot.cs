@@ -24,7 +24,9 @@ namespace Clarity.Api.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<DateTime?>("Updated");
 
@@ -45,7 +47,9 @@ namespace Clarity.Api.Migrations
 
                     b.Property<Guid>("ProductId");
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<decimal>("Quantity")
                         .HasColumnType("decimal(18,2)");
@@ -64,7 +68,9 @@ namespace Clarity.Api.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<string>("Description");
 
@@ -75,7 +81,68 @@ namespace Clarity.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Soft drinks, coffees, teas, beers, and ales",
+                            Name = "Beverages"
+                        },
+                        new
+                        {
+                            Id = new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Sweet and savory sauces, relishes, spreads, and seasonings",
+                            Name = "Condiments"
+                        },
+                        new
+                        {
+                            Id = new Guid("7030a699-7b00-4a85-aad6-61afea983df8"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Dried fruit and bean curd",
+                            Name = "Produce"
+                        },
+                        new
+                        {
+                            Id = new Guid("bb71e15b-4112-4b7e-8154-4400034f0463"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Prepared meats",
+                            Name = "Meat/Poultry"
+                        },
+                        new
+                        {
+                            Id = new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Seaweed and fish",
+                            Name = "Seafood"
+                        },
+                        new
+                        {
+                            Id = new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Cheeses",
+                            Name = "Dairy Products"
+                        },
+                        new
+                        {
+                            Id = new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Desserts, candies, and sweet breads",
+                            Name = "Confections"
+                        },
+                        new
+                        {
+                            Id = new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Breads, crackers, pasta, and cereal",
+                            Name = "Grains/Cereals"
+                        });
                 });
 
             modelBuilder.Entity("Clarity.Api.File", b =>
@@ -85,7 +152,9 @@ namespace Clarity.Api.Migrations
 
                     b.Property<string>("ContentType");
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -97,6 +166,9 @@ namespace Clarity.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Uri")
+                        .IsUnique();
+
                     b.ToTable("Files");
 
                     b.HasData(
@@ -104,7 +176,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("d2f2a7a5-4b94-4b72-b0ec-18a564fccccc"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9114),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "1.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/d2f2a7a5-4b94-4b72-b0ec-18a564fccccc.jpg"
                         },
@@ -112,7 +184,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("42a2d6b3-5926-4b53-9171-0107220e1630"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9177),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "2.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/42a2d6b3-5926-4b53-9171-0107220e1630.jpg"
                         },
@@ -120,7 +192,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("2c1d770a-57da-424a-9df8-d85851311db3"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9207),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "3.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/2c1d770a-57da-424a-9df8-d85851311db3.jpg"
                         },
@@ -128,7 +200,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("4398a5ea-4f57-405d-867a-9e2bb1192c6b"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9233),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "4.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/4398a5ea-4f57-405d-867a-9e2bb1192c6b.jpg"
                         },
@@ -136,7 +208,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("c91e0338-46be-4b35-b9cd-c544cb01f9fa"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9267),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "5.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/c91e0338-46be-4b35-b9cd-c544cb01f9fa.jpg"
                         },
@@ -144,7 +216,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("4ed920d3-dd38-44e1-8c81-ad92e215585a"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9297),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "6.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/4ed920d3-dd38-44e1-8c81-ad92e215585a.jpg"
                         },
@@ -152,7 +224,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("2b1124af-bc6b-4a88-9089-0b0f513c495c"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9327),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "7.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/2b1124af-bc6b-4a88-9089-0b0f513c495c.jpg"
                         },
@@ -160,7 +232,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("cfdea2bf-c57e-4545-99a3-ebd7dec888ef"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9358),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "8.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/cfdea2bf-c57e-4545-99a3-ebd7dec888ef.jpg"
                         },
@@ -168,7 +240,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("c3c9670e-53af-4935-8951-c986aad21b6a"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9386),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "9.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/c3c9670e-53af-4935-8951-c986aad21b6a.jpg"
                         },
@@ -176,7 +248,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("6ceef0fb-9da6-42a4-b23e-5a1d32abbb59"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9409),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "10.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/6ceef0fb-9da6-42a4-b23e-5a1d32abbb59.jpg"
                         },
@@ -184,7 +256,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("4edaa115-266c-43d8-8005-a5ee1abed2cf"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9428),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "11.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/4edaa115-266c-43d8-8005-a5ee1abed2cf.jpg"
                         },
@@ -192,7 +264,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("fd90ee79-6fa6-40ff-87da-30bdd6b9f064"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9448),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "12.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/fd90ee79-6fa6-40ff-87da-30bdd6b9f064.jpg"
                         },
@@ -200,7 +272,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("6345fbc1-b23c-44e0-b9d0-fa334a2fe584"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9465),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "13.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/6345fbc1-b23c-44e0-b9d0-fa334a2fe584.jpg"
                         },
@@ -208,7 +280,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("ce58fcba-e810-4bad-bb42-f1aac4d58242"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9479),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "14.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/ce58fcba-e810-4bad-bb42-f1aac4d58242.jpg"
                         },
@@ -216,7 +288,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("c1ccf7f1-f51b-4c5f-a67c-be6a87639c7c"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9491),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "15.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/c1ccf7f1-f51b-4c5f-a67c-be6a87639c7c.jpg"
                         },
@@ -224,7 +296,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("c2b2e3ee-0047-45b6-9e95-9f4ee51c5616"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9502),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "16.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/c2b2e3ee-0047-45b6-9e95-9f4ee51c5616.jpg"
                         },
@@ -232,7 +304,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("810b39bc-9f48-4144-b516-088e86701329"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9514),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "17.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/810b39bc-9f48-4144-b516-088e86701329.jpg"
                         },
@@ -240,7 +312,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("b8a28f1e-0799-4a17-a087-f95da8902f8d"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9539),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "18.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/b8a28f1e-0799-4a17-a087-f95da8902f8d.jpg"
                         },
@@ -248,7 +320,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("90267f43-731b-4cf0-adc5-17872bb3ea46"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9570),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "19.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/90267f43-731b-4cf0-adc5-17872bb3ea46.jpg"
                         },
@@ -256,7 +328,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("7b23a584-847a-453c-8777-80078952f74b"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9600),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "20.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/7b23a584-847a-453c-8777-80078952f74b.jpg"
                         },
@@ -264,7 +336,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("b2fbd4d3-e933-4aa7-b3ef-d7fd6cbd8e1c"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9627),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "21.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/b2fbd4d3-e933-4aa7-b3ef-d7fd6cbd8e1c.jpg"
                         },
@@ -272,7 +344,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("b188fc5c-0653-451e-a597-f9af8952ed70"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9658),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "22.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/b188fc5c-0653-451e-a597-f9af8952ed70.jpg"
                         },
@@ -280,7 +352,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("69af227f-e8f1-4c10-849c-551d71888bdd"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9688),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "23.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/69af227f-e8f1-4c10-849c-551d71888bdd.jpg"
                         },
@@ -288,7 +360,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("f3552e30-9ea3-4286-ab65-c0e72bca2348"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9717),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "24.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/f3552e30-9ea3-4286-ab65-c0e72bca2348.jpg"
                         },
@@ -296,7 +368,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("10439b59-147d-433f-ab6c-6794ebdb9ffa"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9747),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "25.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/10439b59-147d-433f-ab6c-6794ebdb9ffa.jpg"
                         },
@@ -304,7 +376,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("7a485726-06cf-4e0f-a501-0d310bcb17b8"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9759),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "26.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/7a485726-06cf-4e0f-a501-0d310bcb17b8.jpg"
                         },
@@ -312,7 +384,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("f486622b-f81b-4be5-b6b3-c6b88f8f36f3"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9771),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "27.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/f486622b-f81b-4be5-b6b3-c6b88f8f36f3.jpg"
                         },
@@ -320,7 +392,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("0349d2ec-9650-41d2-acac-1202f44611b9"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9786),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "28.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/0349d2ec-9650-41d2-acac-1202f44611b9.jpg"
                         },
@@ -328,7 +400,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("3824d42b-f808-47ec-b2a2-93d9c4e7840c"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9803),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "29.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/3824d42b-f808-47ec-b2a2-93d9c4e7840c.jpg"
                         },
@@ -336,7 +408,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("7c0c8cd3-d692-459d-957e-c38ce2a168fa"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9821),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "30.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/7c0c8cd3-d692-459d-957e-c38ce2a168fa.jpg"
                         },
@@ -344,7 +416,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("ec0ca3b9-e69f-48c9-94bc-289fcad8288b"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9841),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "31.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/ec0ca3b9-e69f-48c9-94bc-289fcad8288b.jpg"
                         },
@@ -352,7 +424,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("40bd2298-9f86-4b03-8d26-6dfc2b1a1fb0"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9855),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "32.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/40bd2298-9f86-4b03-8d26-6dfc2b1a1fb0.jpg"
                         },
@@ -360,7 +432,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("7f2de31f-b45c-42e3-9169-e540e632ec09"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9870),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "33.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/7f2de31f-b45c-42e3-9169-e540e632ec09.jpg"
                         },
@@ -368,7 +440,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("f76c4cb2-4233-42c9-9e86-cb77b8e80498"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9883),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "34.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/f76c4cb2-4233-42c9-9e86-cb77b8e80498.jpg"
                         },
@@ -376,7 +448,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("5f72d5b6-0387-451b-b897-e1d97a4d899a"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9895),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "35.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/5f72d5b6-0387-451b-b897-e1d97a4d899a.jpg"
                         },
@@ -384,7 +456,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("5032feb1-d204-4748-a275-b2b171e0e28f"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9907),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "36.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/5032feb1-d204-4748-a275-b2b171e0e28f.jpg"
                         },
@@ -392,7 +464,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("6587d819-c4e5-47a5-b734-15c9b65b0c75"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9918),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "37.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/6587d819-c4e5-47a5-b734-15c9b65b0c75.jpg"
                         },
@@ -400,7 +472,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("c4645bbe-a6ea-4788-b018-b5012deb5910"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9931),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "38.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/c4645bbe-a6ea-4788-b018-b5012deb5910.jpg"
                         },
@@ -408,7 +480,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("2c279d1c-5583-4b37-a57a-ee353eca4209"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9943),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "39.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/2c279d1c-5583-4b37-a57a-ee353eca4209.jpg"
                         },
@@ -416,7 +488,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("4dfe104a-e281-4c4f-b4cb-cb5880e055c0"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9961),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "40.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/4dfe104a-e281-4c4f-b4cb-cb5880e055c0.jpg"
                         },
@@ -424,7 +496,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("0dcaf98a-fd3e-4112-9fda-3fa7da1ad290"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 654, DateTimeKind.Local).AddTicks(9985),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "41.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/0dcaf98a-fd3e-4112-9fda-3fa7da1ad290.jpg"
                         },
@@ -432,7 +504,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("ef8eb060-d1a6-4b66-a4ca-638977527a15"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(1),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "42.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/ef8eb060-d1a6-4b66-a4ca-638977527a15.jpg"
                         },
@@ -440,7 +512,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("1a6ef266-ab6f-4a01-966f-a19f26486bc8"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(24),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "43.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/1a6ef266-ab6f-4a01-966f-a19f26486bc8.jpg"
                         },
@@ -448,7 +520,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("c9d92c74-07be-4ab4-9e8e-6293bfb4c530"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(44),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "44.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/c9d92c74-07be-4ab4-9e8e-6293bfb4c530.jpg"
                         },
@@ -456,7 +528,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("968a4281-a54e-4397-8304-5ad1c471590e"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(59),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "45.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/968a4281-a54e-4397-8304-5ad1c471590e.jpg"
                         },
@@ -464,7 +536,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("1fa60ef2-2d80-468e-88ed-f1ba3c8bfe96"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(77),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "46.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/1fa60ef2-2d80-468e-88ed-f1ba3c8bfe96.jpg"
                         },
@@ -472,7 +544,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("12b70183-6634-419f-9fe8-4e9982bf84c4"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(95),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "47.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/12b70183-6634-419f-9fe8-4e9982bf84c4.jpg"
                         },
@@ -480,7 +552,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("1eb79abb-84bc-41c8-9978-92cae1f2b6d2"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(112),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "48.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/1eb79abb-84bc-41c8-9978-92cae1f2b6d2.jpg"
                         },
@@ -488,7 +560,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("b589c46f-9572-4088-ba25-a5f67364b2ec"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(129),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "49.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/b589c46f-9572-4088-ba25-a5f67364b2ec.jpg"
                         },
@@ -496,7 +568,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("e0403ce3-cf8d-48d3-8a21-0af39c40ddee"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(144),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "50.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/e0403ce3-cf8d-48d3-8a21-0af39c40ddee.jpg"
                         },
@@ -504,7 +576,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("771cd746-df18-4b3d-b7a3-68d426fe7bb9"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(163),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "51.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/771cd746-df18-4b3d-b7a3-68d426fe7bb9.jpg"
                         },
@@ -512,7 +584,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("c9cc388f-6645-4c31-b19c-f566ee06c0dc"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(182),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "52.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/c9cc388f-6645-4c31-b19c-f566ee06c0dc.jpg"
                         },
@@ -520,7 +592,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("a8189d9d-7185-4c2c-bf48-f0cc797a2acc"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(203),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "53.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/a8189d9d-7185-4c2c-bf48-f0cc797a2acc.jpg"
                         },
@@ -528,7 +600,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("c68ebcdd-7cc3-45a0-b088-29dc950dae60"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(222),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "54.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/c68ebcdd-7cc3-45a0-b088-29dc950dae60.jpg"
                         },
@@ -536,7 +608,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("8703e152-aeaa-43f4-b607-3b803f6ab773"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(239),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "55.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/8703e152-aeaa-43f4-b607-3b803f6ab773.jpg"
                         },
@@ -544,7 +616,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("212c48d4-38ef-42b3-951b-2a7dda0a0746"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(259),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "56.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/212c48d4-38ef-42b3-951b-2a7dda0a0746.jpg"
                         },
@@ -552,7 +624,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("d28c4f4f-6048-4a93-a47a-d7db0c81a27a"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(276),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "57.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/d28c4f4f-6048-4a93-a47a-d7db0c81a27a.jpg"
                         },
@@ -560,7 +632,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("cdac7720-9734-4bf5-ab33-71cc0f3ee070"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(293),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "58.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/cdac7720-9734-4bf5-ab33-71cc0f3ee070.jpg"
                         },
@@ -568,7 +640,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("4f71a1f9-bf6f-4653-ae85-a6dad07b80e6"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(312),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "59.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/4f71a1f9-bf6f-4653-ae85-a6dad07b80e6.jpg"
                         },
@@ -576,7 +648,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("07a598e1-3a67-4416-a030-30d734ac227d"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(687),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "60.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/07a598e1-3a67-4416-a030-30d734ac227d.jpg"
                         },
@@ -584,7 +656,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("8d12d30e-899e-4533-8faa-11716affdefe"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(709),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "61.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/8d12d30e-899e-4533-8faa-11716affdefe.jpg"
                         },
@@ -592,7 +664,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("910d6beb-4de9-43f6-a2a9-da0a01687ed5"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(729),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "62.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/910d6beb-4de9-43f6-a2a9-da0a01687ed5.jpg"
                         },
@@ -600,7 +672,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("4fcf050a-4543-4878-9986-0db258095b97"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(744),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "63.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/4fcf050a-4543-4878-9986-0db258095b97.jpg"
                         },
@@ -608,7 +680,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("1847baf5-dc0e-486d-af0b-bd0b23806205"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(763),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "64.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/1847baf5-dc0e-486d-af0b-bd0b23806205.jpg"
                         },
@@ -616,7 +688,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("ab17abc1-5491-4d6e-8974-fce35bb1159f"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(779),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "65.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/ab17abc1-5491-4d6e-8974-fce35bb1159f.jpg"
                         },
@@ -624,7 +696,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("457f9796-7574-4c71-8d62-a70878441981"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(796),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "66.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/457f9796-7574-4c71-8d62-a70878441981.jpg"
                         },
@@ -632,7 +704,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("511dd9c9-ed5b-43a9-881a-1daeea1429be"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(810),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "67.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/511dd9c9-ed5b-43a9-881a-1daeea1429be.jpg"
                         },
@@ -640,7 +712,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("006a056d-33ad-4b0b-9169-3a6d02df6993"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(831),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "68.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/006a056d-33ad-4b0b-9169-3a6d02df6993.jpg"
                         },
@@ -648,7 +720,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("307bdfc8-0142-4371-a6da-9383a2bb5daf"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(853),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "69.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/307bdfc8-0142-4371-a6da-9383a2bb5daf.jpg"
                         },
@@ -656,7 +728,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("9769498b-8cae-4e37-863b-379e77cfef1e"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(882),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "70.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/9769498b-8cae-4e37-863b-379e77cfef1e.jpg"
                         },
@@ -664,7 +736,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("b4ecc589-9e7f-4d00-bc93-4d87e97441fb"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(911),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "71.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/b4ecc589-9e7f-4d00-bc93-4d87e97441fb.jpg"
                         },
@@ -672,7 +744,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("80d595ef-d82c-4c55-a4bd-60b29d4953e9"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(937),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "72.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/80d595ef-d82c-4c55-a4bd-60b29d4953e9.jpg"
                         },
@@ -680,7 +752,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("681ffa4f-6d3b-460c-be10-a8376eb7bb15"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(969),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "73.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/681ffa4f-6d3b-460c-be10-a8376eb7bb15.jpg"
                         },
@@ -688,7 +760,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("183f872c-1a26-4f44-ac02-63cba826ff59"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(997),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "74.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/183f872c-1a26-4f44-ac02-63cba826ff59.jpg"
                         },
@@ -696,7 +768,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("0bb3fdf1-c58f-4840-8353-97141312244f"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(1026),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "75.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/0bb3fdf1-c58f-4840-8353-97141312244f.jpg"
                         },
@@ -704,7 +776,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("1fc5ad0e-91cf-4fcd-afcc-73a51bd94905"),
                             ContentType = "image/jpeg",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 655, DateTimeKind.Local).AddTicks(1056),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "76.jpg",
                             Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/1fc5ad0e-91cf-4fcd-afcc-73a51bd94905.jpg"
                         });
@@ -715,7 +787,9 @@ namespace Clarity.Api.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<int>("Number")
                         .ValueGeneratedOnAdd()
@@ -725,6 +799,9 @@ namespace Clarity.Api.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("Tax")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("Updated");
@@ -742,36 +819,41 @@ namespace Clarity.Api.Migrations
                         new
                         {
                             Id = new Guid("6dadb928-e9ed-4115-a2db-f0eff0f4cf8f"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 769, DateTimeKind.Local).AddTicks(7944),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Number = 0,
+                            Total = 412m,
                             UserId = new Guid("2ce77433-a490-4514-a8ae-344658d29d5f")
                         },
                         new
                         {
                             Id = new Guid("c81ac9bb-6f43-48db-8e01-0986f9d697de"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 769, DateTimeKind.Local).AddTicks(7993),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Number = 0,
+                            Total = 959.00m,
                             UserId = new Guid("c3a3042a-5516-448a-8895-ce361b5d0ab8")
                         },
                         new
                         {
                             Id = new Guid("7193023b-bdba-4c89-b568-a2f2f55e2c92"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 769, DateTimeKind.Local).AddTicks(8016),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Number = 0,
+                            Total = 2982m,
                             UserId = new Guid("8bc6860d-3efe-4e27-b840-0c0706a07ca7")
                         },
                         new
                         {
                             Id = new Guid("91f088b7-c393-42e1-817d-aadf3da1a892"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 769, DateTimeKind.Local).AddTicks(8034),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Number = 0,
+                            Total = 2214m,
                             UserId = new Guid("b34f9a23-51a8-46e7-9a2c-5930d9423afb")
                         },
                         new
                         {
                             Id = new Guid("cceaf62f-f10d-4039-980a-0e8ea09f17f4"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 769, DateTimeKind.Local).AddTicks(8060),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Number = 0,
+                            Total = 1205.00m,
                             UserId = new Guid("6dadb928-e9ed-4115-a2db-f0eff0f4cf8f")
                         });
                 });
@@ -782,7 +864,9 @@ namespace Clarity.Api.Migrations
 
                     b.Property<Guid>("ProductId");
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<decimal>("Quantity")
                         .HasColumnType("decimal(18,2)");
@@ -800,105 +884,105 @@ namespace Clarity.Api.Migrations
                         {
                             OrderId = new Guid("6dadb928-e9ed-4115-a2db-f0eff0f4cf8f"),
                             ProductId = new Guid("dbcb5421-8b2e-48a7-b60f-5cecb118fc69"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 809, DateTimeKind.Local).AddTicks(4924),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Quantity = 8m
                         },
                         new
                         {
                             OrderId = new Guid("6dadb928-e9ed-4115-a2db-f0eff0f4cf8f"),
                             ProductId = new Guid("c59dbf6f-9378-4bad-9196-d8051cc5a6bf"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 809, DateTimeKind.Local).AddTicks(8445),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Quantity = 12m
                         },
                         new
                         {
                             OrderId = new Guid("6dadb928-e9ed-4115-a2db-f0eff0f4cf8f"),
                             ProductId = new Guid("71ffe75c-9832-4f6c-8c26-cb7343c8bc15"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 810, DateTimeKind.Local).AddTicks(122),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Quantity = 4m
                         },
                         new
                         {
                             OrderId = new Guid("c81ac9bb-6f43-48db-8e01-0986f9d697de"),
                             ProductId = new Guid("0c201103-a52f-4e2c-b235-fb553e0b3942"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 810, DateTimeKind.Local).AddTicks(2179),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Quantity = 6m
                         },
                         new
                         {
                             OrderId = new Guid("c81ac9bb-6f43-48db-8e01-0986f9d697de"),
                             ProductId = new Guid("54a0644c-9fac-4bdb-944c-d1f55e638cdc"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 810, DateTimeKind.Local).AddTicks(4054),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Quantity = 20m
                         },
                         new
                         {
                             OrderId = new Guid("c81ac9bb-6f43-48db-8e01-0986f9d697de"),
                             ProductId = new Guid("2b7140e8-86f1-4602-95a1-2335fa3e3cc9"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 810, DateTimeKind.Local).AddTicks(5287),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Quantity = 16m
                         },
                         new
                         {
                             OrderId = new Guid("7193023b-bdba-4c89-b568-a2f2f55e2c92"),
                             ProductId = new Guid("3235c9ab-c613-4136-b602-f8bcb6fda51e"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 810, DateTimeKind.Local).AddTicks(6548),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Quantity = 2m
                         },
                         new
                         {
                             OrderId = new Guid("7193023b-bdba-4c89-b568-a2f2f55e2c92"),
                             ProductId = new Guid("a9765975-2f58-4489-be32-065ca6c01019"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 810, DateTimeKind.Local).AddTicks(7760),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Quantity = 10m
                         },
                         new
                         {
                             OrderId = new Guid("7193023b-bdba-4c89-b568-a2f2f55e2c92"),
                             ProductId = new Guid("c3253f25-1310-44b5-b2e9-13553f005995"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 810, DateTimeKind.Local).AddTicks(9066),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Quantity = 26m
                         },
                         new
                         {
                             OrderId = new Guid("91f088b7-c393-42e1-817d-aadf3da1a892"),
                             ProductId = new Guid("96ee285e-78a6-4d61-9b41-7de1c15b47dc"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 811, DateTimeKind.Local).AddTicks(670),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Quantity = 48m
                         },
                         new
                         {
                             OrderId = new Guid("91f088b7-c393-42e1-817d-aadf3da1a892"),
                             ProductId = new Guid("1fe10cde-3ad6-4995-888b-18e4ff3f0bba"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 811, DateTimeKind.Local).AddTicks(1843),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Quantity = 2m
                         },
                         new
                         {
                             OrderId = new Guid("91f088b7-c393-42e1-817d-aadf3da1a892"),
                             ProductId = new Guid("ad663ab9-961e-453c-89f6-a6d368423097"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 811, DateTimeKind.Local).AddTicks(4331),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Quantity = 18m
                         },
                         new
                         {
                             OrderId = new Guid("cceaf62f-f10d-4039-980a-0e8ea09f17f4"),
                             ProductId = new Guid("d592c3c5-9d21-4d73-b551-e452f8b18331"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 811, DateTimeKind.Local).AddTicks(6394),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Quantity = 20m
                         },
                         new
                         {
                             OrderId = new Guid("cceaf62f-f10d-4039-980a-0e8ea09f17f4"),
                             ProductId = new Guid("f446cbb4-cb33-4599-94e3-c8faea72c178"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 811, DateTimeKind.Local).AddTicks(8255),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Quantity = 36m
                         },
                         new
                         {
                             OrderId = new Guid("cceaf62f-f10d-4039-980a-0e8ea09f17f4"),
                             ProductId = new Guid("50b5f7da-2c36-40b0-ac7f-2b8c898f7f8b"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 812, DateTimeKind.Local).AddTicks(265),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Quantity = 16m
                         });
                 });
@@ -913,7 +997,9 @@ namespace Clarity.Api.Migrations
 
                     b.Property<string>("ChargeId");
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<string>("Currency")
                         .IsRequired();
@@ -944,7 +1030,7 @@ namespace Clarity.Api.Migrations
                             Id = new Guid("bf1f6be6-a662-49b7-b1ff-df80d6328b1b"),
                             Amount = 206m,
                             ChargeId = "7D327AC2-8F8A-406B-A8F5-F68148B0D065",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 788, DateTimeKind.Local).AddTicks(4342),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Currency = "USD",
                             CustomerCode = "097B52D8-34E6-4940-BD11-B7F7A0CC6D48",
                             OrderId = new Guid("6dadb928-e9ed-4115-a2db-f0eff0f4cf8f"),
@@ -956,7 +1042,7 @@ namespace Clarity.Api.Migrations
                             Id = new Guid("bb33204d-4fc6-41be-adaf-371e39a589a6"),
                             Amount = 206m,
                             ChargeId = "FC3F98C9-2A6E-4358-A467-B6AFAF1F2863",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 789, DateTimeKind.Local).AddTicks(5651),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Currency = "USD",
                             CustomerCode = "4877A522-EEEC-4E1C-8E9E-5B799BC179D2",
                             OrderId = new Guid("6dadb928-e9ed-4115-a2db-f0eff0f4cf8f"),
@@ -968,7 +1054,7 @@ namespace Clarity.Api.Migrations
                             Id = new Guid("ad89c796-8c77-425c-8d83-0cd02cf930fd"),
                             Amount = 479.50m,
                             ChargeId = "9E9C000B-F9FC-4192-9A38-80166B9CA9FB",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 789, DateTimeKind.Local).AddTicks(8775),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Currency = "USD",
                             CustomerCode = "7C2628DA-CF13-4055-BE71-1711191DA921",
                             OrderId = new Guid("c81ac9bb-6f43-48db-8e01-0986f9d697de"),
@@ -980,7 +1066,7 @@ namespace Clarity.Api.Migrations
                             Id = new Guid("9a50ee25-3d3c-4cfe-ba45-cc0fc9869e35"),
                             Amount = 479.50m,
                             ChargeId = "076A81EB-5A44-4703-A6FA-D9056CF9F0A7",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 790, DateTimeKind.Local).AddTicks(1708),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Currency = "USD",
                             CustomerCode = "3AB09185-61E0-4A90-9745-EA2554B4B1F0",
                             OrderId = new Guid("c81ac9bb-6f43-48db-8e01-0986f9d697de"),
@@ -992,7 +1078,7 @@ namespace Clarity.Api.Migrations
                             Id = new Guid("ec33f601-e37d-4025-84dc-1abd348da4e8"),
                             Amount = 1491m,
                             ChargeId = "F2BA9195-EECE-4C9F-9B7C-E6D568E428C0",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 790, DateTimeKind.Local).AddTicks(4531),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Currency = "USD",
                             CustomerCode = "B0922424-DAAA-4BD8-9EA3-77EA51AF0CDC",
                             OrderId = new Guid("7193023b-bdba-4c89-b568-a2f2f55e2c92"),
@@ -1004,7 +1090,7 @@ namespace Clarity.Api.Migrations
                             Id = new Guid("9ffe2a32-cacb-4e8e-9bc1-b1ebe2b79f7f"),
                             Amount = 1491m,
                             ChargeId = "02CB9445-BD75-4FE3-A5C4-066C0C082E1A",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 790, DateTimeKind.Local).AddTicks(6720),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Currency = "USD",
                             CustomerCode = "EB1CB200-2EEB-4926-AFC2-5C52B4C8B84A",
                             OrderId = new Guid("7193023b-bdba-4c89-b568-a2f2f55e2c92"),
@@ -1016,7 +1102,7 @@ namespace Clarity.Api.Migrations
                             Id = new Guid("671e6f92-d37b-4491-9539-ed8d68c4c4eb"),
                             Amount = 1107m,
                             ChargeId = "25F2AA01-C5F0-4490-8ED9-6B4751E68630",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 790, DateTimeKind.Local).AddTicks(9112),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Currency = "USD",
                             CustomerCode = "7F4A4D1B-71C4-46FE-AE20-294747455DC5",
                             OrderId = new Guid("91f088b7-c393-42e1-817d-aadf3da1a892"),
@@ -1028,7 +1114,7 @@ namespace Clarity.Api.Migrations
                             Id = new Guid("b10118d8-7c9d-48ef-9dfb-dd782246d937"),
                             Amount = 1107m,
                             ChargeId = "2806DC54-1EA1-443F-BCCF-3779C39BDBB5",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 791, DateTimeKind.Local).AddTicks(1765),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Currency = "USD",
                             CustomerCode = "7849EAB2-8A94-4216-A016-EA9851C98072",
                             OrderId = new Guid("91f088b7-c393-42e1-817d-aadf3da1a892"),
@@ -1040,7 +1126,7 @@ namespace Clarity.Api.Migrations
                             Id = new Guid("3e94d6b6-61eb-46ae-9b49-f0759f02b1a9"),
                             Amount = 602.50m,
                             ChargeId = "89E0D67B-137F-49DD-A885-85C2DEBE5A1C",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 792, DateTimeKind.Local).AddTicks(2926),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Currency = "USD",
                             CustomerCode = "8CAFD586-740C-44CB-B238-BC23BB835782",
                             OrderId = new Guid("cceaf62f-f10d-4039-980a-0e8ea09f17f4"),
@@ -1052,7 +1138,7 @@ namespace Clarity.Api.Migrations
                             Id = new Guid("f9f1c58b-c77f-4c0f-bf70-4259f9f9386c"),
                             Amount = 602.50m,
                             ChargeId = "DF2954AA-04AB-47D7-8E9F-17A7D55B6043",
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 792, DateTimeKind.Local).AddTicks(6710),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Currency = "USD",
                             CustomerCode = "D8F88682-B3F6-4786-A7E0-327C9817A9E7",
                             OrderId = new Guid("cceaf62f-f10d-4039-980a-0e8ea09f17f4"),
@@ -1068,7 +1154,9 @@ namespace Clarity.Api.Migrations
 
                     b.Property<bool>("Active");
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<string>("Description");
 
@@ -1079,16 +1167,16 @@ namespace Clarity.Api.Migrations
                     b.Property<string>("QuantityPerUnit")
                         .IsRequired();
 
-                    b.Property<int>("ReorderLevel");
+                    b.Property<int?>("ReorderLevel");
 
                     b.Property<string>("Sku");
 
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UnitsInStock");
+                    b.Property<int?>("UnitsInStock");
 
-                    b.Property<int>("UnitsOnOrder");
+                    b.Property<int?>("UnitsOnOrder");
 
                     b.Property<DateTime?>("Updated");
 
@@ -1109,7 +1197,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("dbcb5421-8b2e-48a7-b60f-5cecb118fc69"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 474, DateTimeKind.Local).AddTicks(3646),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Chai",
                             QuantityPerUnit = "10 boxes x 20 bags",
@@ -1122,7 +1210,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("c59dbf6f-9378-4bad-9196-d8051cc5a6bf"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7375),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Chang",
                             QuantityPerUnit = "24 - 12 oz bottles",
@@ -1135,7 +1223,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("71ffe75c-9832-4f6c-8c26-cb7343c8bc15"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7501),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Aniseed Syrup",
                             QuantityPerUnit = "12 - 550 ml bottles",
@@ -1148,7 +1236,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("0c201103-a52f-4e2c-b235-fb553e0b3942"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7521),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Chef Anton's Cajun Seasoning",
                             QuantityPerUnit = "48 - 6 oz jars",
@@ -1161,7 +1249,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("54a0644c-9fac-4bdb-944c-d1f55e638cdc"),
                             Active = false,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7534),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Chef Anton's Gumbo Mix",
                             QuantityPerUnit = "36 boxes",
@@ -1174,7 +1262,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("2b7140e8-86f1-4602-95a1-2335fa3e3cc9"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7549),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Grandma's Boysenberry Spread",
                             QuantityPerUnit = "12 - 8 oz jars",
@@ -1187,7 +1275,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("3235c9ab-c613-4136-b602-f8bcb6fda51e"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7583),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Uncle Bob's Organic Dried Pears",
                             QuantityPerUnit = "12 - 1 lb pkgs.",
@@ -1200,7 +1288,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("a9765975-2f58-4489-be32-065ca6c01019"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7598),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Northwoods Cranberry Sauce",
                             QuantityPerUnit = "12 - 12 oz jars",
@@ -1213,7 +1301,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("c3253f25-1310-44b5-b2e9-13553f005995"),
                             Active = false,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7610),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Mishi Kobe Niku",
                             QuantityPerUnit = "18 - 500 g pkgs.",
@@ -1226,7 +1314,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("96ee285e-78a6-4d61-9b41-7de1c15b47dc"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7639),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Ikura",
                             QuantityPerUnit = "12 - 200 ml jars",
@@ -1239,7 +1327,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("1fe10cde-3ad6-4995-888b-18e4ff3f0bba"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7659),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Queso Cabrales",
                             QuantityPerUnit = "1 kg pkg.",
@@ -1252,7 +1340,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("ad663ab9-961e-453c-89f6-a6d368423097"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7672),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Queso Manchego La Pastora",
                             QuantityPerUnit = "10 - 500 g pkgs.",
@@ -1265,7 +1353,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("d592c3c5-9d21-4d73-b551-e452f8b18331"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7686),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Konbu",
                             QuantityPerUnit = "2 kg box",
@@ -1278,7 +1366,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("f446cbb4-cb33-4599-94e3-c8faea72c178"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7701),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Tofu",
                             QuantityPerUnit = "40 - 100 g pkgs.",
@@ -1291,7 +1379,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("50b5f7da-2c36-40b0-ac7f-2b8c898f7f8b"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7719),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Genen Shouyu",
                             QuantityPerUnit = "24 - 250 ml bottles",
@@ -1304,7 +1392,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("4943b208-7656-4b34-a0ee-28af101d88cb"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7735),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Pavlova",
                             QuantityPerUnit = "32 - 500 g boxes",
@@ -1317,7 +1405,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("8f981368-9384-4112-97f1-897cbb45d5d9"),
                             Active = false,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7748),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Alice Mutton",
                             QuantityPerUnit = "20 - 1 kg tins",
@@ -1330,7 +1418,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("7dd0c948-18ca-46a9-a039-93cc513f8866"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7762),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Carnarvon Tigers",
                             QuantityPerUnit = "16 kg pkg.",
@@ -1343,7 +1431,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("115a8153-a552-445f-a288-ca2b65505ec0"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7777),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Teatime Chocolate Biscuits",
                             QuantityPerUnit = "10 boxes x 12 pieces",
@@ -1356,7 +1444,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("c2f164eb-c057-4d41-9f13-34deedf095a7"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7799),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Sir Rodney's Marmalade",
                             QuantityPerUnit = "30 gift boxes",
@@ -1369,7 +1457,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("e8219e12-e38b-4a42-9ee7-30383d3b10a0"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7830),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Sir Rodney's Scones",
                             QuantityPerUnit = "24 pkgs. x 4 pieces",
@@ -1382,7 +1470,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("092c5d2d-0b92-44ee-9a66-2299edd4c481"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7844),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Gustaf's Knäckebröd",
                             QuantityPerUnit = "24 - 500 g pkgs.",
@@ -1395,7 +1483,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("a9e9919a-b904-4a15-9896-d5272425a051"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7875),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Tunnbröd",
                             QuantityPerUnit = "12 - 250 g pkgs.",
@@ -1408,7 +1496,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("5beb274b-0c04-4ded-8ab2-30a5ef308908"),
                             Active = false,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7895),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Guaraná Fantástica",
                             QuantityPerUnit = "12 - 355 ml cans",
@@ -1421,7 +1509,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("a88e13f6-b13f-4919-8ba1-2c09ff303180"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(7919),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "NuNuCa Nuß-Nougat-Creme",
                             QuantityPerUnit = "20 - 450 g glasses",
@@ -1434,7 +1522,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("c9a7a661-f78f-468a-adf7-bb9d174ad2e6"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8068),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Gumbär Gummibärchen",
                             QuantityPerUnit = "100 - 250 g bags",
@@ -1447,7 +1535,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("526cf57b-827c-4c97-baea-7ddf4bdea1cc"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8091),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Schoggi Schokolade",
                             QuantityPerUnit = "100 - 100 g pieces",
@@ -1460,7 +1548,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("e84b6e4d-5255-42fd-ae73-96255baaa720"),
                             Active = false,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8112),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Rössle Sauerkraut",
                             QuantityPerUnit = "25 - 825 g cans",
@@ -1473,7 +1561,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("baac6e9a-c4ed-4505-9ba6-26c84b3ddc58"),
                             Active = false,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8128),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Thüringer Rostbratwurst",
                             QuantityPerUnit = "50 bags x 30 sausgs.",
@@ -1486,7 +1574,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("c5943fc7-0fa2-4fa2-b190-8bf5930cd3f0"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8155),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Nord-Ost Matjeshering",
                             QuantityPerUnit = "10 - 200 g glasses",
@@ -1499,7 +1587,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("24e59514-5d0f-4361-b91d-40bbe3d75161"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8181),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Gorgonzola Telino",
                             QuantityPerUnit = "12 - 100 g pkgs",
@@ -1512,7 +1600,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("601dd021-51c6-4fda-9149-d885aceeb881"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8214),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Mascarpone Fabioli",
                             QuantityPerUnit = "24 - 200 g pkgs.",
@@ -1525,7 +1613,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("943e1552-1a57-49cb-8a25-e0c8307d14e7"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8246),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Geitost",
                             QuantityPerUnit = "500 g",
@@ -1538,7 +1626,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("2e78c55e-93ac-4c85-9e15-966d4e7f60de"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8278),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Sasquatch Ale",
                             QuantityPerUnit = "24 - 12 oz bottles",
@@ -1551,7 +1639,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("4951197e-4bbd-43df-938f-ed51d9e0a155"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8307),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Steeleye Stout",
                             QuantityPerUnit = "24 - 12 oz bottles",
@@ -1564,7 +1652,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("7419ba70-98a2-4f99-9a4e-a2784d865197"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8342),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Inlagd Sill",
                             QuantityPerUnit = "24 - 250 g  jars",
@@ -1577,7 +1665,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("75b79c13-fd6e-413c-9bc7-058f637dd5d7"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8376),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Gravad lax",
                             QuantityPerUnit = "12 - 500 g pkgs.",
@@ -1590,7 +1678,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("fa56cdca-9686-4b65-b2b7-4cd17f049178"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8410),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Côte de Blaye",
                             QuantityPerUnit = "12 - 75 cl bottles",
@@ -1603,7 +1691,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("792b499c-12c8-4097-87a7-9daf21f9c850"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8444),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Chartreuse verte",
                             QuantityPerUnit = "750 cc per bottle",
@@ -1616,7 +1704,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("bbd80bd0-356c-4da8-871f-e985b064bad0"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8470),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Boston Crab Meat",
                             QuantityPerUnit = "24 - 4 oz tins",
@@ -1629,7 +1717,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("f8c165f6-cced-46c7-b976-df3a6e4c0c24"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8491),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Jack's New England Clam Chowder",
                             QuantityPerUnit = "12 - 12 oz cans",
@@ -1642,7 +1730,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("ba6cf67f-2621-4292-97c6-adb6677f6c9c"),
                             Active = false,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8513),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Singaporean Hokkien Fried Mee",
                             QuantityPerUnit = "32 - 1 kg pkgs.",
@@ -1655,7 +1743,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("591c3e46-be08-44f2-9722-c295cc9d8591"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8531),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Ipoh Coffee",
                             QuantityPerUnit = "16 - 500 g tins",
@@ -1668,7 +1756,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("65bbc04c-242f-471a-8d40-c5bdeb9aee1c"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8549),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Gula Malacca",
                             QuantityPerUnit = "20 - 2 kg bags",
@@ -1681,7 +1769,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("53d6fb26-8e37-4665-b089-a28597c94751"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8564),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Rogede sild",
                             QuantityPerUnit = "1k pkg.",
@@ -1694,7 +1782,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("bdb95e44-52b3-4437-8e7a-6f2d9d1be9fd"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8579),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Spegesild",
                             QuantityPerUnit = "4 - 450 g glasses",
@@ -1707,7 +1795,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("3c1f3acc-01cf-4a28-aa77-90df94a6598d"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8595),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Zaanse koeken",
                             QuantityPerUnit = "10 - 4 oz boxes",
@@ -1720,7 +1808,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("aa78c2b1-ff9c-447f-a415-fb80cddac6b4"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8610),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Chocolade",
                             QuantityPerUnit = "10 pkgs.",
@@ -1733,7 +1821,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("4bdcfb51-9d36-4e9d-b43c-9a85e500e1ee"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8622),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Maxilaku",
                             QuantityPerUnit = "24 - 50 g pkgs.",
@@ -1746,7 +1834,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("ae77969b-1abb-4015-8229-38f6d4c7f4bc"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8633),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Valkoinen suklaa",
                             QuantityPerUnit = "12 - 100 g bars",
@@ -1759,7 +1847,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("76b61cac-7040-4288-b6ff-e99d09f10962"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8648),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Manjimup Dried Apples",
                             QuantityPerUnit = "50 - 300 g pkgs.",
@@ -1772,7 +1860,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("f93a5554-5e8c-4d72-a0b8-17a29230cb98"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8746),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Filo Mix",
                             QuantityPerUnit = "16 - 2 kg boxes",
@@ -1785,7 +1873,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("d88fe2f1-8dfa-49e3-b6b6-36ad136ddb47"),
                             Active = false,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8770),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Perth Pasties",
                             QuantityPerUnit = "48 pieces",
@@ -1798,7 +1886,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("c0eaea77-d109-4311-aa71-e5d2a6a4ad4d"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8790),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Tourtière",
                             QuantityPerUnit = "16 pies",
@@ -1811,7 +1899,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("36f89c97-344a-4f59-aa00-9f875b6593da"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8807),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Pâté chinois",
                             QuantityPerUnit = "24 boxes x 2 pies",
@@ -1824,7 +1912,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("7f57b1c1-1931-4263-a1f9-0a257f1c49b8"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8824),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Gnocchi di nonna Alice",
                             QuantityPerUnit = "24 - 250 g pkgs.",
@@ -1837,7 +1925,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("88911341-95bd-434d-ab35-e7b4a599199c"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8839),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Ravioli Angelo",
                             QuantityPerUnit = "24 - 250 g pkgs.",
@@ -1850,7 +1938,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("bbf389c8-ec1b-47f4-a00e-1ad7eca1c2ea"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8852),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Escargots de Bourgogne",
                             QuantityPerUnit = "24 pieces",
@@ -1863,7 +1951,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("fb0a5251-e0bd-49a2-b01e-8bee844618e7"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8865),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Raclette Courdavault",
                             QuantityPerUnit = "5 kg pkg.",
@@ -1876,7 +1964,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("f68e7b31-37ec-4260-b424-e7bd550ff9e3"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8883),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Camembert Pierrot",
                             QuantityPerUnit = "15 - 300 g rounds",
@@ -1889,7 +1977,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("6b4260a2-a9ea-4587-91e5-8385996b7355"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8905),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Sirop d'érable",
                             QuantityPerUnit = "24 - 500 ml bottles",
@@ -1902,7 +1990,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("e46f4c5d-363e-46bc-ac44-712e4457c2ca"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8925),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Tarte au sucre",
                             QuantityPerUnit = "48 pies",
@@ -1915,7 +2003,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("e97b2e87-9b2f-4b13-99c6-0005c7732155"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8944),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Vegie-spread",
                             QuantityPerUnit = "15 - 625 g jars",
@@ -1928,7 +2016,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("7b76c7ee-8ff4-4079-b46b-0edb67270246"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8956),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Wimmers gute Semmelknödel",
                             QuantityPerUnit = "20 bags x 4 pieces",
@@ -1941,7 +2029,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("3a111262-f6b1-4c2f-bc6e-a88737dc1e8c"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8969),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Louisiana Fiery Hot Pepper Sauce",
                             QuantityPerUnit = "32 - 8 oz bottles",
@@ -1954,7 +2042,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("6cb52a87-0690-446c-a23b-64c43ec8f0db"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8981),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Louisiana Hot Spiced Okra",
                             QuantityPerUnit = "24 - 8 oz jars",
@@ -1967,7 +2055,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("252f0916-6c20-4fd2-a5f4-7051881988f6"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(8997),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Laughing Lumberjack Lager",
                             QuantityPerUnit = "24 - 12 oz bottles",
@@ -1980,7 +2068,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("0d2c5b7d-8c6e-4399-a18d-c45cb2a59ba8"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(9016),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Scottish Longbreads",
                             QuantityPerUnit = "10 boxes x 8 pieces",
@@ -1993,7 +2081,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("30f6cf4f-6d99-425a-ba31-7e23f48783b6"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(9035),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Gudbrandsdalsost",
                             QuantityPerUnit = "10 kg pkg.",
@@ -2006,7 +2094,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("47e058ae-7a73-4c5e-a631-7c55b5b64c13"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(9057),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Outback Lager",
                             QuantityPerUnit = "24 - 355 ml bottles",
@@ -2019,7 +2107,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("7a12b5ab-1c99-496a-aaf3-d7a8062677f3"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(9075),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Flotemysost",
                             QuantityPerUnit = "10 - 500 g pkgs.",
@@ -2032,7 +2120,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("28aa496e-d877-4210-aa5f-481fdcfa4238"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(9093),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Mozzarella di Giovanni",
                             QuantityPerUnit = "24 - 200 g pkgs.",
@@ -2045,7 +2133,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("d9b8b94c-4865-4196-9ea6-e093c27e6666"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(9111),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Röd Kaviar",
                             QuantityPerUnit = "24 - 150 g jars",
@@ -2058,7 +2146,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("c5cdcb4e-cab0-44bf-b0ef-55929c79a591"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(9130),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Longlife Tofu",
                             QuantityPerUnit = "5 kg pkg.",
@@ -2071,7 +2159,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("9eb2d006-e87a-4d10-ae7f-e4ebb5e0b2e6"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(9151),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Rhönbräu Klosterbier",
                             QuantityPerUnit = "24 - 0.5 l bottles",
@@ -2084,7 +2172,7 @@ namespace Clarity.Api.Migrations
                         {
                             Id = new Guid("f2f72562-5a05-4ecb-8568-a12cffc4827f"),
                             Active = true,
-                            Created = new DateTime(2019, 2, 24, 4, 6, 30, 475, DateTimeKind.Local).AddTicks(9171),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDownload = false,
                             Name = "Lakkalikööri",
                             QuantityPerUnit = "500 ml",
@@ -2101,7 +2189,9 @@ namespace Clarity.Api.Migrations
 
                     b.Property<Guid>("CategoryId");
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<DateTime?>("Updated");
 
@@ -2110,6 +2200,464 @@ namespace Clarity.Api.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("ProductCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = new Guid("dbcb5421-8b2e-48a7-b60f-5cecb118fc69"),
+                            CategoryId = new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("c59dbf6f-9378-4bad-9196-d8051cc5a6bf"),
+                            CategoryId = new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("71ffe75c-9832-4f6c-8c26-cb7343c8bc15"),
+                            CategoryId = new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("0c201103-a52f-4e2c-b235-fb553e0b3942"),
+                            CategoryId = new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("54a0644c-9fac-4bdb-944c-d1f55e638cdc"),
+                            CategoryId = new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("2b7140e8-86f1-4602-95a1-2335fa3e3cc9"),
+                            CategoryId = new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("3235c9ab-c613-4136-b602-f8bcb6fda51e"),
+                            CategoryId = new Guid("7030a699-7b00-4a85-aad6-61afea983df8"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("a9765975-2f58-4489-be32-065ca6c01019"),
+                            CategoryId = new Guid("7030a699-7b00-4a85-aad6-61afea983df8"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("c3253f25-1310-44b5-b2e9-13553f005995"),
+                            CategoryId = new Guid("bb71e15b-4112-4b7e-8154-4400034f0463"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("96ee285e-78a6-4d61-9b41-7de1c15b47dc"),
+                            CategoryId = new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("1fe10cde-3ad6-4995-888b-18e4ff3f0bba"),
+                            CategoryId = new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("ad663ab9-961e-453c-89f6-a6d368423097"),
+                            CategoryId = new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("d592c3c5-9d21-4d73-b551-e452f8b18331"),
+                            CategoryId = new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("f446cbb4-cb33-4599-94e3-c8faea72c178"),
+                            CategoryId = new Guid("7030a699-7b00-4a85-aad6-61afea983df8"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("50b5f7da-2c36-40b0-ac7f-2b8c898f7f8b"),
+                            CategoryId = new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("4943b208-7656-4b34-a0ee-28af101d88cb"),
+                            CategoryId = new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("8f981368-9384-4112-97f1-897cbb45d5d9"),
+                            CategoryId = new Guid("bb71e15b-4112-4b7e-8154-4400034f0463"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("7dd0c948-18ca-46a9-a039-93cc513f8866"),
+                            CategoryId = new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("115a8153-a552-445f-a288-ca2b65505ec0"),
+                            CategoryId = new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("c2f164eb-c057-4d41-9f13-34deedf095a7"),
+                            CategoryId = new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("e8219e12-e38b-4a42-9ee7-30383d3b10a0"),
+                            CategoryId = new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("092c5d2d-0b92-44ee-9a66-2299edd4c481"),
+                            CategoryId = new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("a9e9919a-b904-4a15-9896-d5272425a051"),
+                            CategoryId = new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("5beb274b-0c04-4ded-8ab2-30a5ef308908"),
+                            CategoryId = new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("a88e13f6-b13f-4919-8ba1-2c09ff303180"),
+                            CategoryId = new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("c9a7a661-f78f-468a-adf7-bb9d174ad2e6"),
+                            CategoryId = new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("526cf57b-827c-4c97-baea-7ddf4bdea1cc"),
+                            CategoryId = new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("e84b6e4d-5255-42fd-ae73-96255baaa720"),
+                            CategoryId = new Guid("7030a699-7b00-4a85-aad6-61afea983df8"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("baac6e9a-c4ed-4505-9ba6-26c84b3ddc58"),
+                            CategoryId = new Guid("bb71e15b-4112-4b7e-8154-4400034f0463"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("c5943fc7-0fa2-4fa2-b190-8bf5930cd3f0"),
+                            CategoryId = new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("24e59514-5d0f-4361-b91d-40bbe3d75161"),
+                            CategoryId = new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("601dd021-51c6-4fda-9149-d885aceeb881"),
+                            CategoryId = new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("943e1552-1a57-49cb-8a25-e0c8307d14e7"),
+                            CategoryId = new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("2e78c55e-93ac-4c85-9e15-966d4e7f60de"),
+                            CategoryId = new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("4951197e-4bbd-43df-938f-ed51d9e0a155"),
+                            CategoryId = new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("7419ba70-98a2-4f99-9a4e-a2784d865197"),
+                            CategoryId = new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("75b79c13-fd6e-413c-9bc7-058f637dd5d7"),
+                            CategoryId = new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("fa56cdca-9686-4b65-b2b7-4cd17f049178"),
+                            CategoryId = new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("792b499c-12c8-4097-87a7-9daf21f9c850"),
+                            CategoryId = new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("bbd80bd0-356c-4da8-871f-e985b064bad0"),
+                            CategoryId = new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("f8c165f6-cced-46c7-b976-df3a6e4c0c24"),
+                            CategoryId = new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("ba6cf67f-2621-4292-97c6-adb6677f6c9c"),
+                            CategoryId = new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("591c3e46-be08-44f2-9722-c295cc9d8591"),
+                            CategoryId = new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("65bbc04c-242f-471a-8d40-c5bdeb9aee1c"),
+                            CategoryId = new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("53d6fb26-8e37-4665-b089-a28597c94751"),
+                            CategoryId = new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("bdb95e44-52b3-4437-8e7a-6f2d9d1be9fd"),
+                            CategoryId = new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("3c1f3acc-01cf-4a28-aa77-90df94a6598d"),
+                            CategoryId = new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("aa78c2b1-ff9c-447f-a415-fb80cddac6b4"),
+                            CategoryId = new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("4bdcfb51-9d36-4e9d-b43c-9a85e500e1ee"),
+                            CategoryId = new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("ae77969b-1abb-4015-8229-38f6d4c7f4bc"),
+                            CategoryId = new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("76b61cac-7040-4288-b6ff-e99d09f10962"),
+                            CategoryId = new Guid("7030a699-7b00-4a85-aad6-61afea983df8"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("f93a5554-5e8c-4d72-a0b8-17a29230cb98"),
+                            CategoryId = new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("d88fe2f1-8dfa-49e3-b6b6-36ad136ddb47"),
+                            CategoryId = new Guid("bb71e15b-4112-4b7e-8154-4400034f0463"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("c0eaea77-d109-4311-aa71-e5d2a6a4ad4d"),
+                            CategoryId = new Guid("bb71e15b-4112-4b7e-8154-4400034f0463"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("36f89c97-344a-4f59-aa00-9f875b6593da"),
+                            CategoryId = new Guid("bb71e15b-4112-4b7e-8154-4400034f0463"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("7f57b1c1-1931-4263-a1f9-0a257f1c49b8"),
+                            CategoryId = new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("88911341-95bd-434d-ab35-e7b4a599199c"),
+                            CategoryId = new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("bbf389c8-ec1b-47f4-a00e-1ad7eca1c2ea"),
+                            CategoryId = new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("fb0a5251-e0bd-49a2-b01e-8bee844618e7"),
+                            CategoryId = new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("f68e7b31-37ec-4260-b424-e7bd550ff9e3"),
+                            CategoryId = new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("6b4260a2-a9ea-4587-91e5-8385996b7355"),
+                            CategoryId = new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("e46f4c5d-363e-46bc-ac44-712e4457c2ca"),
+                            CategoryId = new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("e97b2e87-9b2f-4b13-99c6-0005c7732155"),
+                            CategoryId = new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("7b76c7ee-8ff4-4079-b46b-0edb67270246"),
+                            CategoryId = new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("3a111262-f6b1-4c2f-bc6e-a88737dc1e8c"),
+                            CategoryId = new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("6cb52a87-0690-446c-a23b-64c43ec8f0db"),
+                            CategoryId = new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("252f0916-6c20-4fd2-a5f4-7051881988f6"),
+                            CategoryId = new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("0d2c5b7d-8c6e-4399-a18d-c45cb2a59ba8"),
+                            CategoryId = new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("30f6cf4f-6d99-425a-ba31-7e23f48783b6"),
+                            CategoryId = new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("47e058ae-7a73-4c5e-a631-7c55b5b64c13"),
+                            CategoryId = new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("7a12b5ab-1c99-496a-aaf3-d7a8062677f3"),
+                            CategoryId = new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("28aa496e-d877-4210-aa5f-481fdcfa4238"),
+                            CategoryId = new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("d9b8b94c-4865-4196-9ea6-e093c27e6666"),
+                            CategoryId = new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("c5cdcb4e-cab0-44bf-b0ef-55929c79a591"),
+                            CategoryId = new Guid("7030a699-7b00-4a85-aad6-61afea983df8"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("9eb2d006-e87a-4d10-ae7f-e4ebb5e0b2e6"),
+                            CategoryId = new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ProductId = new Guid("f2f72562-5a05-4ecb-8568-a12cffc4827f"),
+                            CategoryId = new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("Clarity.Api.ProductFile", b =>
@@ -2118,7 +2666,9 @@ namespace Clarity.Api.Migrations
 
                     b.Property<Guid>("FileId");
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<bool>("IsPrimary");
 
@@ -2135,532 +2685,532 @@ namespace Clarity.Api.Migrations
                         {
                             ProductId = new Guid("dbcb5421-8b2e-48a7-b60f-5cecb118fc69"),
                             FileId = new Guid("d2f2a7a5-4b94-4b72-b0ec-18a564fccccc"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 833, DateTimeKind.Local).AddTicks(6452),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("c59dbf6f-9378-4bad-9196-d8051cc5a6bf"),
                             FileId = new Guid("42a2d6b3-5926-4b53-9171-0107220e1630"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 834, DateTimeKind.Local).AddTicks(3050),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("71ffe75c-9832-4f6c-8c26-cb7343c8bc15"),
                             FileId = new Guid("2c1d770a-57da-424a-9df8-d85851311db3"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 834, DateTimeKind.Local).AddTicks(5330),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("0c201103-a52f-4e2c-b235-fb553e0b3942"),
                             FileId = new Guid("4398a5ea-4f57-405d-867a-9e2bb1192c6b"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 834, DateTimeKind.Local).AddTicks(7557),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("54a0644c-9fac-4bdb-944c-d1f55e638cdc"),
                             FileId = new Guid("c91e0338-46be-4b35-b9cd-c544cb01f9fa"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 835, DateTimeKind.Local).AddTicks(126),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("2b7140e8-86f1-4602-95a1-2335fa3e3cc9"),
                             FileId = new Guid("4ed920d3-dd38-44e1-8c81-ad92e215585a"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 835, DateTimeKind.Local).AddTicks(3000),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("3235c9ab-c613-4136-b602-f8bcb6fda51e"),
                             FileId = new Guid("2b1124af-bc6b-4a88-9089-0b0f513c495c"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 835, DateTimeKind.Local).AddTicks(5264),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("a9765975-2f58-4489-be32-065ca6c01019"),
                             FileId = new Guid("cfdea2bf-c57e-4545-99a3-ebd7dec888ef"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 835, DateTimeKind.Local).AddTicks(7642),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("c3253f25-1310-44b5-b2e9-13553f005995"),
                             FileId = new Guid("c3c9670e-53af-4935-8951-c986aad21b6a"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 835, DateTimeKind.Local).AddTicks(9972),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("96ee285e-78a6-4d61-9b41-7de1c15b47dc"),
                             FileId = new Guid("6ceef0fb-9da6-42a4-b23e-5a1d32abbb59"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 836, DateTimeKind.Local).AddTicks(2180),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("1fe10cde-3ad6-4995-888b-18e4ff3f0bba"),
                             FileId = new Guid("4edaa115-266c-43d8-8005-a5ee1abed2cf"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 836, DateTimeKind.Local).AddTicks(4381),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("ad663ab9-961e-453c-89f6-a6d368423097"),
                             FileId = new Guid("fd90ee79-6fa6-40ff-87da-30bdd6b9f064"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 836, DateTimeKind.Local).AddTicks(6683),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("d592c3c5-9d21-4d73-b551-e452f8b18331"),
                             FileId = new Guid("6345fbc1-b23c-44e0-b9d0-fa334a2fe584"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 836, DateTimeKind.Local).AddTicks(8923),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("f446cbb4-cb33-4599-94e3-c8faea72c178"),
                             FileId = new Guid("ce58fcba-e810-4bad-bb42-f1aac4d58242"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 837, DateTimeKind.Local).AddTicks(1077),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("50b5f7da-2c36-40b0-ac7f-2b8c898f7f8b"),
                             FileId = new Guid("c1ccf7f1-f51b-4c5f-a67c-be6a87639c7c"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 837, DateTimeKind.Local).AddTicks(3471),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("4943b208-7656-4b34-a0ee-28af101d88cb"),
                             FileId = new Guid("c2b2e3ee-0047-45b6-9e95-9f4ee51c5616"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 837, DateTimeKind.Local).AddTicks(5508),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("8f981368-9384-4112-97f1-897cbb45d5d9"),
                             FileId = new Guid("810b39bc-9f48-4144-b516-088e86701329"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 837, DateTimeKind.Local).AddTicks(7881),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("7dd0c948-18ca-46a9-a039-93cc513f8866"),
                             FileId = new Guid("b8a28f1e-0799-4a17-a087-f95da8902f8d"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 838, DateTimeKind.Local).AddTicks(31),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("115a8153-a552-445f-a288-ca2b65505ec0"),
                             FileId = new Guid("90267f43-731b-4cf0-adc5-17872bb3ea46"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 838, DateTimeKind.Local).AddTicks(2027),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("c2f164eb-c057-4d41-9f13-34deedf095a7"),
                             FileId = new Guid("7b23a584-847a-453c-8777-80078952f74b"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 838, DateTimeKind.Local).AddTicks(7846),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("e8219e12-e38b-4a42-9ee7-30383d3b10a0"),
                             FileId = new Guid("b2fbd4d3-e933-4aa7-b3ef-d7fd6cbd8e1c"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 839, DateTimeKind.Local).AddTicks(1150),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("092c5d2d-0b92-44ee-9a66-2299edd4c481"),
                             FileId = new Guid("b188fc5c-0653-451e-a597-f9af8952ed70"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 839, DateTimeKind.Local).AddTicks(3274),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("a9e9919a-b904-4a15-9896-d5272425a051"),
                             FileId = new Guid("69af227f-e8f1-4c10-849c-551d71888bdd"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 839, DateTimeKind.Local).AddTicks(5271),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("5beb274b-0c04-4ded-8ab2-30a5ef308908"),
                             FileId = new Guid("f3552e30-9ea3-4286-ab65-c0e72bca2348"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 839, DateTimeKind.Local).AddTicks(7439),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("a88e13f6-b13f-4919-8ba1-2c09ff303180"),
                             FileId = new Guid("10439b59-147d-433f-ab6c-6794ebdb9ffa"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 839, DateTimeKind.Local).AddTicks(9398),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("c9a7a661-f78f-468a-adf7-bb9d174ad2e6"),
                             FileId = new Guid("7a485726-06cf-4e0f-a501-0d310bcb17b8"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 840, DateTimeKind.Local).AddTicks(1707),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("526cf57b-827c-4c97-baea-7ddf4bdea1cc"),
                             FileId = new Guid("f486622b-f81b-4be5-b6b3-c6b88f8f36f3"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 840, DateTimeKind.Local).AddTicks(3998),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("e84b6e4d-5255-42fd-ae73-96255baaa720"),
                             FileId = new Guid("0349d2ec-9650-41d2-acac-1202f44611b9"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 840, DateTimeKind.Local).AddTicks(6361),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("baac6e9a-c4ed-4505-9ba6-26c84b3ddc58"),
                             FileId = new Guid("3824d42b-f808-47ec-b2a2-93d9c4e7840c"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 840, DateTimeKind.Local).AddTicks(8070),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("c5943fc7-0fa2-4fa2-b190-8bf5930cd3f0"),
                             FileId = new Guid("7c0c8cd3-d692-459d-957e-c38ce2a168fa"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 840, DateTimeKind.Local).AddTicks(9699),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("24e59514-5d0f-4361-b91d-40bbe3d75161"),
                             FileId = new Guid("ec0ca3b9-e69f-48c9-94bc-289fcad8288b"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 841, DateTimeKind.Local).AddTicks(1171),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("601dd021-51c6-4fda-9149-d885aceeb881"),
                             FileId = new Guid("40bd2298-9f86-4b03-8d26-6dfc2b1a1fb0"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 841, DateTimeKind.Local).AddTicks(2910),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("943e1552-1a57-49cb-8a25-e0c8307d14e7"),
                             FileId = new Guid("7f2de31f-b45c-42e3-9169-e540e632ec09"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 841, DateTimeKind.Local).AddTicks(4532),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("2e78c55e-93ac-4c85-9e15-966d4e7f60de"),
                             FileId = new Guid("f76c4cb2-4233-42c9-9e86-cb77b8e80498"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 841, DateTimeKind.Local).AddTicks(6019),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("4951197e-4bbd-43df-938f-ed51d9e0a155"),
                             FileId = new Guid("5f72d5b6-0387-451b-b897-e1d97a4d899a"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 841, DateTimeKind.Local).AddTicks(7274),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("7419ba70-98a2-4f99-9a4e-a2784d865197"),
                             FileId = new Guid("5032feb1-d204-4748-a275-b2b171e0e28f"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 841, DateTimeKind.Local).AddTicks(8735),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("75b79c13-fd6e-413c-9bc7-058f637dd5d7"),
                             FileId = new Guid("6587d819-c4e5-47a5-b734-15c9b65b0c75"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 842, DateTimeKind.Local).AddTicks(256),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("fa56cdca-9686-4b65-b2b7-4cd17f049178"),
                             FileId = new Guid("c4645bbe-a6ea-4788-b018-b5012deb5910"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 842, DateTimeKind.Local).AddTicks(1712),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("792b499c-12c8-4097-87a7-9daf21f9c850"),
                             FileId = new Guid("2c279d1c-5583-4b37-a57a-ee353eca4209"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 842, DateTimeKind.Local).AddTicks(3204),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("bbd80bd0-356c-4da8-871f-e985b064bad0"),
                             FileId = new Guid("4dfe104a-e281-4c4f-b4cb-cb5880e055c0"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 842, DateTimeKind.Local).AddTicks(4756),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("f8c165f6-cced-46c7-b976-df3a6e4c0c24"),
                             FileId = new Guid("0dcaf98a-fd3e-4112-9fda-3fa7da1ad290"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 842, DateTimeKind.Local).AddTicks(6231),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("ba6cf67f-2621-4292-97c6-adb6677f6c9c"),
                             FileId = new Guid("ef8eb060-d1a6-4b66-a4ca-638977527a15"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 842, DateTimeKind.Local).AddTicks(7691),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("591c3e46-be08-44f2-9722-c295cc9d8591"),
                             FileId = new Guid("1a6ef266-ab6f-4a01-966f-a19f26486bc8"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 842, DateTimeKind.Local).AddTicks(9340),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("65bbc04c-242f-471a-8d40-c5bdeb9aee1c"),
                             FileId = new Guid("c9d92c74-07be-4ab4-9e8e-6293bfb4c530"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 843, DateTimeKind.Local).AddTicks(905),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("53d6fb26-8e37-4665-b089-a28597c94751"),
                             FileId = new Guid("968a4281-a54e-4397-8304-5ad1c471590e"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 843, DateTimeKind.Local).AddTicks(2491),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("bdb95e44-52b3-4437-8e7a-6f2d9d1be9fd"),
                             FileId = new Guid("1fa60ef2-2d80-468e-88ed-f1ba3c8bfe96"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 843, DateTimeKind.Local).AddTicks(4475),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("3c1f3acc-01cf-4a28-aa77-90df94a6598d"),
                             FileId = new Guid("12b70183-6634-419f-9fe8-4e9982bf84c4"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 843, DateTimeKind.Local).AddTicks(5901),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("aa78c2b1-ff9c-447f-a415-fb80cddac6b4"),
                             FileId = new Guid("1eb79abb-84bc-41c8-9978-92cae1f2b6d2"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 843, DateTimeKind.Local).AddTicks(7309),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("4bdcfb51-9d36-4e9d-b43c-9a85e500e1ee"),
                             FileId = new Guid("b589c46f-9572-4088-ba25-a5f67364b2ec"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 843, DateTimeKind.Local).AddTicks(8847),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("ae77969b-1abb-4015-8229-38f6d4c7f4bc"),
                             FileId = new Guid("e0403ce3-cf8d-48d3-8a21-0af39c40ddee"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 844, DateTimeKind.Local).AddTicks(226),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("76b61cac-7040-4288-b6ff-e99d09f10962"),
                             FileId = new Guid("771cd746-df18-4b3d-b7a3-68d426fe7bb9"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 844, DateTimeKind.Local).AddTicks(1649),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("f93a5554-5e8c-4d72-a0b8-17a29230cb98"),
                             FileId = new Guid("c9cc388f-6645-4c31-b19c-f566ee06c0dc"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 844, DateTimeKind.Local).AddTicks(3267),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("d88fe2f1-8dfa-49e3-b6b6-36ad136ddb47"),
                             FileId = new Guid("a8189d9d-7185-4c2c-bf48-f0cc797a2acc"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 844, DateTimeKind.Local).AddTicks(4821),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("c0eaea77-d109-4311-aa71-e5d2a6a4ad4d"),
                             FileId = new Guid("c68ebcdd-7cc3-45a0-b088-29dc950dae60"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 844, DateTimeKind.Local).AddTicks(6351),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("36f89c97-344a-4f59-aa00-9f875b6593da"),
                             FileId = new Guid("8703e152-aeaa-43f4-b607-3b803f6ab773"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 844, DateTimeKind.Local).AddTicks(7874),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("7f57b1c1-1931-4263-a1f9-0a257f1c49b8"),
                             FileId = new Guid("212c48d4-38ef-42b3-951b-2a7dda0a0746"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 844, DateTimeKind.Local).AddTicks(9258),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("88911341-95bd-434d-ab35-e7b4a599199c"),
                             FileId = new Guid("d28c4f4f-6048-4a93-a47a-d7db0c81a27a"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 845, DateTimeKind.Local).AddTicks(731),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("bbf389c8-ec1b-47f4-a00e-1ad7eca1c2ea"),
                             FileId = new Guid("cdac7720-9734-4bf5-ab33-71cc0f3ee070"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 845, DateTimeKind.Local).AddTicks(2173),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("fb0a5251-e0bd-49a2-b01e-8bee844618e7"),
                             FileId = new Guid("4f71a1f9-bf6f-4653-ae85-a6dad07b80e6"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 845, DateTimeKind.Local).AddTicks(3797),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("f68e7b31-37ec-4260-b424-e7bd550ff9e3"),
                             FileId = new Guid("07a598e1-3a67-4416-a030-30d734ac227d"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 845, DateTimeKind.Local).AddTicks(5201),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("6b4260a2-a9ea-4587-91e5-8385996b7355"),
                             FileId = new Guid("8d12d30e-899e-4533-8faa-11716affdefe"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 845, DateTimeKind.Local).AddTicks(6766),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("e46f4c5d-363e-46bc-ac44-712e4457c2ca"),
                             FileId = new Guid("910d6beb-4de9-43f6-a2a9-da0a01687ed5"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 845, DateTimeKind.Local).AddTicks(8194),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("e97b2e87-9b2f-4b13-99c6-0005c7732155"),
                             FileId = new Guid("4fcf050a-4543-4878-9986-0db258095b97"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 845, DateTimeKind.Local).AddTicks(9613),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("7b76c7ee-8ff4-4079-b46b-0edb67270246"),
                             FileId = new Guid("1847baf5-dc0e-486d-af0b-bd0b23806205"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 846, DateTimeKind.Local).AddTicks(1157),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("3a111262-f6b1-4c2f-bc6e-a88737dc1e8c"),
                             FileId = new Guid("ab17abc1-5491-4d6e-8974-fce35bb1159f"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 846, DateTimeKind.Local).AddTicks(2969),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("6cb52a87-0690-446c-a23b-64c43ec8f0db"),
                             FileId = new Guid("457f9796-7574-4c71-8d62-a70878441981"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 846, DateTimeKind.Local).AddTicks(4329),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("252f0916-6c20-4fd2-a5f4-7051881988f6"),
                             FileId = new Guid("511dd9c9-ed5b-43a9-881a-1daeea1429be"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 846, DateTimeKind.Local).AddTicks(5750),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("0d2c5b7d-8c6e-4399-a18d-c45cb2a59ba8"),
                             FileId = new Guid("006a056d-33ad-4b0b-9169-3a6d02df6993"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 846, DateTimeKind.Local).AddTicks(7247),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("30f6cf4f-6d99-425a-ba31-7e23f48783b6"),
                             FileId = new Guid("307bdfc8-0142-4371-a6da-9383a2bb5daf"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 846, DateTimeKind.Local).AddTicks(8654),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("47e058ae-7a73-4c5e-a631-7c55b5b64c13"),
                             FileId = new Guid("9769498b-8cae-4e37-863b-379e77cfef1e"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 847, DateTimeKind.Local).AddTicks(153),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("7a12b5ab-1c99-496a-aaf3-d7a8062677f3"),
                             FileId = new Guid("b4ecc589-9e7f-4d00-bc93-4d87e97441fb"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 847, DateTimeKind.Local).AddTicks(1664),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("28aa496e-d877-4210-aa5f-481fdcfa4238"),
                             FileId = new Guid("80d595ef-d82c-4c55-a4bd-60b29d4953e9"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 847, DateTimeKind.Local).AddTicks(3235),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("d9b8b94c-4865-4196-9ea6-e093c27e6666"),
                             FileId = new Guid("681ffa4f-6d3b-460c-be10-a8376eb7bb15"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 847, DateTimeKind.Local).AddTicks(4593),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("c5cdcb4e-cab0-44bf-b0ef-55929c79a591"),
                             FileId = new Guid("183f872c-1a26-4f44-ac02-63cba826ff59"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 847, DateTimeKind.Local).AddTicks(6330),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("9eb2d006-e87a-4d10-ae7f-e4ebb5e0b2e6"),
                             FileId = new Guid("0bb3fdf1-c58f-4840-8353-97141312244f"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 847, DateTimeKind.Local).AddTicks(7723),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         },
                         new
                         {
                             ProductId = new Guid("f2f72562-5a05-4ecb-8568-a12cffc4827f"),
                             FileId = new Guid("1fc5ad0e-91cf-4fcd-afcc-73a51bd94905"),
-                            Created = new DateTime(2019, 2, 24, 4, 6, 54, 847, DateTimeKind.Local).AddTicks(9395),
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsPrimary = true
                         });
                 });

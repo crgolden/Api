@@ -21,14 +21,14 @@
             _storageService = storageService;
         }
 
-        public async Task<FileModel[]> Handle(FileUploadRequest request, CancellationToken cancellationToken)
+        public async Task<FileModel[]> Handle(FileUploadRequest request, CancellationToken token)
         {
             if (!request.Files.Any()) return new FileModel[0];
             var tasks = request.Files.Select(async x =>
-                await x.ToFileAsync(_storageService, cancellationToken).ConfigureAwait(false));
+                await x.ToFileAsync(_storageService, token).ConfigureAwait(false));
             var files = await Task.WhenAll(tasks).ConfigureAwait(false);
             _context.Set<File>().AddRange(files);
-            await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            await _context.SaveChangesAsync(token).ConfigureAwait(false);
             return _mapper.Map<FileModel[]>(files);
         }
     }

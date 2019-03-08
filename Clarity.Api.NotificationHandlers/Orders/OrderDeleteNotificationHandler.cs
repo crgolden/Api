@@ -11,7 +11,7 @@
         {
         }
 
-        public override Task Handle(OrderDeleteNotification notification, CancellationToken cancellationToken)
+        public override Task Handle(OrderDeleteNotification notification, CancellationToken token)
         {
             return Task.CompletedTask;
         }

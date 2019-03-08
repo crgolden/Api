@@ -16,7 +16,7 @@
             _logger = logger;
         }
 
-        public Task Handle(AddressValidateNotification notification, CancellationToken cancellationToken)
+        public Task Handle(AddressValidateNotification notification, CancellationToken token)
         {
             switch (notification.EventId)
             {

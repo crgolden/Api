@@ -23,7 +23,7 @@
         [ProducesResponseType(typeof(IEnumerable<Category>), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request)
         {
-            return await base.Index(
+            return await Index(
                 request: new CategoryIndexRequest(ModelState, request),
                 notification: new CategoryIndexNotification()).ConfigureAwait(false);
         }
@@ -34,7 +34,7 @@
         public override async Task<IActionResult> Details([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            return await base.Details(
+            return await Details(
                 request: new CategoryDetailsRequest(ids[0]),
                 notification: new CategoryDetailsNotification()).ConfigureAwait(false);
         }
@@ -44,7 +44,7 @@
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public override async Task<IActionResult> Edit([FromBody] CategoryModel category)
         {
-            return await base.Edit(
+            return await Edit(
                 request: new CategoryEditRequest(category),
                 notification: new CategoryEditNotification()).ConfigureAwait(false);
         }
@@ -55,7 +55,7 @@
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public override async Task<IActionResult> EditRange([FromBody] IEnumerable<CategoryModel> categories)
         {
-            return await base.EditRange(
+            return await EditRange(
                 request: new CategoryEditRangeRequest(categories),
                 notification: new CategoryEditRangeNotification()).ConfigureAwait(false);
         }
@@ -65,7 +65,7 @@
         [ProducesResponseType(typeof(Category), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Create([FromBody] CategoryModel category)
         {
-            return await base.Create(
+            return await Create(
                 request: new CategoryCreateRequest(category),
                 notification: new CategoryCreateNotification()).ConfigureAwait(false);
         }
@@ -76,7 +76,7 @@
         [ProducesResponseType(typeof(IEnumerable<Category>), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<CategoryModel> categories)
         {
-            return await base.CreateRange(
+            return await CreateRange(
                 request: new CategoryCreateRangeRequest(categories),
                 notification: new CategoryCreateRangeNotification()).ConfigureAwait(false);
         }
@@ -88,7 +88,7 @@
         public override async Task<IActionResult> Delete([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            return await base.Delete(
+            return await Delete(
                 request: new CategoryDeleteRequest(ids[0]),
                 notification: new CategoryDeleteNotification()).ConfigureAwait(false);
         }

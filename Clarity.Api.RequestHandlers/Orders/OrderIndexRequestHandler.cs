@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using Core;
-    using Kendo.Mvc;
+    using Kendo.Mvc.Extensions;
     using Kendo.Mvc.UI;
     using Microsoft.EntityFrameworkCore;
 
@@ -15,35 +15,15 @@
         {
         }
 
-        public override async Task<DataSourceResult> Handle(OrderIndexRequest request, CancellationToken cancellationToken)
+        public override async Task<DataSourceResult> Handle(OrderIndexRequest request, CancellationToken token)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            if (!request.UserId.HasValue) return await base.Handle(request, cancellationToken).ConfigureAwait(false);
-            var userIdFilter = new FilterDescriptor(
-                member: "userId",
-                filterOperator: FilterOperator.IsEqualTo,
-                filterValue: $"{request.UserId.Value}");
-            var filter = request.Request.Filters
-                .Cast<FilterDescriptor>()
-                .SingleOrDefault(x => x.Member == userIdFilter.Member);
-            if (filter != null)
-            {
-                if ($"{filter.Value}" != $"{userIdFilter.Value}")
-                {
-                    filter.Value = userIdFilter.Value;
-                }
-
-                if (filter.Operator != userIdFilter.Operator)
-                {
-                    filter.Operator = userIdFilter.Operator;
-                }
-            }
-            else
-            {
-                request.Request.Filters.Add(userIdFilter);
-            }
-
-            return await base.Handle(request, cancellationToken).ConfigureAwait(false);
+            var orders = request.UserId.HasValue
+                ? Context.Set<Order>().Where(x => x.UserId == request.UserId.Value)
+                : Context.Set<Order>();
+            return await Mapper
+                .ProjectTo<OrderModel>(orders)
+                .ToDataSourceResultAsync(request.Request, request.ModelState)
+                .ConfigureAwait(false);
         }
     }
 }

@@ -11,7 +11,7 @@
         {
         }
 
-        public override Task Handle(PaymentDeleteNotification notification, CancellationToken cancellationToken)
+        public override Task Handle(PaymentDeleteNotification notification, CancellationToken token)
         {
             return Task.CompletedTask;
         }

@@ -1,12 +1,15 @@
 ﻿namespace Clarity.Api
 {
-    using Core;
+    using AutoMapper;
 
     public class OrderProfile : Profile
     {
         public OrderProfile()
         {
-            CreateMap<Order, OrderModel>();
+            CreateMap<OrderModel, Order>(MemberList.Destination)
+                .ForMember(dest => dest.OrderProducts, opt => opt.Ignore())
+                .ForMember(dest => dest.Payments, opt => opt.Ignore())
+                .ReverseMap();
         }
     }
 }

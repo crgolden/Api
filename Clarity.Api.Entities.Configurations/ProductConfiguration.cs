@@ -1,6 +1,5 @@
 ﻿namespace Clarity.Api
 {
-    using System.Linq;
     using Core;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -17,13 +16,14 @@
 
         public void Configure(EntityTypeBuilder<Product> product)
         {
-            product.Property(e => e.Created);
+            product.Property(e => e.Created).HasDefaultValueSql("getutcdate()");
             product.Property(e => e.Updated);
+            product.Property(e => e.Name).IsRequired();
             product.HasIndex(e => e.Name).IsUnique();
             product.HasIndex(e => e.Sku).IsUnique();
             product.Property(e => e.Active);
             product.Property(e => e.Description);
-            product.Property(e => e.IsDownload).IsRequired();
+            product.Property(e => e.IsDownload);
             product.Property(e => e.UnitPrice).HasColumnType("decimal(18,2)").IsRequired();
             product.Property(e => e.QuantityPerUnit).IsRequired();
             product.Property(e => e.ReorderLevel);
@@ -33,10 +33,7 @@
             product.HasMany(e => e.OrderProducts).WithOne(e => e.Product).HasForeignKey(e => e.ProductId);
             product.HasMany(e => e.ProductCategories).WithOne(e => e.Product).HasForeignKey(e => e.ProductId);
             product.HasMany(e => e.ProductFiles).WithOne(e => e.Product).HasForeignKey(e => e.ProductId);
-            foreach (var collection in product.Metadata.GetNavigations().Where(x => x.IsCollection()))
-            {
-                collection.SetPropertyAccessMode(PropertyAccessMode.Field);
-            }
+            product.Metadata.SetNavigationAccessMode(PropertyAccessMode.Field);
             product.ToTable("Products");
             if (!_options.SeedData) return;
             product.HasData(SeedProducts.Products);

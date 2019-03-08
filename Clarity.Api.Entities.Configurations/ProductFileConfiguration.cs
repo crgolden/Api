@@ -16,7 +16,7 @@
 
         public void Configure(EntityTypeBuilder<ProductFile> productFile)
         {
-            productFile.Property(e => e.Created);
+            productFile.Property(e => e.Created).HasDefaultValueSql("getutcdate()");
             productFile.Property(e => e.Updated);
             productFile.HasKey(e => new { e.ProductId, e.FileId });
             productFile.HasOne(e => e.Product).WithMany(e => e.ProductFiles).HasForeignKey(e => e.ProductId);

@@ -1,6 +1,5 @@
 ﻿namespace Clarity.Api
 {
-    using System.Linq;
     using Core;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -17,7 +16,7 @@
 
         public void Configure(EntityTypeBuilder<Payment> payment)
         {
-            payment.Property(e => e.Created);
+            payment.Property(e => e.Created).HasDefaultValueSql("getutcdate()");
             payment.Property(e => e.Updated);
             payment.Property(e => e.UserId).IsRequired();
             payment.Property(e => e.Amount).HasColumnType("decimal(18,2)").IsRequired();
@@ -27,10 +26,7 @@
             payment.Property(e => e.CustomerCode).IsRequired();
             payment.Property(e => e.Description);
             payment.HasOne(e => e.Order).WithMany(e => e.Payments).HasForeignKey(e => e.OrderId);
-            foreach (var collection in payment.Metadata.GetNavigations().Where(x => x.IsCollection()))
-            {
-                collection.SetPropertyAccessMode(PropertyAccessMode.Field);
-            }
+            payment.Metadata.SetNavigationAccessMode(PropertyAccessMode.Field);
             payment.ToTable("Payments");
             if (!_options.SeedData) return;
             payment.HasData(SeedPayments.Payments);

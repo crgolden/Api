@@ -1,7 +1,6 @@
 ﻿namespace Clarity.Api.Files
 {
     using System;
-    using System.Collections.Generic;
     using Core;
     using MediatR;
     using Microsoft.AspNetCore.Http;
@@ -10,7 +9,7 @@
     {
         public EventIds EventId { get; set; }
 
-        public ICollection<IFormFile> Files { get; set; }
+        public IFormFileCollection Files { get; set; }
 
         public FileModel[] Models { get; set; }
 

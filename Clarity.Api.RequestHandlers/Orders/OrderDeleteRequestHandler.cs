@@ -12,7 +12,7 @@
         {
         }
 
-        public override Task<Unit> Handle(OrderDeleteRequest request, CancellationToken cancellationToken)
+        public override Task<Unit> Handle(OrderDeleteRequest request, CancellationToken token)
         {
             return Task.FromResult(Unit.Value);
         }

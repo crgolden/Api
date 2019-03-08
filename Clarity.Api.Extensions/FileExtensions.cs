@@ -15,8 +15,8 @@
                 ? file.Uri.Replace($"{options.ImageContainer}/", $"{options.ThumbnailContainer}/")
                 : file.Uri;
             var index = file.Name.LastIndexOf('.');
-            var extension = file.Name.Substring(index + 1);
-            var fileName = $"{file.Id}.{extension}";
+            var extension = file.Name.Substring(index);
+            var fileName = $"{file.Id}{extension}";
             var sharedAccessSignature = storageService.GetSharedAccessSignature(fileName, containerName);
             return $"{uri}{sharedAccessSignature}";
         }

@@ -23,7 +23,7 @@
         [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request)
         {
-            return await base.Index(
+            return await Index(
                 request: new ProductIndexRequest(ModelState, request)
                 {
                     Active = !User.IsInRole("Admin")
@@ -37,7 +37,7 @@
         public override async Task<IActionResult> Details([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            return await base.Details(
+            return await Details(
                 request: new ProductDetailsRequest(ids[0])
                 {
                     Active = !User.IsInRole("Admin")
@@ -50,7 +50,7 @@
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public override async Task<IActionResult> Edit([FromBody] ProductModel product)
         {
-            return await base.Edit(
+            return await Edit(
                 request: new ProductEditRequest(product),
                 notification: new ProductEditNotification()).ConfigureAwait(false);
         }
@@ -60,7 +60,7 @@
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public override async Task<IActionResult> EditRange([FromBody] IEnumerable<ProductModel> products)
         {
-            return await base.EditRange(
+            return await EditRange(
                 request: new ProductEditRangeRequest(products),
                 notification: new ProductEditRangeNotification()).ConfigureAwait(false);
         }
@@ -70,7 +70,7 @@
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Create([FromBody] ProductModel product)
         {
-            return await base.Create(
+            return await Create(
                 request: new ProductCreateRequest(product),
                 notification: new ProductCreateNotification()).ConfigureAwait(false);
         }
@@ -80,7 +80,7 @@
         [ProducesResponseType(typeof(List<Product>), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<ProductModel> products)
         {
-            return await base.CreateRange(
+            return await CreateRange(
                 request: new ProductCreateRangeRequest(products),
                 notification: new ProductCreateRangeNotification()).ConfigureAwait(false);
         }
@@ -92,7 +92,7 @@
         public override async Task<IActionResult> Delete([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            return await base.Delete(
+            return await Delete(
                 request: new ProductDeleteRequest(ids[0]),
                 notification: new ProductDeleteNotification()).ConfigureAwait(false);
         }

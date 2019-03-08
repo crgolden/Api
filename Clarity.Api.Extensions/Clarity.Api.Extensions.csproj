@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Clarity.Core.Interfaces" Version="1.4.0-CI-20190226-024933" />
-    <PackageReference Include="Clarity.Core.Options" Version="1.4.0" />
+    <PackageReference Include="Clarity.Core.Interfaces" Version="1.5.0-CI-20190303-201900" />
+    <PackageReference Include="Clarity.Core.Options" Version="1.7.0-CI-20190303-162455" />
   </ItemGroup>
 
   <ItemGroup>

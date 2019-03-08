@@ -1,12 +1,14 @@
 ﻿namespace Clarity.Api
 {
-    using Core;
+    using AutoMapper;
 
     public class CartProfile : Profile
     {
         public CartProfile()
         {
-            CreateMap<Cart, CartModel>();
+            CreateMap<CartModel, Cart>(MemberList.Destination)
+                .ForMember(dest => dest.CartProducts, opt => opt.Ignore())
+                .ReverseMap();
         }
     }
 }

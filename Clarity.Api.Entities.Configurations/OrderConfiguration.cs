@@ -1,6 +1,5 @@
 ﻿namespace Clarity.Api
 {
-    using System.Linq;
     using Core;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -17,19 +16,17 @@
 
         public void Configure(EntityTypeBuilder<Order> order)
         {
-            order.Property(e => e.Created);
+            order.Property(e => e.Created).HasDefaultValueSql("getutcdate()");
             order.Property(e => e.Updated);
             order.Property(e => e.Number).ValueGeneratedOnAdd();
             order.HasIndex(e => e.Number).IsUnique();
             order.Property(e => e.UserId).IsRequired();
             order.Property(e => e.Shipping).HasColumnType("decimal(18,2)");
             order.Property(e => e.Tax).HasColumnType("decimal(18,2)");
+            order.Property(e => e.Total).HasColumnType("decimal(18,2)");
             order.HasMany(e => e.OrderProducts).WithOne(e => e.Order).HasForeignKey(e => e.OrderId);
             order.HasMany(e => e.Payments).WithOne(e => e.Order).HasForeignKey(e => e.OrderId);
-            foreach (var collection in order.Metadata.GetNavigations().Where(x => x.IsCollection()))
-            {
-                collection.SetPropertyAccessMode(PropertyAccessMode.Field);
-            }
+            order.Metadata.SetNavigationAccessMode(PropertyAccessMode.Field);
 
             var shippingAddress = order.OwnsOne(e => e.ShippingAddress);
             shippingAddress.Property(e => e.StreetAddress).HasColumnName("ShippingStreet");

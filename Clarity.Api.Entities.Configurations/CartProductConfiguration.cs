@@ -7,7 +7,7 @@
     {
         public void Configure(EntityTypeBuilder<CartProduct> cartProduct)
         {
-            cartProduct.Property(e => e.Created);
+            cartProduct.Property(e => e.Created).HasDefaultValueSql("getutcdate()");
             cartProduct.Property(e => e.Updated);
             cartProduct.HasKey(e => new { e.CartId, e.ProductId });
             cartProduct.Property(e => e.Quantity).HasColumnType("decimal(18,2)");

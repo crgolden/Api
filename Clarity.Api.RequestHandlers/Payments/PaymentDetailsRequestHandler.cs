@@ -13,13 +13,12 @@
         {
         }
 
-        public override async Task<PaymentModel> Handle(PaymentDetailsRequest request, CancellationToken cancellationToken)
+        public override async Task<PaymentModel> Handle(PaymentDetailsRequest request, CancellationToken token)
         {
-            cancellationToken.ThrowIfCancellationRequested();
             var payments = Context.Set<Payment>().AsNoTracking();
             if (request.UserId.HasValue) payments = payments.Where(x => x.UserId == request.UserId.Value);
             var payment = await payments
-                .SingleOrDefaultAsync(x => x.Id == request.PaymentId, cancellationToken)
+                .SingleOrDefaultAsync(x => x.Id == request.PaymentId, token)
                 .ConfigureAwait(false);
             return Mapper.Map<PaymentModel>(payment);
         }

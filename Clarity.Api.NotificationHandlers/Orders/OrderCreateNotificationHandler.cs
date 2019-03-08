@@ -13,7 +13,8 @@
     public class OrderCreateNotificationHandler : CreateNotificationHandler<OrderCreateNotification, OrderModel>
     {
         private readonly IQueueClient _emailQueueClient;
-        private const string Subject = "Order Details (#{0})";
+        private const string Subject = "Order #{0} Details";
+        private const string Body = "<a href='{0}/orders/details/{1}'>Order #{2} Details</a>";
 
         public OrderCreateNotificationHandler(
             IEnumerable<IQueueClient> queueClients,
@@ -23,14 +24,27 @@
             _emailQueueClient = queueClients.Single(x => x.QueueName == serviceBusOptions.Value.EmailQueueName);
         }
 
-        public override async Task Handle(OrderCreateNotification notification, CancellationToken cancellationToken)
+        public override async Task Handle(OrderCreateNotification notification, CancellationToken token)
         {
-            var body = Encoding.UTF8.GetBytes("");
-            var message = new Message(body);
-            message.UserProperties.Add("email", notification.UserEmail);
-            message.UserProperties.Add("subject", string.Format(Subject, notification.Model.Number));
-            await _emailQueueClient.SendAsync(message).ConfigureAwait(false);
-            await base.Handle(notification, cancellationToken).ConfigureAwait(false);
+            if (notification.EventId == EventIds.CreateEnd)
+            {
+                var body = string.Format(Body, new object[]
+                {
+                    notification.Origin,
+                    notification.Model.Id,
+                    notification.Model.Number
+                });
+                var bytes = Encoding.UTF8.GetBytes(body);
+                var message = new Message(bytes);
+                message.UserProperties.Add("subject", string.Format(Subject, notification.Model.Number));
+                foreach (var email in notification.Emails)
+                {
+                    message.UserProperties["email"] = email;
+                    await _emailQueueClient.SendAsync(message).ConfigureAwait(false);
+                }
+            }
+
+            await base.Handle(notification, token).ConfigureAwait(false);
         }
     }
 }

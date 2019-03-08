@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using Core;
 
     public class Cart : Entity
@@ -34,11 +33,6 @@
         public bool RemoveCartProduct(CartProduct cartProduct)
         {
             return _cartProducts.Remove(cartProduct);
-        }
-
-        public decimal GetTotal()
-        {
-            return _cartProducts.Sum(x => x.Product.UnitPrice * x.Quantity);
         }
     }
 }

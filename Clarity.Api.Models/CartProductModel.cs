@@ -7,13 +7,15 @@
     {
         public decimal Quantity { get; set; }
 
-        public decimal ExtendedPrice => Quantity * ProductUnitPrice;
-
         public Guid CartId { get; set; }
 
         public Guid ProductId { get; set; }
 
         public string ProductName { get; set; }
+
+        public bool ProductActive { get; set; }
+
+        public string ProductQuantityPerUnit { get; set; }
 
         public string ProductImageThumbnailUri { get; set; }
 

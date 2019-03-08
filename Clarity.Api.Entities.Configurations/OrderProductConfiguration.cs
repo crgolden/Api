@@ -16,7 +16,7 @@
 
         public void Configure(EntityTypeBuilder<OrderProduct> orderProduct)
         {
-            orderProduct.Property(e => e.Created);
+            orderProduct.Property(e => e.Created).HasDefaultValueSql("getutcdate()");
             orderProduct.Property(e => e.Updated);
             orderProduct.HasKey(e => new { e.OrderId, e.ProductId });
             orderProduct.Property(e => e.Quantity).HasColumnType("decimal(18,2)");

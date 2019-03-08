@@ -1,12 +1,14 @@
 ﻿namespace Clarity.Api
 {
-    using Core;
+    using AutoMapper;
 
     public class FileProfile : Profile
     {
         public FileProfile()
         {
-            CreateMap<File, FileModel>();
+            CreateMap<FileModel, File>(MemberList.Destination)
+                .ForMember(dest => dest.ProductFiles, opt => opt.Ignore())
+                .ReverseMap();
         }
     }
 }

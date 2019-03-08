@@ -23,7 +23,7 @@
         [ProducesResponseType(typeof(IEnumerable<Order>), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request)
         {
-            return await base.Index(
+            return await Index(
                 request: new OrderIndexRequest(ModelState, request)
                 {
                     UserId = User.IsInRole("Admin") ? null : UserId
@@ -37,11 +37,13 @@
         public override async Task<IActionResult> Details([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            return await base.Details(
-                request: new OrderDetailsRequest(ids[0])
-                {
-                    UserId = User.IsInRole("Admin") ? null : UserId
-                },
+            return await Details(
+                request: User.IsInRole("Admin")
+                    ? new OrderDetailsRequest(ids[0])
+                    : new OrderDetailsRequest(ids[0])
+                    {
+                        UserId = Guid.Parse(User.FindFirst("sub").Value)
+                    },
                 notification: new OrderDetailsNotification()).ConfigureAwait(false);
         }
 
@@ -50,7 +52,7 @@
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public override async Task<IActionResult> Edit([FromBody] OrderModel order)
         {
-            return await base.Edit(
+            return await Edit(
                 request: new OrderEditRequest(order),
                 notification: new OrderEditNotification()).ConfigureAwait(false);
         }
@@ -61,7 +63,7 @@
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public override async Task<IActionResult> EditRange([FromBody] IEnumerable<OrderModel> orders)
         {
-            return await base.EditRange(
+            return await EditRange(
                 request: new OrderEditRangeRequest(orders),
                 notification: new OrderEditRangeNotification()).ConfigureAwait(false);
         }
@@ -71,11 +73,13 @@
         [ProducesResponseType(typeof(Order), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Create([FromBody] OrderModel order)
         {
-            return await base.Create(
+            order.UserId = Guid.Parse(User.FindFirst("sub").Value);
+            return await Create(
                 request: new OrderCreateRequest(order),
                 notification: new OrderCreateNotification
                 {
-                    UserEmail = UserEmail
+                    Emails = new [] { User.FindFirst("email").Value },
+                    Origin = Request.GetOrigin()
                 }).ConfigureAwait(false);
         }
 
@@ -85,7 +89,7 @@
         [ProducesResponseType(typeof(IEnumerable<Order>), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> CreateRange([FromBody] IEnumerable<OrderModel> orders)
         {
-            return await base.CreateRange(
+            return await CreateRange(
                 request: new OrderCreateRangeRequest(orders),
                 notification: new OrderCreateRangeNotification()).ConfigureAwait(false);
         }
@@ -97,7 +101,7 @@
         public override async Task<IActionResult> Delete([FromQuery] Guid[] ids)
         {
             if (ids.Length != 1) return BadRequest(ids);
-            return await base.Delete(
+            return await Delete(
                 request: new OrderDeleteRequest(ids[0]),
                 notification: new OrderDeleteNotification()).ConfigureAwait(false);
         }

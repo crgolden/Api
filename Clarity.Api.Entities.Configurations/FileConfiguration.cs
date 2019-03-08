@@ -20,16 +20,14 @@
 
         public void Configure(EntityTypeBuilder<File> file)
         {
-            file.Property(e => e.Created);
+            file.Property(e => e.Created).HasDefaultValueSql("getutcdate()");
             file.Property(e => e.Updated);
             file.Property(e => e.Uri).IsRequired();
+            file.HasIndex(e => e.Uri).IsUnique();
             file.Property(e => e.Name).IsRequired();
             file.Property(e => e.ContentType);
             file.HasMany(e => e.ProductFiles).WithOne(e => e.File).HasForeignKey(e => e.FileId);
-            foreach (var collection in file.Metadata.GetNavigations().Where(x => x.IsCollection()))
-            {
-                collection.SetPropertyAccessMode(PropertyAccessMode.Field);
-            }
+            file.Metadata.SetNavigationAccessMode(PropertyAccessMode.Field);
             file.ToTable("Files");
             if (!_options.SeedData) return;
             using (var cancellationTokenSource = new CancellationTokenSource())

@@ -11,6 +11,14 @@
 
         public string ProductName { get; set; }
 
+        public bool ProductActive { get; set; }
+
+        public bool ProductIsDownload { get; set; }
+
+        public string ProductQuantityPerUnit { get; set; }
+
+        public decimal ProductUnitPrice { get; set; }
+
         public Guid FileId { get; set; }
 
         public string FileName { get; set; }

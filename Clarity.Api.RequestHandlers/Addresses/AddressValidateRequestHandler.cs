@@ -14,10 +14,9 @@
             _service = service;
         }
 
-        public async Task<bool> Handle(AddressValidateRequest request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AddressValidateRequest request, CancellationToken token)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            return await _service.ValidateUsAddressAsync(request.Model, cancellationToken);
+            return await _service.ValidateUsAddressAsync(request.Model, token);
         }
     }
 }

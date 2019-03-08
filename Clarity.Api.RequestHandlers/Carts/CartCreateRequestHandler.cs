@@ -12,24 +12,16 @@
         {
         }
 
-        public override async Task<CartModel> Handle(CartCreateRequest request, CancellationToken cancellationToken)
+        public override async Task<CartModel> Handle(CartCreateRequest request, CancellationToken token)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            if (request.Model.UserId == null)
-            {
-                return await base.Handle(request, cancellationToken).ConfigureAwait(false);
-            }
-
+            if (request.Model.UserId == null) return await base.Handle(request, token).ConfigureAwait(false);
             var cart = await Context.Set<Cart>()
                 .Include(x => x.CartProducts)
-                .SingleOrDefaultAsync(x => x.UserId == request.Model.UserId, cancellationToken)
+                .SingleOrDefaultAsync(x => x.UserId == request.Model.UserId, token)
                 .ConfigureAwait(false);
-            if (cart != null)
-            {
-                return Mapper.Map<CartModel>(cart);
-            }
-
-            return await base.Handle(request, cancellationToken).ConfigureAwait(false);
+            return cart != null
+                ? Mapper.Map<CartModel>(cart)
+                : await base.Handle(request, token).ConfigureAwait(false);
         }
     }
 }

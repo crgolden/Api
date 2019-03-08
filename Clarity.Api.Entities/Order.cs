@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using Core;
 
     public class Order : Entity
@@ -23,6 +22,8 @@
 
         public decimal? Tax { get; set; }
 
+        public decimal Total { get; set; }
+
         public virtual IReadOnlyCollection<OrderProduct> OrderProducts => _orderProducts;
 
         public virtual IReadOnlyCollection<Payment> Payments => _payments;
@@ -36,11 +37,6 @@
         public Order(Guid id) : this()
         {
             Id = id;
-        }
-
-        public decimal GetTotal()
-        {
-            return _orderProducts.Sum(x => x.Product.UnitPrice * x.Quantity);
         }
 
         public void AddOrderProduct(OrderProduct orderProduct)

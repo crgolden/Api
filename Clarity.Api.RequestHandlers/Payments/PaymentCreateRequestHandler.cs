@@ -18,9 +18,8 @@
             _paymentService = paymentService;
         }
 
-        public override async Task<PaymentModel> Handle(PaymentCreateRequest request, CancellationToken cancellationToken)
+        public override async Task<PaymentModel> Handle(PaymentCreateRequest request, CancellationToken token)
         {
-            cancellationToken.ThrowIfCancellationRequested();
             if (string.IsNullOrEmpty(request.Model.TokenId)) return null;
             if (string.IsNullOrEmpty(request.Model.CustomerCode) && !string.IsNullOrEmpty(request.Email))
             {
@@ -28,7 +27,7 @@
                     .CreateCustomerAsync(
                         email: request.Email,
                         tokenId: request.Model.TokenId,
-                        cancellationToken: cancellationToken)
+                        token: token)
                     .ConfigureAwait(false);
             }
 
@@ -38,8 +37,8 @@
                 amount: request.Model.Amount,
                 currency: request.Model.Currency,
                 description: request.Model.Description,
-                cancellationToken: cancellationToken).ConfigureAwait(false);
-            return await base.Handle(request, cancellationToken).ConfigureAwait(false);
+                token: token).ConfigureAwait(false);
+            return await base.Handle(request, token).ConfigureAwait(false);
         }
     }
 }

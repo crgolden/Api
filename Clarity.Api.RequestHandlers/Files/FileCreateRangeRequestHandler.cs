@@ -21,14 +21,9 @@
             _storageService = storageService;
         }
 
-        public override async Task<IEnumerable<FileModel>> Handle(FileCreateRangeRequest request, CancellationToken cancellationToken)
+        public override async Task<IEnumerable<FileModel>> Handle(FileCreateRangeRequest request, CancellationToken token)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            if (!request.Files.Any())
-            {
-                return await base.Handle(request, cancellationToken).ConfigureAwait(false);
-            }
-
+            if (!request.Files.Any()) return await base.Handle(request, token).ConfigureAwait(false);
             var files = new List<FileModel>();
             foreach (var file in request.Files)
             {
@@ -38,7 +33,7 @@
                 var uri = await _storageService.UploadFileToStorageAsync(
                     file: file,
                     fileName: $"{id}.{extension}",
-                    cancellationToken: cancellationToken).ConfigureAwait(false);
+                    token: token).ConfigureAwait(false);
                 files.Add(new FileModel
                 {
                     Id = id,
@@ -48,7 +43,7 @@
                 });
             }
             
-            return await base.Handle(new FileCreateRangeRequest(files), cancellationToken).ConfigureAwait(false);
+            return await base.Handle(new FileCreateRangeRequest(files), token).ConfigureAwait(false);
         }
     }
 }

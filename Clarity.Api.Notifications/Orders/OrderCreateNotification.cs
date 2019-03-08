@@ -4,6 +4,8 @@
 
     public class OrderCreateNotification : CreateNotification<OrderModel>
     {
-        public string UserEmail { get; set; }
+        public string[] Emails { get; set; }
+
+        public string Origin { get; set; }
     }
 }
