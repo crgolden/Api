@@ -3,7 +3,7 @@
     using Core;
     using Microsoft.Extensions.Logging;
 
-    public class FileCreateRangeNotificationHandler : CreateRangeNotificationHandler<FileCreateRangeNotification, FileModel>
+    public class FileCreateRangeNotificationHandler : CreateRangeNotificationHandler<FileCreateRangeNotification, Api.FileModel>
     {
         public FileCreateRangeNotificationHandler(ILogger<FileCreateRangeNotificationHandler> logger) : base(logger)
         {

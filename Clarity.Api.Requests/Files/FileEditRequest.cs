@@ -2,9 +2,9 @@
 {
     using Core;
 
-    public class FileEditRequest : EditRequest<File, FileModel>
+    public class FileEditRequest : EditRequest<Api.File, Api.FileModel>
     {
-        public FileEditRequest(FileModel file) : base(file)
+        public FileEditRequest(Api.FileModel file) : base(file)
         {
         }
     }

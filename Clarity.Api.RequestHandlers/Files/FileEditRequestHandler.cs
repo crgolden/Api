@@ -4,7 +4,7 @@
     using Core;
     using Microsoft.EntityFrameworkCore;
 
-    public class FileEditRequestHandler : EditRequestHandler<FileEditRequest, File, FileModel>
+    public class FileEditRequestHandler : EditRequestHandler<FileEditRequest, Api.File, Api.FileModel>
     {
         public FileEditRequestHandler(DbContext context, IMapper mapper) : base(context, mapper)
         {

@@ -34,15 +34,15 @@
                 return Mapper.Map<CartModel>(cart);
             }
 
-                if (cart.UserId.HasValue || !request.UserId.HasValue)
-                {
-                    return Mapper.Map<CartModel>(cart);
-                }
-
-                cart.UserId = request.UserId.Value;
-                await MergeExistingCart(cart, carts, token).ConfigureAwait(false);
-                await Context.SaveChangesAsync(token).ConfigureAwait(false);
+            if (cart.UserId.HasValue || !request.UserId.HasValue)
+            {
                 return Mapper.Map<CartModel>(cart);
+            }
+
+            cart.UserId = request.UserId.Value;
+            await MergeExistingCart(cart, carts, token).ConfigureAwait(false);
+            await Context.SaveChangesAsync(token).ConfigureAwait(false);
+            return Mapper.Map<CartModel>(cart);
         }
 
         private async Task MergeExistingCart(

@@ -1,14 +1,14 @@
 ﻿namespace Clarity.Api
 {
+    using Core;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-    public class CartConfiguration : IEntityTypeConfiguration<Cart>
+    public class CartConfiguration : EntityConfiguration<Cart>
     {
-        public void Configure(EntityTypeBuilder<Cart> cart)
+        public override void Configure(EntityTypeBuilder<Cart> cart)
         {
-            cart.Property(e => e.Created).HasDefaultValueSql("getutcdate()");
-            cart.Property(e => e.Updated);
+            base.Configure(cart);
             cart.HasIndex(e => e.UserId).IsUnique();
             cart.HasMany(e => e.CartProducts).WithOne(e => e.Cart).HasForeignKey(e => e.CartId);
             cart.Metadata.SetNavigationAccessMode(PropertyAccessMode.Field);

@@ -12,7 +12,7 @@
     using Orders;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class OrdersController : Controller<Order, OrderModel, Guid>
+    public class OrdersController : EntitiesController<Order, OrderModel, Guid>
     {
         public OrdersController(IMediator mediator) : base(mediator)
         {
@@ -26,7 +26,9 @@
             return await Index(
                 request: new OrderIndexRequest(ModelState, request)
                 {
-                    UserId = User.IsInRole("Admin") ? null : UserId
+                    UserId = User.IsInRole("Admin")
+                        ? (Guid?)null
+                        : Guid.Parse(User.FindFirst("sub").Value)
                 },
                 notification: new OrderIndexNotification()).ConfigureAwait(false);
         }

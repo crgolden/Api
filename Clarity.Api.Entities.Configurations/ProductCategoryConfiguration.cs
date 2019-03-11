@@ -5,7 +5,7 @@
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using Microsoft.Extensions.Options;
 
-    public class ProductCategoryConfiguration : IEntityTypeConfiguration<ProductCategory>
+    public class ProductCategoryConfiguration : EntityConfiguration<ProductCategory>
     {
         private readonly DatabaseOptions _options;
 
@@ -14,10 +14,8 @@
             _options = options.Value;
         }
 
-        public void Configure(EntityTypeBuilder<ProductCategory> productCategory)
+        public override void Configure(EntityTypeBuilder<ProductCategory> productCategory)
         {
-            productCategory.Property(e => e.Created).HasDefaultValueSql("getutcdate()");
-            productCategory.Property(e => e.Updated);
             productCategory.HasKey(e => new { e.ProductId, e.CategoryId });
             productCategory.HasOne(e => e.Product).WithMany(e => e.ProductCategories).HasForeignKey(e => e.ProductId);
             productCategory.HasOne(e => e.Category).WithMany(e => e.ProductCategories).HasForeignKey(e => e.CategoryId);

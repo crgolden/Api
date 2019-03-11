@@ -6,6 +6,6 @@
 
     public interface IDemoFilesClient
     {
-        Task<Uri[]> GetDemoFileUris(CancellationToken token);
+        Task<(Uri, long)[]> GetDemoFileUrisAndSizes(CancellationToken token);
     }
 }

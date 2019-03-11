@@ -7,13 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Clarity.Core.Extensions" Version="1.3.0-CI-20190307-111651" />
-    <PackageReference Include="Clarity.Core.Interfaces" Version="1.5.0-CI-20190303-201900" />
-    <PackageReference Include="Clarity.Core.RequestHandlers" Version="1.2.0-CI-20190303-203135" />
+    <PackageReference Include="Clarity.Core.Extensions" Version="1.6.1" />
+    <PackageReference Include="Clarity.Core.Interfaces" Version="1.7.0" />
+    <PackageReference Include="Clarity.Core.RequestHandlers" Version="1.3.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Clarity.Api.Extensions\Clarity.Api.Extensions.csproj" />
     <ProjectReference Include="..\Clarity.Api.Requests\Clarity.Api.Requests.csproj" />
   </ItemGroup>
 

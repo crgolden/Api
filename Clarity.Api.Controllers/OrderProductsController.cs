@@ -12,7 +12,7 @@
     using OrderProducts;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class OrderProductsController : Controller<OrderProduct, OrderProductModel, Guid>
+    public class OrderProductsController : EntitiesController<OrderProduct, OrderProductModel, Guid>
     {
         public OrderProductsController(IMediator mediator) : base(mediator)
         {

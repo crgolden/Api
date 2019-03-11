@@ -5,7 +5,7 @@
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using Microsoft.Extensions.Options;
 
-    public class ProductFileConfiguration : IEntityTypeConfiguration<ProductFile>
+    public class ProductFileConfiguration : EntityConfiguration<ProductFile>
     {
         private readonly DatabaseOptions _options;
 
@@ -14,10 +14,9 @@
             _options = options.Value;
         }
 
-        public void Configure(EntityTypeBuilder<ProductFile> productFile)
+        public override void Configure(EntityTypeBuilder<ProductFile> productFile)
         {
-            productFile.Property(e => e.Created).HasDefaultValueSql("getutcdate()");
-            productFile.Property(e => e.Updated);
+            base.Configure(productFile);
             productFile.HasKey(e => new { e.ProductId, e.FileId });
             productFile.HasOne(e => e.Product).WithMany(e => e.ProductFiles).HasForeignKey(e => e.ProductId);
             productFile.HasOne(e => e.File).WithMany(e => e.ProductFiles).HasForeignKey(e => e.FileId);

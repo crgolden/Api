@@ -2,19 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
-    using Core;
 
-    public class File : Entity
+    public class File : Core.File
     {
         private readonly List<ProductFile> _productFiles;
 
         public Guid Id { get; private set; }
-
-        public string Uri { get; set; }
-
-        public string Name { get; set; }
-
-        public string ContentType { get; set; }
 
         public virtual IReadOnlyCollection<ProductFile> ProductFiles => _productFiles;
 

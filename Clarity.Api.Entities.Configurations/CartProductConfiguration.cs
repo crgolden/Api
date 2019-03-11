@@ -1,14 +1,14 @@
 ﻿namespace Clarity.Api
 {
+    using Core;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-    public class CartProductConfiguration : IEntityTypeConfiguration<CartProduct>
+    public class CartProductConfiguration : EntityConfiguration<CartProduct>
     {
-        public void Configure(EntityTypeBuilder<CartProduct> cartProduct)
+        public override void Configure(EntityTypeBuilder<CartProduct> cartProduct)
         {
-            cartProduct.Property(e => e.Created).HasDefaultValueSql("getutcdate()");
-            cartProduct.Property(e => e.Updated);
+            base.Configure(cartProduct);
             cartProduct.HasKey(e => new { e.CartId, e.ProductId });
             cartProduct.Property(e => e.Quantity).HasColumnType("decimal(18,2)");
             cartProduct.HasOne(e => e.Cart).WithMany(e => e.CartProducts).HasForeignKey(e => e.CartId);

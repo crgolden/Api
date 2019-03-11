@@ -12,7 +12,7 @@
     using ProductFiles;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class ProductFilesController : Controller<ProductFile, ProductFileModel, Guid>
+    public class ProductFilesController : EntitiesController<ProductFile, ProductFileModel, Guid>
     {
         public ProductFilesController(IMediator mediator) : base(mediator)
         {

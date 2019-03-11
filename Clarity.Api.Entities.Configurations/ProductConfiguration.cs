@@ -5,7 +5,7 @@
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using Microsoft.Extensions.Options;
 
-    public class ProductConfiguration : IEntityTypeConfiguration<Product>
+    public class ProductConfiguration : EntityConfiguration<Product>
     {
         private readonly DatabaseOptions _options;
 
@@ -14,10 +14,9 @@
             _options = options.Value;
         }
 
-        public void Configure(EntityTypeBuilder<Product> product)
+        public override void Configure(EntityTypeBuilder<Product> product)
         {
-            product.Property(e => e.Created).HasDefaultValueSql("getutcdate()");
-            product.Property(e => e.Updated);
+            base.Configure(product);
             product.Property(e => e.Name).IsRequired();
             product.HasIndex(e => e.Name).IsUnique();
             product.HasIndex(e => e.Sku).IsUnique();

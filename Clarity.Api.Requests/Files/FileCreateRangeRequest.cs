@@ -4,11 +4,11 @@
     using Core;
     using Microsoft.AspNetCore.Http;
 
-    public class FileCreateRangeRequest : CreateRangeRequest<IEnumerable<FileModel>, File, FileModel>
+    public class FileCreateRangeRequest : CreateRangeRequest<IEnumerable<Api.FileModel>, Api.File, Api.FileModel>
     {
         public IFormFileCollection Files { get; set; }
 
-        public FileCreateRangeRequest(IEnumerable<FileModel> files) : base(files)
+        public FileCreateRangeRequest(IEnumerable<Api.FileModel> files) : base(files)
         {
         }
     }

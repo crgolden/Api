@@ -38,19 +38,21 @@ namespace Clarity.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Files",
+                name: "File",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Created = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
                     Updated = table.Column<DateTime>(nullable: true),
-                    Uri = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    ContentType = table.Column<string>(nullable: true)
+                    ContentType = table.Column<string>(nullable: true),
+                    Extension = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Size = table.Column<long>(nullable: false),
+                    Uri = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Files", x => x.Id);
+                    table.PrimaryKey("PK_File", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -87,7 +89,7 @@ namespace Clarity.Api.Migrations
                     Active = table.Column<bool>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     IsDownload = table.Column<bool>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
                     QuantityPerUnit = table.Column<string>(nullable: false),
                     ReorderLevel = table.Column<int>(nullable: true),
                     Sku = table.Column<string>(nullable: true),
@@ -187,7 +189,7 @@ namespace Clarity.Api.Migrations
                 {
                     ProductId = table.Column<Guid>(nullable: false),
                     CategoryId = table.Column<Guid>(nullable: false),
-                    Created = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
+                    Created = table.Column<DateTime>(nullable: false),
                     Updated = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
@@ -221,9 +223,9 @@ namespace Clarity.Api.Migrations
                 {
                     table.PrimaryKey("PK_ProductFiles", x => new { x.ProductId, x.FileId });
                     table.ForeignKey(
-                        name: "FK_ProductFiles_Files_FileId",
+                        name: "FK_ProductFiles_File_FileId",
                         column: x => x.FileId,
-                        principalTable: "Files",
+                        principalTable: "File",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -275,384 +277,384 @@ namespace Clarity.Api.Migrations
                 values: new object[] { new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"), "Breads, crackers, pasta, and cereal", "Grains/Cereals", null });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("8703e152-aeaa-43f4-b607-3b803f6ab773"), "image/jpeg", "55.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/8703e152-aeaa-43f4-b607-3b803f6ab773.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("8703e152-aeaa-43f4-b607-3b803f6ab773"), "image/jpeg", ".jpg", "8703E152-AEAA-43F4-B607-3B803F6AB773.jpg", 18102L, null, "https://clarityblob.blob.core.windows.net/images/8703e152-aeaa-43f4-b607-3b803f6ab773.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("c68ebcdd-7cc3-45a0-b088-29dc950dae60"), "image/jpeg", "54.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/c68ebcdd-7cc3-45a0-b088-29dc950dae60.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("c68ebcdd-7cc3-45a0-b088-29dc950dae60"), "image/jpeg", ".jpg", "C68EBCDD-7CC3-45A0-B088-29DC950DAE60.jpg", 20540L, null, "https://clarityblob.blob.core.windows.net/images/c68ebcdd-7cc3-45a0-b088-29dc950dae60.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("a8189d9d-7185-4c2c-bf48-f0cc797a2acc"), "image/jpeg", "53.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/a8189d9d-7185-4c2c-bf48-f0cc797a2acc.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("a8189d9d-7185-4c2c-bf48-f0cc797a2acc"), "image/jpeg", ".jpg", "A8189D9D-7185-4C2C-BF48-F0CC797A2ACC.jpg", 18102L, null, "https://clarityblob.blob.core.windows.net/images/a8189d9d-7185-4c2c-bf48-f0cc797a2acc.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("c9cc388f-6645-4c31-b19c-f566ee06c0dc"), "image/jpeg", "52.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/c9cc388f-6645-4c31-b19c-f566ee06c0dc.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("c9cc388f-6645-4c31-b19c-f566ee06c0dc"), "image/jpeg", ".jpg", "C9CC388F-6645-4C31-B19C-F566EE06C0DC.jpg", 20196L, null, "https://clarityblob.blob.core.windows.net/images/c9cc388f-6645-4c31-b19c-f566ee06c0dc.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("771cd746-df18-4b3d-b7a3-68d426fe7bb9"), "image/jpeg", "51.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/771cd746-df18-4b3d-b7a3-68d426fe7bb9.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("771cd746-df18-4b3d-b7a3-68d426fe7bb9"), "image/jpeg", ".jpg", "771CD746-DF18-4B3D-B7A3-68D426FE7BB9.jpg", 17618L, null, "https://clarityblob.blob.core.windows.net/images/771cd746-df18-4b3d-b7a3-68d426fe7bb9.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("e0403ce3-cf8d-48d3-8a21-0af39c40ddee"), "image/jpeg", "50.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/e0403ce3-cf8d-48d3-8a21-0af39c40ddee.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("e0403ce3-cf8d-48d3-8a21-0af39c40ddee"), "image/jpeg", ".jpg", "E0403CE3-CF8D-48D3-8A21-0AF39C40DDEE.jpg", 14389L, null, "https://clarityblob.blob.core.windows.net/images/e0403ce3-cf8d-48d3-8a21-0af39c40ddee.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("b589c46f-9572-4088-ba25-a5f67364b2ec"), "image/jpeg", "49.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/b589c46f-9572-4088-ba25-a5f67364b2ec.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("b589c46f-9572-4088-ba25-a5f67364b2ec"), "image/jpeg", ".jpg", "B589C46F-9572-4088-BA25-A5F67364B2EC.jpg", 21196L, null, "https://clarityblob.blob.core.windows.net/images/b589c46f-9572-4088-ba25-a5f67364b2ec.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("968a4281-a54e-4397-8304-5ad1c471590e"), "image/jpeg", "45.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/968a4281-a54e-4397-8304-5ad1c471590e.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("968a4281-a54e-4397-8304-5ad1c471590e"), "image/jpeg", ".jpg", "968A4281-A54E-4397-8304-5AD1C471590E.jpg", 21502L, null, "https://clarityblob.blob.core.windows.net/images/968a4281-a54e-4397-8304-5ad1c471590e.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("12b70183-6634-419f-9fe8-4e9982bf84c4"), "image/jpeg", "47.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/12b70183-6634-419f-9fe8-4e9982bf84c4.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("12b70183-6634-419f-9fe8-4e9982bf84c4"), "image/jpeg", ".jpg", "12B70183-6634-419F-9FE8-4E9982BF84C4.jpg", 22345L, null, "https://clarityblob.blob.core.windows.net/images/12b70183-6634-419f-9fe8-4e9982bf84c4.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("1fa60ef2-2d80-468e-88ed-f1ba3c8bfe96"), "image/jpeg", "46.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/1fa60ef2-2d80-468e-88ed-f1ba3c8bfe96.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("1fa60ef2-2d80-468e-88ed-f1ba3c8bfe96"), "image/jpeg", ".jpg", "1FA60EF2-2D80-468E-88ED-F1BA3C8BFE96.jpg", 20073L, null, "https://clarityblob.blob.core.windows.net/images/1fa60ef2-2d80-468e-88ed-f1ba3c8bfe96.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("212c48d4-38ef-42b3-951b-2a7dda0a0746"), "image/jpeg", "56.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/212c48d4-38ef-42b3-951b-2a7dda0a0746.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("212c48d4-38ef-42b3-951b-2a7dda0a0746"), "image/jpeg", ".jpg", "212C48D4-38EF-42B3-951B-2A7DDA0A0746.jpg", 19226L, null, "https://clarityblob.blob.core.windows.net/images/212c48d4-38ef-42b3-951b-2a7dda0a0746.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("c9d92c74-07be-4ab4-9e8e-6293bfb4c530"), "image/jpeg", "44.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/c9d92c74-07be-4ab4-9e8e-6293bfb4c530.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("c9d92c74-07be-4ab4-9e8e-6293bfb4c530"), "image/jpeg", ".jpg", "C9D92C74-07BE-4AB4-9E8E-6293BFB4C530.jpg", 17246L, null, "https://clarityblob.blob.core.windows.net/images/c9d92c74-07be-4ab4-9e8e-6293bfb4c530.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("1a6ef266-ab6f-4a01-966f-a19f26486bc8"), "image/jpeg", "43.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/1a6ef266-ab6f-4a01-966f-a19f26486bc8.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("1a6ef266-ab6f-4a01-966f-a19f26486bc8"), "image/jpeg", ".jpg", "1A6EF266-AB6F-4A01-966F-A19F26486BC8.jpg", 15912L, null, "https://clarityblob.blob.core.windows.net/images/1a6ef266-ab6f-4a01-966f-a19f26486bc8.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("ef8eb060-d1a6-4b66-a4ca-638977527a15"), "image/jpeg", "42.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/ef8eb060-d1a6-4b66-a4ca-638977527a15.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("ef8eb060-d1a6-4b66-a4ca-638977527a15"), "image/jpeg", ".jpg", "EF8EB060-D1A6-4B66-A4CA-638977527A15.jpg", 24298L, null, "https://clarityblob.blob.core.windows.net/images/ef8eb060-d1a6-4b66-a4ca-638977527a15.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("0dcaf98a-fd3e-4112-9fda-3fa7da1ad290"), "image/jpeg", "41.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/0dcaf98a-fd3e-4112-9fda-3fa7da1ad290.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("0dcaf98a-fd3e-4112-9fda-3fa7da1ad290"), "image/jpeg", ".jpg", "0DCAF98A-FD3E-4112-9FDA-3FA7DA1AD290.jpg", 19658L, null, "https://clarityblob.blob.core.windows.net/images/0dcaf98a-fd3e-4112-9fda-3fa7da1ad290.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("1eb79abb-84bc-41c8-9978-92cae1f2b6d2"), "image/jpeg", "48.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/1eb79abb-84bc-41c8-9978-92cae1f2b6d2.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("1eb79abb-84bc-41c8-9978-92cae1f2b6d2"), "image/jpeg", ".jpg", "1EB79ABB-84BC-41C8-9978-92CAE1F2B6D2.jpg", 15860L, null, "https://clarityblob.blob.core.windows.net/images/1eb79abb-84bc-41c8-9978-92cae1f2b6d2.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("d28c4f4f-6048-4a93-a47a-d7db0c81a27a"), "image/jpeg", "57.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/d28c4f4f-6048-4a93-a47a-d7db0c81a27a.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("d28c4f4f-6048-4a93-a47a-d7db0c81a27a"), "image/jpeg", ".jpg", "D28C4F4F-6048-4A93-A47A-D7DB0C81A27A.jpg", 19271L, null, "https://clarityblob.blob.core.windows.net/images/d28c4f4f-6048-4a93-a47a-d7db0c81a27a.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("8d12d30e-899e-4533-8faa-11716affdefe"), "image/jpeg", "61.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/8d12d30e-899e-4533-8faa-11716affdefe.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("8d12d30e-899e-4533-8faa-11716affdefe"), "image/jpeg", ".jpg", "8D12D30E-899E-4533-8FAA-11716AFFDEFE.jpg", 17837L, null, "https://clarityblob.blob.core.windows.net/images/8d12d30e-899e-4533-8faa-11716affdefe.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("4f71a1f9-bf6f-4653-ae85-a6dad07b80e6"), "image/jpeg", "59.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/4f71a1f9-bf6f-4653-ae85-a6dad07b80e6.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("4f71a1f9-bf6f-4653-ae85-a6dad07b80e6"), "image/jpeg", ".jpg", "4F71A1F9-BF6F-4653-AE85-A6DAD07B80E6.jpg", 21109L, null, "https://clarityblob.blob.core.windows.net/images/4f71a1f9-bf6f-4653-ae85-a6dad07b80e6.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("1fc5ad0e-91cf-4fcd-afcc-73a51bd94905"), "image/jpeg", "76.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/1fc5ad0e-91cf-4fcd-afcc-73a51bd94905.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("1fc5ad0e-91cf-4fcd-afcc-73a51bd94905"), "image/jpeg", ".jpg", "1FC5AD0E-91CF-4FCD-AFCC-73A51BD94905.jpg", 11258L, null, "https://clarityblob.blob.core.windows.net/images/1fc5ad0e-91cf-4fcd-afcc-73a51bd94905.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("183f872c-1a26-4f44-ac02-63cba826ff59"), "image/jpeg", "74.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/183f872c-1a26-4f44-ac02-63cba826ff59.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("183f872c-1a26-4f44-ac02-63cba826ff59"), "image/jpeg", ".jpg", "183F872C-1A26-4F44-AC02-63CBA826FF59.jpg", 25734L, null, "https://clarityblob.blob.core.windows.net/images/183f872c-1a26-4f44-ac02-63cba826ff59.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("681ffa4f-6d3b-460c-be10-a8376eb7bb15"), "image/jpeg", "73.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/681ffa4f-6d3b-460c-be10-a8376eb7bb15.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("681ffa4f-6d3b-460c-be10-a8376eb7bb15"), "image/jpeg", ".jpg", "681FFA4F-6D3B-460C-BE10-A8376EB7BB15.jpg", 21218L, null, "https://clarityblob.blob.core.windows.net/images/681ffa4f-6d3b-460c-be10-a8376eb7bb15.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("80d595ef-d82c-4c55-a4bd-60b29d4953e9"), "image/jpeg", "72.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/80d595ef-d82c-4c55-a4bd-60b29d4953e9.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("80d595ef-d82c-4c55-a4bd-60b29d4953e9"), "image/jpeg", ".jpg", "80D595EF-D82C-4C55-A4BD-60B29D4953E9.jpg", 16521L, null, "https://clarityblob.blob.core.windows.net/images/80d595ef-d82c-4c55-a4bd-60b29d4953e9.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("b4ecc589-9e7f-4d00-bc93-4d87e97441fb"), "image/jpeg", "71.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/b4ecc589-9e7f-4d00-bc93-4d87e97441fb.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("b4ecc589-9e7f-4d00-bc93-4d87e97441fb"), "image/jpeg", ".jpg", "B4ECC589-9E7F-4D00-BC93-4D87E97441FB.jpg", 13658L, null, "https://clarityblob.blob.core.windows.net/images/b4ecc589-9e7f-4d00-bc93-4d87e97441fb.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("9769498b-8cae-4e37-863b-379e77cfef1e"), "image/jpeg", "70.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/9769498b-8cae-4e37-863b-379e77cfef1e.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("9769498b-8cae-4e37-863b-379e77cfef1e"), "image/jpeg", ".jpg", "9769498B-8CAE-4E37-863B-379E77CFEF1E.jpg", 12014L, null, "https://clarityblob.blob.core.windows.net/images/9769498b-8cae-4e37-863b-379e77cfef1e.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("307bdfc8-0142-4371-a6da-9383a2bb5daf"), "image/jpeg", "69.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/307bdfc8-0142-4371-a6da-9383a2bb5daf.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("307bdfc8-0142-4371-a6da-9383a2bb5daf"), "image/jpeg", ".jpg", "307BDFC8-0142-4371-A6DA-9383A2BB5DAF.jpg", 18034L, null, "https://clarityblob.blob.core.windows.net/images/307bdfc8-0142-4371-a6da-9383a2bb5daf.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("cdac7720-9734-4bf5-ab33-71cc0f3ee070"), "image/jpeg", "58.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/cdac7720-9734-4bf5-ab33-71cc0f3ee070.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("cdac7720-9734-4bf5-ab33-71cc0f3ee070"), "image/jpeg", ".jpg", "CDAC7720-9734-4BF5-AB33-71CC0F3EE070.jpg", 24290L, null, "https://clarityblob.blob.core.windows.net/images/cdac7720-9734-4bf5-ab33-71cc0f3ee070.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("006a056d-33ad-4b0b-9169-3a6d02df6993"), "image/jpeg", "68.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/006a056d-33ad-4b0b-9169-3a6d02df6993.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("006a056d-33ad-4b0b-9169-3a6d02df6993"), "image/jpeg", ".jpg", "006A056D-33AD-4B0B-9169-3A6D02DF6993.jpg", 21693L, null, "https://clarityblob.blob.core.windows.net/images/006a056d-33ad-4b0b-9169-3a6d02df6993.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("457f9796-7574-4c71-8d62-a70878441981"), "image/jpeg", "66.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/457f9796-7574-4c71-8d62-a70878441981.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("457f9796-7574-4c71-8d62-a70878441981"), "image/jpeg", ".jpg", "457F9796-7574-4C71-8D62-A70878441981.jpg", 23321L, null, "https://clarityblob.blob.core.windows.net/images/457f9796-7574-4c71-8d62-a70878441981.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("ab17abc1-5491-4d6e-8974-fce35bb1159f"), "image/jpeg", "65.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/ab17abc1-5491-4d6e-8974-fce35bb1159f.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("ab17abc1-5491-4d6e-8974-fce35bb1159f"), "image/jpeg", ".jpg", "AB17ABC1-5491-4D6E-8974-FCE35BB1159F.jpg", 17506L, null, "https://clarityblob.blob.core.windows.net/images/ab17abc1-5491-4d6e-8974-fce35bb1159f.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("1847baf5-dc0e-486d-af0b-bd0b23806205"), "image/jpeg", "64.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/1847baf5-dc0e-486d-af0b-bd0b23806205.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("1847baf5-dc0e-486d-af0b-bd0b23806205"), "image/jpeg", ".jpg", "1847BAF5-DC0E-486D-AF0B-BD0B23806205.jpg", 22073L, null, "https://clarityblob.blob.core.windows.net/images/1847baf5-dc0e-486d-af0b-bd0b23806205.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("4fcf050a-4543-4878-9986-0db258095b97"), "image/jpeg", "63.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/4fcf050a-4543-4878-9986-0db258095b97.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("4fcf050a-4543-4878-9986-0db258095b97"), "image/jpeg", ".jpg", "4FCF050A-4543-4878-9986-0DB258095B97.jpg", 19596L, null, "https://clarityblob.blob.core.windows.net/images/4fcf050a-4543-4878-9986-0db258095b97.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("910d6beb-4de9-43f6-a2a9-da0a01687ed5"), "image/jpeg", "62.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/910d6beb-4de9-43f6-a2a9-da0a01687ed5.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("910d6beb-4de9-43f6-a2a9-da0a01687ed5"), "image/jpeg", ".jpg", "910D6BEB-4DE9-43F6-A2A9-DA0A01687ED5.jpg", 14740L, null, "https://clarityblob.blob.core.windows.net/images/910d6beb-4de9-43f6-a2a9-da0a01687ed5.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("4dfe104a-e281-4c4f-b4cb-cb5880e055c0"), "image/jpeg", "40.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/4dfe104a-e281-4c4f-b4cb-cb5880e055c0.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("4dfe104a-e281-4c4f-b4cb-cb5880e055c0"), "image/jpeg", ".jpg", "4DFE104A-E281-4C4F-B4CB-CB5880E055C0.jpg", 18355L, null, "https://clarityblob.blob.core.windows.net/images/4dfe104a-e281-4c4f-b4cb-cb5880e055c0.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("07a598e1-3a67-4416-a030-30d734ac227d"), "image/jpeg", "60.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/07a598e1-3a67-4416-a030-30d734ac227d.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("07a598e1-3a67-4416-a030-30d734ac227d"), "image/jpeg", ".jpg", "07A598E1-3A67-4416-A030-30D734AC227D.jpg", 15604L, null, "https://clarityblob.blob.core.windows.net/images/07a598e1-3a67-4416-a030-30d734ac227d.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("511dd9c9-ed5b-43a9-881a-1daeea1429be"), "image/jpeg", "67.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/511dd9c9-ed5b-43a9-881a-1daeea1429be.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("511dd9c9-ed5b-43a9-881a-1daeea1429be"), "image/jpeg", ".jpg", "511DD9C9-ED5B-43A9-881A-1DAEEA1429BE.jpg", 15637L, null, "https://clarityblob.blob.core.windows.net/images/511dd9c9-ed5b-43a9-881a-1daeea1429be.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("2c279d1c-5583-4b37-a57a-ee353eca4209"), "image/jpeg", "39.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/2c279d1c-5583-4b37-a57a-ee353eca4209.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("2c279d1c-5583-4b37-a57a-ee353eca4209"), "image/jpeg", ".jpg", "2C279D1C-5583-4B37-A57A-EE353ECA4209.jpg", 14889L, null, "https://clarityblob.blob.core.windows.net/images/2c279d1c-5583-4b37-a57a-ee353eca4209.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("0bb3fdf1-c58f-4840-8353-97141312244f"), "image/jpeg", "75.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/0bb3fdf1-c58f-4840-8353-97141312244f.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("0bb3fdf1-c58f-4840-8353-97141312244f"), "image/jpeg", ".jpg", "0BB3FDF1-C58F-4840-8353-97141312244F.jpg", 13312L, null, "https://clarityblob.blob.core.windows.net/images/0bb3fdf1-c58f-4840-8353-97141312244f.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("6587d819-c4e5-47a5-b734-15c9b65b0c75"), "image/jpeg", "37.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/6587d819-c4e5-47a5-b734-15c9b65b0c75.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("6587d819-c4e5-47a5-b734-15c9b65b0c75"), "image/jpeg", ".jpg", "6587D819-C4E5-47A5-B734-15C9B65B0C75.jpg", 17348L, null, "https://clarityblob.blob.core.windows.net/images/6587d819-c4e5-47a5-b734-15c9b65b0c75.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("c1ccf7f1-f51b-4c5f-a67c-be6a87639c7c"), "image/jpeg", "15.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/c1ccf7f1-f51b-4c5f-a67c-be6a87639c7c.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("c1ccf7f1-f51b-4c5f-a67c-be6a87639c7c"), "image/jpeg", ".jpg", "C1CCF7F1-F51B-4C5F-A67C-BE6A87639C7C.jpg", 22160L, null, "https://clarityblob.blob.core.windows.net/images/c1ccf7f1-f51b-4c5f-a67c-be6a87639c7c.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("ce58fcba-e810-4bad-bb42-f1aac4d58242"), "image/jpeg", "14.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/ce58fcba-e810-4bad-bb42-f1aac4d58242.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("ce58fcba-e810-4bad-bb42-f1aac4d58242"), "image/jpeg", ".jpg", "CE58FCBA-E810-4BAD-BB42-F1AAC4D58242.jpg", 23209L, null, "https://clarityblob.blob.core.windows.net/images/ce58fcba-e810-4bad-bb42-f1aac4d58242.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("6345fbc1-b23c-44e0-b9d0-fa334a2fe584"), "image/jpeg", "13.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/6345fbc1-b23c-44e0-b9d0-fa334a2fe584.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("6345fbc1-b23c-44e0-b9d0-fa334a2fe584"), "image/jpeg", ".jpg", "6345FBC1-B23C-44E0-B9D0-FA334A2FE584.jpg", 18433L, null, "https://clarityblob.blob.core.windows.net/images/6345fbc1-b23c-44e0-b9d0-fa334a2fe584.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("fd90ee79-6fa6-40ff-87da-30bdd6b9f064"), "image/jpeg", "12.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/fd90ee79-6fa6-40ff-87da-30bdd6b9f064.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("fd90ee79-6fa6-40ff-87da-30bdd6b9f064"), "image/jpeg", ".jpg", "FD90EE79-6FA6-40FF-87DA-30BDD6B9F064.jpg", 13198L, null, "https://clarityblob.blob.core.windows.net/images/fd90ee79-6fa6-40ff-87da-30bdd6b9f064.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("4edaa115-266c-43d8-8005-a5ee1abed2cf"), "image/jpeg", "11.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/4edaa115-266c-43d8-8005-a5ee1abed2cf.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("4edaa115-266c-43d8-8005-a5ee1abed2cf"), "image/jpeg", ".jpg", "4EDAA115-266C-43D8-8005-A5EE1ABED2CF.jpg", 19789L, null, "https://clarityblob.blob.core.windows.net/images/4edaa115-266c-43d8-8005-a5ee1abed2cf.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("6ceef0fb-9da6-42a4-b23e-5a1d32abbb59"), "image/jpeg", "10.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/6ceef0fb-9da6-42a4-b23e-5a1d32abbb59.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("6ceef0fb-9da6-42a4-b23e-5a1d32abbb59"), "image/jpeg", ".jpg", "6CEEF0FB-9DA6-42A4-B23E-5A1D32ABBB59.jpg", 18225L, null, "https://clarityblob.blob.core.windows.net/images/6ceef0fb-9da6-42a4-b23e-5a1d32abbb59.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("c3c9670e-53af-4935-8951-c986aad21b6a"), "image/jpeg", "9.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/c3c9670e-53af-4935-8951-c986aad21b6a.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("c3c9670e-53af-4935-8951-c986aad21b6a"), "image/jpeg", ".jpg", "C3C9670E-53AF-4935-8951-C986AAD21B6A.jpg", 19415L, null, "https://clarityblob.blob.core.windows.net/images/c3c9670e-53af-4935-8951-c986aad21b6a.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("c2b2e3ee-0047-45b6-9e95-9f4ee51c5616"), "image/jpeg", "16.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/c2b2e3ee-0047-45b6-9e95-9f4ee51c5616.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("c2b2e3ee-0047-45b6-9e95-9f4ee51c5616"), "image/jpeg", ".jpg", "C2B2E3EE-0047-45B6-9E95-9F4EE51C5616.jpg", 15712L, null, "https://clarityblob.blob.core.windows.net/images/c2b2e3ee-0047-45b6-9e95-9f4ee51c5616.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("cfdea2bf-c57e-4545-99a3-ebd7dec888ef"), "image/jpeg", "8.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/cfdea2bf-c57e-4545-99a3-ebd7dec888ef.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("cfdea2bf-c57e-4545-99a3-ebd7dec888ef"), "image/jpeg", ".jpg", "CFDEA2BF-C57E-4545-99A3-EBD7DEC888EF.jpg", 19822L, null, "https://clarityblob.blob.core.windows.net/images/cfdea2bf-c57e-4545-99a3-ebd7dec888ef.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("4ed920d3-dd38-44e1-8c81-ad92e215585a"), "image/jpeg", "6.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/4ed920d3-dd38-44e1-8c81-ad92e215585a.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("4ed920d3-dd38-44e1-8c81-ad92e215585a"), "image/jpeg", ".jpg", "4ED920D3-DD38-44E1-8C81-AD92E215585A.jpg", 24399L, null, "https://clarityblob.blob.core.windows.net/images/4ed920d3-dd38-44e1-8c81-ad92e215585a.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("c91e0338-46be-4b35-b9cd-c544cb01f9fa"), "image/jpeg", "5.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/c91e0338-46be-4b35-b9cd-c544cb01f9fa.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("c91e0338-46be-4b35-b9cd-c544cb01f9fa"), "image/jpeg", ".jpg", "C91E0338-46BE-4B35-B9CD-C544CB01F9FA.jpg", 25702L, null, "https://clarityblob.blob.core.windows.net/images/c91e0338-46be-4b35-b9cd-c544cb01f9fa.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("4398a5ea-4f57-405d-867a-9e2bb1192c6b"), "image/jpeg", "4.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/4398a5ea-4f57-405d-867a-9e2bb1192c6b.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("4398a5ea-4f57-405d-867a-9e2bb1192c6b"), "image/jpeg", ".jpg", "4398A5EA-4F57-405D-867A-9E2BB1192C6B.jpg", 21109L, null, "https://clarityblob.blob.core.windows.net/images/4398a5ea-4f57-405d-867a-9e2bb1192c6b.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("2c1d770a-57da-424a-9df8-d85851311db3"), "image/jpeg", "3.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/2c1d770a-57da-424a-9df8-d85851311db3.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("2c1d770a-57da-424a-9df8-d85851311db3"), "image/jpeg", ".jpg", "2C1D770A-57DA-424A-9DF8-D85851311DB3.jpg", 16384L, null, "https://clarityblob.blob.core.windows.net/images/2c1d770a-57da-424a-9df8-d85851311db3.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("42a2d6b3-5926-4b53-9171-0107220e1630"), "image/jpeg", "2.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/42a2d6b3-5926-4b53-9171-0107220e1630.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("42a2d6b3-5926-4b53-9171-0107220e1630"), "image/jpeg", ".jpg", "42A2D6B3-5926-4B53-9171-0107220E1630.jpg", 15271L, null, "https://clarityblob.blob.core.windows.net/images/42a2d6b3-5926-4b53-9171-0107220e1630.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("c4645bbe-a6ea-4788-b018-b5012deb5910"), "image/jpeg", "38.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/c4645bbe-a6ea-4788-b018-b5012deb5910.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("c4645bbe-a6ea-4788-b018-b5012deb5910"), "image/jpeg", ".jpg", "C4645BBE-A6EA-4788-B018-B5012DEB5910.jpg", 15890L, null, "https://clarityblob.blob.core.windows.net/images/c4645bbe-a6ea-4788-b018-b5012deb5910.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("d2f2a7a5-4b94-4b72-b0ec-18a564fccccc"), "image/jpeg", "1.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/d2f2a7a5-4b94-4b72-b0ec-18a564fccccc.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("d2f2a7a5-4b94-4b72-b0ec-18a564fccccc"), "image/jpeg", ".jpg", "D2F2A7A5-4B94-4B72-B0EC-18A564FCCCCC.jpg", 18870L, null, "https://clarityblob.blob.core.windows.net/images/d2f2a7a5-4b94-4b72-b0ec-18a564fccccc.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("2b1124af-bc6b-4a88-9089-0b0f513c495c"), "image/jpeg", "7.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/2b1124af-bc6b-4a88-9089-0b0f513c495c.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("2b1124af-bc6b-4a88-9089-0b0f513c495c"), "image/jpeg", ".jpg", "2B1124AF-BC6B-4A88-9089-0B0F513C495C.jpg", 21016L, null, "https://clarityblob.blob.core.windows.net/images/2b1124af-bc6b-4a88-9089-0b0f513c495c.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("810b39bc-9f48-4144-b516-088e86701329"), "image/jpeg", "17.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/810b39bc-9f48-4144-b516-088e86701329.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("810b39bc-9f48-4144-b516-088e86701329"), "image/jpeg", ".jpg", "810B39BC-9F48-4144-B516-088E86701329.jpg", 22040L, null, "https://clarityblob.blob.core.windows.net/images/810b39bc-9f48-4144-b516-088e86701329.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("b8a28f1e-0799-4a17-a087-f95da8902f8d"), "image/jpeg", "18.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/b8a28f1e-0799-4a17-a087-f95da8902f8d.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("b8a28f1e-0799-4a17-a087-f95da8902f8d"), "image/jpeg", ".jpg", "B8A28F1E-0799-4A17-A087-F95DA8902F8D.jpg", 18980L, null, "https://clarityblob.blob.core.windows.net/images/b8a28f1e-0799-4a17-a087-f95da8902f8d.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("90267f43-731b-4cf0-adc5-17872bb3ea46"), "image/jpeg", "19.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/90267f43-731b-4cf0-adc5-17872bb3ea46.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("90267f43-731b-4cf0-adc5-17872bb3ea46"), "image/jpeg", ".jpg", "90267F43-731B-4CF0-ADC5-17872BB3EA46.jpg", 19281L, null, "https://clarityblob.blob.core.windows.net/images/90267f43-731b-4cf0-adc5-17872bb3ea46.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("5032feb1-d204-4748-a275-b2b171e0e28f"), "image/jpeg", "36.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/5032feb1-d204-4748-a275-b2b171e0e28f.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("5032feb1-d204-4748-a275-b2b171e0e28f"), "image/jpeg", ".jpg", "5032FEB1-D204-4748-A275-B2B171E0E28F.jpg", 19767L, null, "https://clarityblob.blob.core.windows.net/images/5032feb1-d204-4748-a275-b2b171e0e28f.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("5f72d5b6-0387-451b-b897-e1d97a4d899a"), "image/jpeg", "35.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/5f72d5b6-0387-451b-b897-e1d97a4d899a.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("5f72d5b6-0387-451b-b897-e1d97a4d899a"), "image/jpeg", ".jpg", "5F72D5B6-0387-451B-B897-E1D97A4D899A.jpg", 15538L, null, "https://clarityblob.blob.core.windows.net/images/5f72d5b6-0387-451b-b897-e1d97a4d899a.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("f76c4cb2-4233-42c9-9e86-cb77b8e80498"), "image/jpeg", "34.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/f76c4cb2-4233-42c9-9e86-cb77b8e80498.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("f76c4cb2-4233-42c9-9e86-cb77b8e80498"), "image/jpeg", ".jpg", "F76C4CB2-4233-42C9-9E86-CB77B8E80498.jpg", 13426L, null, "https://clarityblob.blob.core.windows.net/images/f76c4cb2-4233-42c9-9e86-cb77b8e80498.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("7f2de31f-b45c-42e3-9169-e540e632ec09"), "image/jpeg", "33.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/7f2de31f-b45c-42e3-9169-e540e632ec09.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("7f2de31f-b45c-42e3-9169-e540e632ec09"), "image/jpeg", ".jpg", "7F2DE31F-B45C-42E3-9169-E540E632EC09.jpg", 18730L, null, "https://clarityblob.blob.core.windows.net/images/7f2de31f-b45c-42e3-9169-e540e632ec09.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("40bd2298-9f86-4b03-8d26-6dfc2b1a1fb0"), "image/jpeg", "32.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/40bd2298-9f86-4b03-8d26-6dfc2b1a1fb0.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("40bd2298-9f86-4b03-8d26-6dfc2b1a1fb0"), "image/jpeg", ".jpg", "40BD2298-9F86-4B03-8D26-6DFC2B1A1FB0.jpg", 17490L, null, "https://clarityblob.blob.core.windows.net/images/40bd2298-9f86-4b03-8d26-6dfc2b1a1fb0.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("ec0ca3b9-e69f-48c9-94bc-289fcad8288b"), "image/jpeg", "31.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/ec0ca3b9-e69f-48c9-94bc-289fcad8288b.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("ec0ca3b9-e69f-48c9-94bc-289fcad8288b"), "image/jpeg", ".jpg", "EC0CA3B9-E69F-48C9-94BC-289FCAD8288B.jpg", 13658L, null, "https://clarityblob.blob.core.windows.net/images/ec0ca3b9-e69f-48c9-94bc-289fcad8288b.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("7c0c8cd3-d692-459d-957e-c38ce2a168fa"), "image/jpeg", "30.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/7c0c8cd3-d692-459d-957e-c38ce2a168fa.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("7c0c8cd3-d692-459d-957e-c38ce2a168fa"), "image/jpeg", ".jpg", "7C0C8CD3-D692-459D-957E-C38CE2A168FA.jpg", 17116L, null, "https://clarityblob.blob.core.windows.net/images/7c0c8cd3-d692-459d-957e-c38ce2a168fa.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("3824d42b-f808-47ec-b2a2-93d9c4e7840c"), "image/jpeg", "29.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/3824d42b-f808-47ec-b2a2-93d9c4e7840c.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("3824d42b-f808-47ec-b2a2-93d9c4e7840c"), "image/jpeg", ".jpg", "3824D42B-F808-47EC-B2A2-93D9C4E7840C.jpg", 21539L, null, "https://clarityblob.blob.core.windows.net/images/3824d42b-f808-47ec-b2a2-93d9c4e7840c.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("0349d2ec-9650-41d2-acac-1202f44611b9"), "image/jpeg", "28.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/0349d2ec-9650-41d2-acac-1202f44611b9.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("0349d2ec-9650-41d2-acac-1202f44611b9"), "image/jpeg", ".jpg", "0349D2EC-9650-41D2-ACAC-1202F44611B9.jpg", 21734L, null, "https://clarityblob.blob.core.windows.net/images/0349d2ec-9650-41d2-acac-1202f44611b9.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("f486622b-f81b-4be5-b6b3-c6b88f8f36f3"), "image/jpeg", "27.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/f486622b-f81b-4be5-b6b3-c6b88f8f36f3.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("f486622b-f81b-4be5-b6b3-c6b88f8f36f3"), "image/jpeg", ".jpg", "F486622B-F81B-4BE5-B6B3-C6B88F8F36F3.jpg", 14474L, null, "https://clarityblob.blob.core.windows.net/images/f486622b-f81b-4be5-b6b3-c6b88f8f36f3.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("7a485726-06cf-4e0f-a501-0d310bcb17b8"), "image/jpeg", "26.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/7a485726-06cf-4e0f-a501-0d310bcb17b8.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("7a485726-06cf-4e0f-a501-0d310bcb17b8"), "image/jpeg", ".jpg", "7A485726-06CF-4E0F-A501-0D310BCB17B8.jpg", 13785L, null, "https://clarityblob.blob.core.windows.net/images/7a485726-06cf-4e0f-a501-0d310bcb17b8.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("10439b59-147d-433f-ab6c-6794ebdb9ffa"), "image/jpeg", "25.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/10439b59-147d-433f-ab6c-6794ebdb9ffa.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("10439b59-147d-433f-ab6c-6794ebdb9ffa"), "image/jpeg", ".jpg", "10439B59-147D-433F-AB6C-6794EBDB9FFA.jpg", 20611L, null, "https://clarityblob.blob.core.windows.net/images/10439b59-147d-433f-ab6c-6794ebdb9ffa.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("f3552e30-9ea3-4286-ab65-c0e72bca2348"), "image/jpeg", "24.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/f3552e30-9ea3-4286-ab65-c0e72bca2348.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("f3552e30-9ea3-4286-ab65-c0e72bca2348"), "image/jpeg", ".jpg", "F3552E30-9EA3-4286-AB65-C0E72BCA2348.jpg", 15204L, null, "https://clarityblob.blob.core.windows.net/images/f3552e30-9ea3-4286-ab65-c0e72bca2348.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("69af227f-e8f1-4c10-849c-551d71888bdd"), "image/jpeg", "23.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/69af227f-e8f1-4c10-849c-551d71888bdd.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("69af227f-e8f1-4c10-849c-551d71888bdd"), "image/jpeg", ".jpg", "69AF227F-E8F1-4C10-849C-551D71888BDD.jpg", 21982L, null, "https://clarityblob.blob.core.windows.net/images/69af227f-e8f1-4c10-849c-551d71888bdd.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("b188fc5c-0653-451e-a597-f9af8952ed70"), "image/jpeg", "22.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/b188fc5c-0653-451e-a597-f9af8952ed70.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("b188fc5c-0653-451e-a597-f9af8952ed70"), "image/jpeg", ".jpg", "B188FC5C-0653-451E-A597-F9AF8952ED70.jpg", 23441L, null, "https://clarityblob.blob.core.windows.net/images/b188fc5c-0653-451e-a597-f9af8952ed70.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("b2fbd4d3-e933-4aa7-b3ef-d7fd6cbd8e1c"), "image/jpeg", "21.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/b2fbd4d3-e933-4aa7-b3ef-d7fd6cbd8e1c.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("b2fbd4d3-e933-4aa7-b3ef-d7fd6cbd8e1c"), "image/jpeg", ".jpg", "B2FBD4D3-E933-4AA7-B3EF-D7FD6CBD8E1C.jpg", 14963L, null, "https://clarityblob.blob.core.windows.net/images/b2fbd4d3-e933-4aa7-b3ef-d7fd6cbd8e1c.jpg" });
 
             migrationBuilder.InsertData(
-                table: "Files",
-                columns: new[] { "Id", "ContentType", "Name", "Updated", "Uri" },
-                values: new object[] { new Guid("7b23a584-847a-453c-8777-80078952f74b"), "image/jpeg", "20.jpg", null, "https://clarityblob.blob.core.windows.net/cgoldenimages/7b23a584-847a-453c-8777-80078952f74b.jpg" });
+                table: "File",
+                columns: new[] { "Id", "ContentType", "Extension", "Name", "Size", "Updated", "Uri" },
+                values: new object[] { new Guid("7b23a584-847a-453c-8777-80078952f74b"), "image/jpeg", ".jpg", "7B23A584-847A-453C-8777-80078952F74B.jpg", 15383L, null, "https://clarityblob.blob.core.windows.net/images/7b23a584-847a-453c-8777-80078952f74b.jpg" });
 
             migrationBuilder.InsertData(
                 table: "Orders",
@@ -1186,383 +1188,86 @@ namespace Clarity.Api.Migrations
 
             migrationBuilder.InsertData(
                 table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("a88e13f6-b13f-4919-8ba1-2c09ff303180"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("4951197e-4bbd-43df-938f-ed51d9e0a155"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("2e78c55e-93ac-4c85-9e15-966d4e7f60de"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("f68e7b31-37ec-4260-b424-e7bd550ff9e3"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("943e1552-1a57-49cb-8a25-e0c8307d14e7"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("f2f72562-5a05-4ecb-8568-a12cffc4827f"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("601dd021-51c6-4fda-9149-d885aceeb881"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("24e59514-5d0f-4361-b91d-40bbe3d75161"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("6b4260a2-a9ea-4587-91e5-8385996b7355"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("c5943fc7-0fa2-4fa2-b190-8bf5930cd3f0"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("baac6e9a-c4ed-4505-9ba6-26c84b3ddc58"), new Guid("bb71e15b-4112-4b7e-8154-4400034f0463"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("5beb274b-0c04-4ded-8ab2-30a5ef308908"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("fb0a5251-e0bd-49a2-b01e-8bee844618e7"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("e84b6e4d-5255-42fd-ae73-96255baaa720"), new Guid("7030a699-7b00-4a85-aad6-61afea983df8"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("7b76c7ee-8ff4-4079-b46b-0edb67270246"), new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("526cf57b-827c-4c97-baea-7ddf4bdea1cc"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("e97b2e87-9b2f-4b13-99c6-0005c7732155"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("c9a7a661-f78f-468a-adf7-bb9d174ad2e6"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("e46f4c5d-363e-46bc-ac44-712e4457c2ca"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("bbd80bd0-356c-4da8-871f-e985b064bad0"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("75b79c13-fd6e-413c-9bc7-058f637dd5d7"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("ae77969b-1abb-4015-8229-38f6d4c7f4bc"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("f93a5554-5e8c-4d72-a0b8-17a29230cb98"), new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("4bdcfb51-9d36-4e9d-b43c-9a85e500e1ee"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("aa78c2b1-ff9c-447f-a415-fb80cddac6b4"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("d88fe2f1-8dfa-49e3-b6b6-36ad136ddb47"), new Guid("bb71e15b-4112-4b7e-8154-4400034f0463"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("3c1f3acc-01cf-4a28-aa77-90df94a6598d"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("bdb95e44-52b3-4437-8e7a-6f2d9d1be9fd"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("c0eaea77-d109-4311-aa71-e5d2a6a4ad4d"), new Guid("bb71e15b-4112-4b7e-8154-4400034f0463"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("53d6fb26-8e37-4665-b089-a28597c94751"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("7419ba70-98a2-4f99-9a4e-a2784d865197"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("65bbc04c-242f-471a-8d40-c5bdeb9aee1c"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("591c3e46-be08-44f2-9722-c295cc9d8591"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("ba6cf67f-2621-4292-97c6-adb6677f6c9c"), new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("7f57b1c1-1931-4263-a1f9-0a257f1c49b8"), new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("f8c165f6-cced-46c7-b976-df3a6e4c0c24"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("a9e9919a-b904-4a15-9896-d5272425a051"), new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("88911341-95bd-434d-ab35-e7b4a599199c"), new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("792b499c-12c8-4097-87a7-9daf21f9c850"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("fa56cdca-9686-4b65-b2b7-4cd17f049178"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("bbf389c8-ec1b-47f4-a00e-1ad7eca1c2ea"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("36f89c97-344a-4f59-aa00-9f875b6593da"), new Guid("bb71e15b-4112-4b7e-8154-4400034f0463"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("3a111262-f6b1-4c2f-bc6e-a88737dc1e8c"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("76b61cac-7040-4288-b6ff-e99d09f10962"), new Guid("7030a699-7b00-4a85-aad6-61afea983df8"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("1fe10cde-3ad6-4995-888b-18e4ff3f0bba"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("0c201103-a52f-4e2c-b235-fb553e0b3942"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("d592c3c5-9d21-4d73-b551-e452f8b18331"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("c5cdcb4e-cab0-44bf-b0ef-55929c79a591"), new Guid("7030a699-7b00-4a85-aad6-61afea983df8"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("47e058ae-7a73-4c5e-a631-7c55b5b64c13"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("ad663ab9-961e-453c-89f6-a6d368423097"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("54a0644c-9fac-4bdb-944c-d1f55e638cdc"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("f446cbb4-cb33-4599-94e3-c8faea72c178"), new Guid("7030a699-7b00-4a85-aad6-61afea983df8"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("092c5d2d-0b92-44ee-9a66-2299edd4c481"), new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("96ee285e-78a6-4d61-9b41-7de1c15b47dc"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("2b7140e8-86f1-4602-95a1-2335fa3e3cc9"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("c3253f25-1310-44b5-b2e9-13553f005995"), new Guid("bb71e15b-4112-4b7e-8154-4400034f0463"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("28aa496e-d877-4210-aa5f-481fdcfa4238"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("d9b8b94c-4865-4196-9ea6-e093c27e6666"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("a9765975-2f58-4489-be32-065ca6c01019"), new Guid("7030a699-7b00-4a85-aad6-61afea983df8"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("7a12b5ab-1c99-496a-aaf3-d7a8062677f3"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("50b5f7da-2c36-40b0-ac7f-2b8c898f7f8b"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("30f6cf4f-6d99-425a-ba31-7e23f48783b6"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("252f0916-6c20-4fd2-a5f4-7051881988f6"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("dbcb5421-8b2e-48a7-b60f-5cecb118fc69"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("e8219e12-e38b-4a42-9ee7-30383d3b10a0"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("6cb52a87-0690-446c-a23b-64c43ec8f0db"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("c2f164eb-c057-4d41-9f13-34deedf095a7"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("c59dbf6f-9378-4bad-9196-d8051cc5a6bf"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("115a8153-a552-445f-a288-ca2b65505ec0"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("3235c9ab-c613-4136-b602-f8bcb6fda51e"), new Guid("7030a699-7b00-4a85-aad6-61afea983df8"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("9eb2d006-e87a-4d10-ae7f-e4ebb5e0b2e6"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("8f981368-9384-4112-97f1-897cbb45d5d9"), new Guid("bb71e15b-4112-4b7e-8154-4400034f0463"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("71ffe75c-9832-4f6c-8c26-cb7343c8bc15"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("0d2c5b7d-8c6e-4399-a18d-c45cb2a59ba8"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("4943b208-7656-4b34-a0ee-28af101d88cb"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), null });
-
-            migrationBuilder.InsertData(
-                table: "ProductCategories",
-                columns: new[] { "ProductId", "CategoryId", "Updated" },
-                values: new object[] { new Guid("7dd0c948-18ca-46a9-a039-93cc513f8866"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), null });
+                columns: new[] { "ProductId", "CategoryId", "Created", "Updated" },
+                values: new object[,]
+                {
+                    { new Guid("a88e13f6-b13f-4919-8ba1-2c09ff303180"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("4951197e-4bbd-43df-938f-ed51d9e0a155"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("2e78c55e-93ac-4c85-9e15-966d4e7f60de"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("f68e7b31-37ec-4260-b424-e7bd550ff9e3"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("943e1552-1a57-49cb-8a25-e0c8307d14e7"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("f2f72562-5a05-4ecb-8568-a12cffc4827f"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("601dd021-51c6-4fda-9149-d885aceeb881"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("24e59514-5d0f-4361-b91d-40bbe3d75161"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("6b4260a2-a9ea-4587-91e5-8385996b7355"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("c5943fc7-0fa2-4fa2-b190-8bf5930cd3f0"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("baac6e9a-c4ed-4505-9ba6-26c84b3ddc58"), new Guid("bb71e15b-4112-4b7e-8154-4400034f0463"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("5beb274b-0c04-4ded-8ab2-30a5ef308908"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("fb0a5251-e0bd-49a2-b01e-8bee844618e7"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("e84b6e4d-5255-42fd-ae73-96255baaa720"), new Guid("7030a699-7b00-4a85-aad6-61afea983df8"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("7b76c7ee-8ff4-4079-b46b-0edb67270246"), new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("526cf57b-827c-4c97-baea-7ddf4bdea1cc"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("e97b2e87-9b2f-4b13-99c6-0005c7732155"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("c9a7a661-f78f-468a-adf7-bb9d174ad2e6"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("e46f4c5d-363e-46bc-ac44-712e4457c2ca"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("bbd80bd0-356c-4da8-871f-e985b064bad0"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("75b79c13-fd6e-413c-9bc7-058f637dd5d7"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("ae77969b-1abb-4015-8229-38f6d4c7f4bc"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("f93a5554-5e8c-4d72-a0b8-17a29230cb98"), new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("4bdcfb51-9d36-4e9d-b43c-9a85e500e1ee"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("aa78c2b1-ff9c-447f-a415-fb80cddac6b4"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("d88fe2f1-8dfa-49e3-b6b6-36ad136ddb47"), new Guid("bb71e15b-4112-4b7e-8154-4400034f0463"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("3c1f3acc-01cf-4a28-aa77-90df94a6598d"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("bdb95e44-52b3-4437-8e7a-6f2d9d1be9fd"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("c0eaea77-d109-4311-aa71-e5d2a6a4ad4d"), new Guid("bb71e15b-4112-4b7e-8154-4400034f0463"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("53d6fb26-8e37-4665-b089-a28597c94751"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("7419ba70-98a2-4f99-9a4e-a2784d865197"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("65bbc04c-242f-471a-8d40-c5bdeb9aee1c"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("591c3e46-be08-44f2-9722-c295cc9d8591"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("ba6cf67f-2621-4292-97c6-adb6677f6c9c"), new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("7f57b1c1-1931-4263-a1f9-0a257f1c49b8"), new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("f8c165f6-cced-46c7-b976-df3a6e4c0c24"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("a9e9919a-b904-4a15-9896-d5272425a051"), new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("88911341-95bd-434d-ab35-e7b4a599199c"), new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("792b499c-12c8-4097-87a7-9daf21f9c850"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("fa56cdca-9686-4b65-b2b7-4cd17f049178"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("bbf389c8-ec1b-47f4-a00e-1ad7eca1c2ea"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("36f89c97-344a-4f59-aa00-9f875b6593da"), new Guid("bb71e15b-4112-4b7e-8154-4400034f0463"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("3a111262-f6b1-4c2f-bc6e-a88737dc1e8c"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("76b61cac-7040-4288-b6ff-e99d09f10962"), new Guid("7030a699-7b00-4a85-aad6-61afea983df8"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("1fe10cde-3ad6-4995-888b-18e4ff3f0bba"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("0c201103-a52f-4e2c-b235-fb553e0b3942"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("d592c3c5-9d21-4d73-b551-e452f8b18331"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("c5cdcb4e-cab0-44bf-b0ef-55929c79a591"), new Guid("7030a699-7b00-4a85-aad6-61afea983df8"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("47e058ae-7a73-4c5e-a631-7c55b5b64c13"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("ad663ab9-961e-453c-89f6-a6d368423097"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("54a0644c-9fac-4bdb-944c-d1f55e638cdc"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("f446cbb4-cb33-4599-94e3-c8faea72c178"), new Guid("7030a699-7b00-4a85-aad6-61afea983df8"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("092c5d2d-0b92-44ee-9a66-2299edd4c481"), new Guid("7fdc3396-a54c-400e-b6d8-1df6958c89fd"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("96ee285e-78a6-4d61-9b41-7de1c15b47dc"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("2b7140e8-86f1-4602-95a1-2335fa3e3cc9"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("c3253f25-1310-44b5-b2e9-13553f005995"), new Guid("bb71e15b-4112-4b7e-8154-4400034f0463"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("28aa496e-d877-4210-aa5f-481fdcfa4238"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("d9b8b94c-4865-4196-9ea6-e093c27e6666"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("a9765975-2f58-4489-be32-065ca6c01019"), new Guid("7030a699-7b00-4a85-aad6-61afea983df8"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("7a12b5ab-1c99-496a-aaf3-d7a8062677f3"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("50b5f7da-2c36-40b0-ac7f-2b8c898f7f8b"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("30f6cf4f-6d99-425a-ba31-7e23f48783b6"), new Guid("ec675684-09d8-4ee9-bf29-e2b561bb8a1b"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("252f0916-6c20-4fd2-a5f4-7051881988f6"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("dbcb5421-8b2e-48a7-b60f-5cecb118fc69"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("e8219e12-e38b-4a42-9ee7-30383d3b10a0"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("6cb52a87-0690-446c-a23b-64c43ec8f0db"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("c2f164eb-c057-4d41-9f13-34deedf095a7"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("c59dbf6f-9378-4bad-9196-d8051cc5a6bf"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("115a8153-a552-445f-a288-ca2b65505ec0"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("3235c9ab-c613-4136-b602-f8bcb6fda51e"), new Guid("7030a699-7b00-4a85-aad6-61afea983df8"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("9eb2d006-e87a-4d10-ae7f-e4ebb5e0b2e6"), new Guid("8880372b-ec84-42e1-bce7-941c2cf3db34"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("8f981368-9384-4112-97f1-897cbb45d5d9"), new Guid("bb71e15b-4112-4b7e-8154-4400034f0463"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("71ffe75c-9832-4f6c-8c26-cb7343c8bc15"), new Guid("f6b8e946-172e-4063-bdcb-86ea0326f09d"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("0d2c5b7d-8c6e-4399-a18d-c45cb2a59ba8"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("4943b208-7656-4b34-a0ee-28af101d88cb"), new Guid("c8a330d6-e2dc-457d-a3a2-445aacf70339"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { new Guid("7dd0c948-18ca-46a9-a039-93cc513f8866"), new Guid("585addaf-e033-4b4e-b461-4dee169e0b47"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null }
+                });
 
             migrationBuilder.InsertData(
                 table: "ProductFiles",
@@ -1963,12 +1668,6 @@ namespace Clarity.Api.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Files_Uri",
-                table: "Files",
-                column: "Uri",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_OrderProducts_ProductId",
                 table: "OrderProducts",
                 column: "ProductId");
@@ -1998,8 +1697,7 @@ namespace Clarity.Api.Migrations
                 name: "IX_Products_Name",
                 table: "Products",
                 column: "Name",
-                unique: true,
-                filter: "[Name] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_Sku",
@@ -2036,7 +1734,7 @@ namespace Clarity.Api.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Files");
+                name: "File");
 
             migrationBuilder.DropTable(
                 name: "Products");

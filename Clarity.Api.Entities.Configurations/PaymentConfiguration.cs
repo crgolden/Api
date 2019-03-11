@@ -5,7 +5,7 @@
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using Microsoft.Extensions.Options;
 
-    public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
+    public class PaymentConfiguration : EntityConfiguration<Payment>
     {
         private readonly DatabaseOptions _options;
 
@@ -14,10 +14,9 @@
             _options = options.Value;
         }
 
-        public void Configure(EntityTypeBuilder<Payment> payment)
+        public override void Configure(EntityTypeBuilder<Payment> payment)
         {
-            payment.Property(e => e.Created).HasDefaultValueSql("getutcdate()");
-            payment.Property(e => e.Updated);
+            base.Configure(payment);
             payment.Property(e => e.UserId).IsRequired();
             payment.Property(e => e.Amount).HasColumnType("decimal(18,2)").IsRequired();
             payment.Property(e => e.ChargeId);

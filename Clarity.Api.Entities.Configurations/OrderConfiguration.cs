@@ -5,7 +5,7 @@
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using Microsoft.Extensions.Options;
 
-    public class OrderConfiguration : IEntityTypeConfiguration<Order>
+    public class OrderConfiguration : EntityConfiguration<Order>
     {
         private readonly DatabaseOptions _options;
 
@@ -14,10 +14,9 @@
             _options = options.Value;
         }
 
-        public void Configure(EntityTypeBuilder<Order> order)
+        public override void Configure(EntityTypeBuilder<Order> order)
         {
-            order.Property(e => e.Created).HasDefaultValueSql("getutcdate()");
-            order.Property(e => e.Updated);
+            base.Configure(order);
             order.Property(e => e.Number).ValueGeneratedOnAdd();
             order.HasIndex(e => e.Number).IsUnique();
             order.Property(e => e.UserId).IsRequired();

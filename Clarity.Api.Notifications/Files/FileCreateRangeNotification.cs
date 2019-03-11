@@ -2,7 +2,7 @@
 {
     using Core;
 
-    public class FileCreateRangeNotification : CreateRangeNotification<FileModel>
+    public class FileCreateRangeNotification : CreateRangeNotification<Api.FileModel>
     {
     }
 }

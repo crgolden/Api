@@ -2,7 +2,7 @@
 {
     using Core;
 
-    public class FileEditNotification : EditNotification<FileModel>
+    public class FileEditNotification : EditNotification<Api.FileModel>
     {
     }
 }

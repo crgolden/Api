@@ -28,9 +28,10 @@
         public override async Task<DataSourceResult> Handle(OrderProductIndexRequest request, CancellationToken token)
         {
             var orders = request.UserId.HasValue
-                ? Context.Set<OrderProduct>().Include(x => x.Order).Where(x => x.Order.UserId == request.UserId.Value)
+                ? Context.Set<OrderProduct>().Where(x => x.Order.UserId == request.UserId.Value)
                 : Context.Set<OrderProduct>();
             return await orders
+                .Include(x => x.Order)
                 .Include(x => x.Product)
                 .ThenInclude(x => x.ProductFiles)
                 .ThenInclude(x => x.File)

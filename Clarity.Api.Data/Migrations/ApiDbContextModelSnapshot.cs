@@ -156,20 +156,19 @@ namespace Clarity.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("getutcdate()");
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Extension");
+
+                    b.Property<string>("Name");
+
+                    b.Property<long>("Size");
 
                     b.Property<DateTime?>("Updated");
 
-                    b.Property<string>("Uri")
-                        .IsRequired();
+                    b.Property<string>("Uri");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Uri")
-                        .IsUnique();
-
-                    b.ToTable("Files");
+                    b.ToTable("File");
 
                     b.HasData(
                         new
@@ -177,608 +176,760 @@ namespace Clarity.Api.Migrations
                             Id = new Guid("d2f2a7a5-4b94-4b72-b0ec-18a564fccccc"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "1.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/d2f2a7a5-4b94-4b72-b0ec-18a564fccccc.jpg"
+                            Extension = ".jpg",
+                            Name = "D2F2A7A5-4B94-4B72-B0EC-18A564FCCCCC.jpg",
+                            Size = 18870L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/d2f2a7a5-4b94-4b72-b0ec-18a564fccccc.jpg"
                         },
                         new
                         {
                             Id = new Guid("42a2d6b3-5926-4b53-9171-0107220e1630"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "2.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/42a2d6b3-5926-4b53-9171-0107220e1630.jpg"
+                            Extension = ".jpg",
+                            Name = "42A2D6B3-5926-4B53-9171-0107220E1630.jpg",
+                            Size = 15271L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/42a2d6b3-5926-4b53-9171-0107220e1630.jpg"
                         },
                         new
                         {
                             Id = new Guid("2c1d770a-57da-424a-9df8-d85851311db3"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "3.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/2c1d770a-57da-424a-9df8-d85851311db3.jpg"
+                            Extension = ".jpg",
+                            Name = "2C1D770A-57DA-424A-9DF8-D85851311DB3.jpg",
+                            Size = 16384L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/2c1d770a-57da-424a-9df8-d85851311db3.jpg"
                         },
                         new
                         {
                             Id = new Guid("4398a5ea-4f57-405d-867a-9e2bb1192c6b"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "4.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/4398a5ea-4f57-405d-867a-9e2bb1192c6b.jpg"
+                            Extension = ".jpg",
+                            Name = "4398A5EA-4F57-405D-867A-9E2BB1192C6B.jpg",
+                            Size = 21109L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/4398a5ea-4f57-405d-867a-9e2bb1192c6b.jpg"
                         },
                         new
                         {
                             Id = new Guid("c91e0338-46be-4b35-b9cd-c544cb01f9fa"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "5.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/c91e0338-46be-4b35-b9cd-c544cb01f9fa.jpg"
+                            Extension = ".jpg",
+                            Name = "C91E0338-46BE-4B35-B9CD-C544CB01F9FA.jpg",
+                            Size = 25702L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/c91e0338-46be-4b35-b9cd-c544cb01f9fa.jpg"
                         },
                         new
                         {
                             Id = new Guid("4ed920d3-dd38-44e1-8c81-ad92e215585a"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "6.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/4ed920d3-dd38-44e1-8c81-ad92e215585a.jpg"
+                            Extension = ".jpg",
+                            Name = "4ED920D3-DD38-44E1-8C81-AD92E215585A.jpg",
+                            Size = 24399L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/4ed920d3-dd38-44e1-8c81-ad92e215585a.jpg"
                         },
                         new
                         {
                             Id = new Guid("2b1124af-bc6b-4a88-9089-0b0f513c495c"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "7.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/2b1124af-bc6b-4a88-9089-0b0f513c495c.jpg"
+                            Extension = ".jpg",
+                            Name = "2B1124AF-BC6B-4A88-9089-0B0F513C495C.jpg",
+                            Size = 21016L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/2b1124af-bc6b-4a88-9089-0b0f513c495c.jpg"
                         },
                         new
                         {
                             Id = new Guid("cfdea2bf-c57e-4545-99a3-ebd7dec888ef"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "8.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/cfdea2bf-c57e-4545-99a3-ebd7dec888ef.jpg"
+                            Extension = ".jpg",
+                            Name = "CFDEA2BF-C57E-4545-99A3-EBD7DEC888EF.jpg",
+                            Size = 19822L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/cfdea2bf-c57e-4545-99a3-ebd7dec888ef.jpg"
                         },
                         new
                         {
                             Id = new Guid("c3c9670e-53af-4935-8951-c986aad21b6a"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "9.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/c3c9670e-53af-4935-8951-c986aad21b6a.jpg"
+                            Extension = ".jpg",
+                            Name = "C3C9670E-53AF-4935-8951-C986AAD21B6A.jpg",
+                            Size = 19415L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/c3c9670e-53af-4935-8951-c986aad21b6a.jpg"
                         },
                         new
                         {
                             Id = new Guid("6ceef0fb-9da6-42a4-b23e-5a1d32abbb59"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "10.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/6ceef0fb-9da6-42a4-b23e-5a1d32abbb59.jpg"
+                            Extension = ".jpg",
+                            Name = "6CEEF0FB-9DA6-42A4-B23E-5A1D32ABBB59.jpg",
+                            Size = 18225L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/6ceef0fb-9da6-42a4-b23e-5a1d32abbb59.jpg"
                         },
                         new
                         {
                             Id = new Guid("4edaa115-266c-43d8-8005-a5ee1abed2cf"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "11.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/4edaa115-266c-43d8-8005-a5ee1abed2cf.jpg"
+                            Extension = ".jpg",
+                            Name = "4EDAA115-266C-43D8-8005-A5EE1ABED2CF.jpg",
+                            Size = 19789L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/4edaa115-266c-43d8-8005-a5ee1abed2cf.jpg"
                         },
                         new
                         {
                             Id = new Guid("fd90ee79-6fa6-40ff-87da-30bdd6b9f064"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "12.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/fd90ee79-6fa6-40ff-87da-30bdd6b9f064.jpg"
+                            Extension = ".jpg",
+                            Name = "FD90EE79-6FA6-40FF-87DA-30BDD6B9F064.jpg",
+                            Size = 13198L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/fd90ee79-6fa6-40ff-87da-30bdd6b9f064.jpg"
                         },
                         new
                         {
                             Id = new Guid("6345fbc1-b23c-44e0-b9d0-fa334a2fe584"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "13.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/6345fbc1-b23c-44e0-b9d0-fa334a2fe584.jpg"
+                            Extension = ".jpg",
+                            Name = "6345FBC1-B23C-44E0-B9D0-FA334A2FE584.jpg",
+                            Size = 18433L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/6345fbc1-b23c-44e0-b9d0-fa334a2fe584.jpg"
                         },
                         new
                         {
                             Id = new Guid("ce58fcba-e810-4bad-bb42-f1aac4d58242"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "14.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/ce58fcba-e810-4bad-bb42-f1aac4d58242.jpg"
+                            Extension = ".jpg",
+                            Name = "CE58FCBA-E810-4BAD-BB42-F1AAC4D58242.jpg",
+                            Size = 23209L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/ce58fcba-e810-4bad-bb42-f1aac4d58242.jpg"
                         },
                         new
                         {
                             Id = new Guid("c1ccf7f1-f51b-4c5f-a67c-be6a87639c7c"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "15.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/c1ccf7f1-f51b-4c5f-a67c-be6a87639c7c.jpg"
+                            Extension = ".jpg",
+                            Name = "C1CCF7F1-F51B-4C5F-A67C-BE6A87639C7C.jpg",
+                            Size = 22160L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/c1ccf7f1-f51b-4c5f-a67c-be6a87639c7c.jpg"
                         },
                         new
                         {
                             Id = new Guid("c2b2e3ee-0047-45b6-9e95-9f4ee51c5616"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "16.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/c2b2e3ee-0047-45b6-9e95-9f4ee51c5616.jpg"
+                            Extension = ".jpg",
+                            Name = "C2B2E3EE-0047-45B6-9E95-9F4EE51C5616.jpg",
+                            Size = 15712L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/c2b2e3ee-0047-45b6-9e95-9f4ee51c5616.jpg"
                         },
                         new
                         {
                             Id = new Guid("810b39bc-9f48-4144-b516-088e86701329"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "17.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/810b39bc-9f48-4144-b516-088e86701329.jpg"
+                            Extension = ".jpg",
+                            Name = "810B39BC-9F48-4144-B516-088E86701329.jpg",
+                            Size = 22040L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/810b39bc-9f48-4144-b516-088e86701329.jpg"
                         },
                         new
                         {
                             Id = new Guid("b8a28f1e-0799-4a17-a087-f95da8902f8d"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "18.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/b8a28f1e-0799-4a17-a087-f95da8902f8d.jpg"
+                            Extension = ".jpg",
+                            Name = "B8A28F1E-0799-4A17-A087-F95DA8902F8D.jpg",
+                            Size = 18980L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/b8a28f1e-0799-4a17-a087-f95da8902f8d.jpg"
                         },
                         new
                         {
                             Id = new Guid("90267f43-731b-4cf0-adc5-17872bb3ea46"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "19.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/90267f43-731b-4cf0-adc5-17872bb3ea46.jpg"
+                            Extension = ".jpg",
+                            Name = "90267F43-731B-4CF0-ADC5-17872BB3EA46.jpg",
+                            Size = 19281L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/90267f43-731b-4cf0-adc5-17872bb3ea46.jpg"
                         },
                         new
                         {
                             Id = new Guid("7b23a584-847a-453c-8777-80078952f74b"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "20.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/7b23a584-847a-453c-8777-80078952f74b.jpg"
+                            Extension = ".jpg",
+                            Name = "7B23A584-847A-453C-8777-80078952F74B.jpg",
+                            Size = 15383L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/7b23a584-847a-453c-8777-80078952f74b.jpg"
                         },
                         new
                         {
                             Id = new Guid("b2fbd4d3-e933-4aa7-b3ef-d7fd6cbd8e1c"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "21.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/b2fbd4d3-e933-4aa7-b3ef-d7fd6cbd8e1c.jpg"
+                            Extension = ".jpg",
+                            Name = "B2FBD4D3-E933-4AA7-B3EF-D7FD6CBD8E1C.jpg",
+                            Size = 14963L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/b2fbd4d3-e933-4aa7-b3ef-d7fd6cbd8e1c.jpg"
                         },
                         new
                         {
                             Id = new Guid("b188fc5c-0653-451e-a597-f9af8952ed70"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "22.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/b188fc5c-0653-451e-a597-f9af8952ed70.jpg"
+                            Extension = ".jpg",
+                            Name = "B188FC5C-0653-451E-A597-F9AF8952ED70.jpg",
+                            Size = 23441L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/b188fc5c-0653-451e-a597-f9af8952ed70.jpg"
                         },
                         new
                         {
                             Id = new Guid("69af227f-e8f1-4c10-849c-551d71888bdd"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "23.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/69af227f-e8f1-4c10-849c-551d71888bdd.jpg"
+                            Extension = ".jpg",
+                            Name = "69AF227F-E8F1-4C10-849C-551D71888BDD.jpg",
+                            Size = 21982L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/69af227f-e8f1-4c10-849c-551d71888bdd.jpg"
                         },
                         new
                         {
                             Id = new Guid("f3552e30-9ea3-4286-ab65-c0e72bca2348"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "24.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/f3552e30-9ea3-4286-ab65-c0e72bca2348.jpg"
+                            Extension = ".jpg",
+                            Name = "F3552E30-9EA3-4286-AB65-C0E72BCA2348.jpg",
+                            Size = 15204L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/f3552e30-9ea3-4286-ab65-c0e72bca2348.jpg"
                         },
                         new
                         {
                             Id = new Guid("10439b59-147d-433f-ab6c-6794ebdb9ffa"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "25.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/10439b59-147d-433f-ab6c-6794ebdb9ffa.jpg"
+                            Extension = ".jpg",
+                            Name = "10439B59-147D-433F-AB6C-6794EBDB9FFA.jpg",
+                            Size = 20611L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/10439b59-147d-433f-ab6c-6794ebdb9ffa.jpg"
                         },
                         new
                         {
                             Id = new Guid("7a485726-06cf-4e0f-a501-0d310bcb17b8"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "26.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/7a485726-06cf-4e0f-a501-0d310bcb17b8.jpg"
+                            Extension = ".jpg",
+                            Name = "7A485726-06CF-4E0F-A501-0D310BCB17B8.jpg",
+                            Size = 13785L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/7a485726-06cf-4e0f-a501-0d310bcb17b8.jpg"
                         },
                         new
                         {
                             Id = new Guid("f486622b-f81b-4be5-b6b3-c6b88f8f36f3"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "27.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/f486622b-f81b-4be5-b6b3-c6b88f8f36f3.jpg"
+                            Extension = ".jpg",
+                            Name = "F486622B-F81B-4BE5-B6B3-C6B88F8F36F3.jpg",
+                            Size = 14474L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/f486622b-f81b-4be5-b6b3-c6b88f8f36f3.jpg"
                         },
                         new
                         {
                             Id = new Guid("0349d2ec-9650-41d2-acac-1202f44611b9"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "28.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/0349d2ec-9650-41d2-acac-1202f44611b9.jpg"
+                            Extension = ".jpg",
+                            Name = "0349D2EC-9650-41D2-ACAC-1202F44611B9.jpg",
+                            Size = 21734L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/0349d2ec-9650-41d2-acac-1202f44611b9.jpg"
                         },
                         new
                         {
                             Id = new Guid("3824d42b-f808-47ec-b2a2-93d9c4e7840c"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "29.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/3824d42b-f808-47ec-b2a2-93d9c4e7840c.jpg"
+                            Extension = ".jpg",
+                            Name = "3824D42B-F808-47EC-B2A2-93D9C4E7840C.jpg",
+                            Size = 21539L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/3824d42b-f808-47ec-b2a2-93d9c4e7840c.jpg"
                         },
                         new
                         {
                             Id = new Guid("7c0c8cd3-d692-459d-957e-c38ce2a168fa"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "30.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/7c0c8cd3-d692-459d-957e-c38ce2a168fa.jpg"
+                            Extension = ".jpg",
+                            Name = "7C0C8CD3-D692-459D-957E-C38CE2A168FA.jpg",
+                            Size = 17116L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/7c0c8cd3-d692-459d-957e-c38ce2a168fa.jpg"
                         },
                         new
                         {
                             Id = new Guid("ec0ca3b9-e69f-48c9-94bc-289fcad8288b"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "31.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/ec0ca3b9-e69f-48c9-94bc-289fcad8288b.jpg"
+                            Extension = ".jpg",
+                            Name = "EC0CA3B9-E69F-48C9-94BC-289FCAD8288B.jpg",
+                            Size = 13658L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/ec0ca3b9-e69f-48c9-94bc-289fcad8288b.jpg"
                         },
                         new
                         {
                             Id = new Guid("40bd2298-9f86-4b03-8d26-6dfc2b1a1fb0"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "32.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/40bd2298-9f86-4b03-8d26-6dfc2b1a1fb0.jpg"
+                            Extension = ".jpg",
+                            Name = "40BD2298-9F86-4B03-8D26-6DFC2B1A1FB0.jpg",
+                            Size = 17490L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/40bd2298-9f86-4b03-8d26-6dfc2b1a1fb0.jpg"
                         },
                         new
                         {
                             Id = new Guid("7f2de31f-b45c-42e3-9169-e540e632ec09"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "33.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/7f2de31f-b45c-42e3-9169-e540e632ec09.jpg"
+                            Extension = ".jpg",
+                            Name = "7F2DE31F-B45C-42E3-9169-E540E632EC09.jpg",
+                            Size = 18730L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/7f2de31f-b45c-42e3-9169-e540e632ec09.jpg"
                         },
                         new
                         {
                             Id = new Guid("f76c4cb2-4233-42c9-9e86-cb77b8e80498"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "34.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/f76c4cb2-4233-42c9-9e86-cb77b8e80498.jpg"
+                            Extension = ".jpg",
+                            Name = "F76C4CB2-4233-42C9-9E86-CB77B8E80498.jpg",
+                            Size = 13426L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/f76c4cb2-4233-42c9-9e86-cb77b8e80498.jpg"
                         },
                         new
                         {
                             Id = new Guid("5f72d5b6-0387-451b-b897-e1d97a4d899a"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "35.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/5f72d5b6-0387-451b-b897-e1d97a4d899a.jpg"
+                            Extension = ".jpg",
+                            Name = "5F72D5B6-0387-451B-B897-E1D97A4D899A.jpg",
+                            Size = 15538L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/5f72d5b6-0387-451b-b897-e1d97a4d899a.jpg"
                         },
                         new
                         {
                             Id = new Guid("5032feb1-d204-4748-a275-b2b171e0e28f"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "36.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/5032feb1-d204-4748-a275-b2b171e0e28f.jpg"
+                            Extension = ".jpg",
+                            Name = "5032FEB1-D204-4748-A275-B2B171E0E28F.jpg",
+                            Size = 19767L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/5032feb1-d204-4748-a275-b2b171e0e28f.jpg"
                         },
                         new
                         {
                             Id = new Guid("6587d819-c4e5-47a5-b734-15c9b65b0c75"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "37.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/6587d819-c4e5-47a5-b734-15c9b65b0c75.jpg"
+                            Extension = ".jpg",
+                            Name = "6587D819-C4E5-47A5-B734-15C9B65B0C75.jpg",
+                            Size = 17348L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/6587d819-c4e5-47a5-b734-15c9b65b0c75.jpg"
                         },
                         new
                         {
                             Id = new Guid("c4645bbe-a6ea-4788-b018-b5012deb5910"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "38.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/c4645bbe-a6ea-4788-b018-b5012deb5910.jpg"
+                            Extension = ".jpg",
+                            Name = "C4645BBE-A6EA-4788-B018-B5012DEB5910.jpg",
+                            Size = 15890L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/c4645bbe-a6ea-4788-b018-b5012deb5910.jpg"
                         },
                         new
                         {
                             Id = new Guid("2c279d1c-5583-4b37-a57a-ee353eca4209"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "39.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/2c279d1c-5583-4b37-a57a-ee353eca4209.jpg"
+                            Extension = ".jpg",
+                            Name = "2C279D1C-5583-4B37-A57A-EE353ECA4209.jpg",
+                            Size = 14889L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/2c279d1c-5583-4b37-a57a-ee353eca4209.jpg"
                         },
                         new
                         {
                             Id = new Guid("4dfe104a-e281-4c4f-b4cb-cb5880e055c0"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "40.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/4dfe104a-e281-4c4f-b4cb-cb5880e055c0.jpg"
+                            Extension = ".jpg",
+                            Name = "4DFE104A-E281-4C4F-B4CB-CB5880E055C0.jpg",
+                            Size = 18355L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/4dfe104a-e281-4c4f-b4cb-cb5880e055c0.jpg"
                         },
                         new
                         {
                             Id = new Guid("0dcaf98a-fd3e-4112-9fda-3fa7da1ad290"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "41.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/0dcaf98a-fd3e-4112-9fda-3fa7da1ad290.jpg"
+                            Extension = ".jpg",
+                            Name = "0DCAF98A-FD3E-4112-9FDA-3FA7DA1AD290.jpg",
+                            Size = 19658L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/0dcaf98a-fd3e-4112-9fda-3fa7da1ad290.jpg"
                         },
                         new
                         {
                             Id = new Guid("ef8eb060-d1a6-4b66-a4ca-638977527a15"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "42.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/ef8eb060-d1a6-4b66-a4ca-638977527a15.jpg"
+                            Extension = ".jpg",
+                            Name = "EF8EB060-D1A6-4B66-A4CA-638977527A15.jpg",
+                            Size = 24298L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/ef8eb060-d1a6-4b66-a4ca-638977527a15.jpg"
                         },
                         new
                         {
                             Id = new Guid("1a6ef266-ab6f-4a01-966f-a19f26486bc8"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "43.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/1a6ef266-ab6f-4a01-966f-a19f26486bc8.jpg"
+                            Extension = ".jpg",
+                            Name = "1A6EF266-AB6F-4A01-966F-A19F26486BC8.jpg",
+                            Size = 15912L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/1a6ef266-ab6f-4a01-966f-a19f26486bc8.jpg"
                         },
                         new
                         {
                             Id = new Guid("c9d92c74-07be-4ab4-9e8e-6293bfb4c530"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "44.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/c9d92c74-07be-4ab4-9e8e-6293bfb4c530.jpg"
+                            Extension = ".jpg",
+                            Name = "C9D92C74-07BE-4AB4-9E8E-6293BFB4C530.jpg",
+                            Size = 17246L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/c9d92c74-07be-4ab4-9e8e-6293bfb4c530.jpg"
                         },
                         new
                         {
                             Id = new Guid("968a4281-a54e-4397-8304-5ad1c471590e"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "45.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/968a4281-a54e-4397-8304-5ad1c471590e.jpg"
+                            Extension = ".jpg",
+                            Name = "968A4281-A54E-4397-8304-5AD1C471590E.jpg",
+                            Size = 21502L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/968a4281-a54e-4397-8304-5ad1c471590e.jpg"
                         },
                         new
                         {
                             Id = new Guid("1fa60ef2-2d80-468e-88ed-f1ba3c8bfe96"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "46.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/1fa60ef2-2d80-468e-88ed-f1ba3c8bfe96.jpg"
+                            Extension = ".jpg",
+                            Name = "1FA60EF2-2D80-468E-88ED-F1BA3C8BFE96.jpg",
+                            Size = 20073L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/1fa60ef2-2d80-468e-88ed-f1ba3c8bfe96.jpg"
                         },
                         new
                         {
                             Id = new Guid("12b70183-6634-419f-9fe8-4e9982bf84c4"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "47.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/12b70183-6634-419f-9fe8-4e9982bf84c4.jpg"
+                            Extension = ".jpg",
+                            Name = "12B70183-6634-419F-9FE8-4E9982BF84C4.jpg",
+                            Size = 22345L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/12b70183-6634-419f-9fe8-4e9982bf84c4.jpg"
                         },
                         new
                         {
                             Id = new Guid("1eb79abb-84bc-41c8-9978-92cae1f2b6d2"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "48.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/1eb79abb-84bc-41c8-9978-92cae1f2b6d2.jpg"
+                            Extension = ".jpg",
+                            Name = "1EB79ABB-84BC-41C8-9978-92CAE1F2B6D2.jpg",
+                            Size = 15860L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/1eb79abb-84bc-41c8-9978-92cae1f2b6d2.jpg"
                         },
                         new
                         {
                             Id = new Guid("b589c46f-9572-4088-ba25-a5f67364b2ec"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "49.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/b589c46f-9572-4088-ba25-a5f67364b2ec.jpg"
+                            Extension = ".jpg",
+                            Name = "B589C46F-9572-4088-BA25-A5F67364B2EC.jpg",
+                            Size = 21196L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/b589c46f-9572-4088-ba25-a5f67364b2ec.jpg"
                         },
                         new
                         {
                             Id = new Guid("e0403ce3-cf8d-48d3-8a21-0af39c40ddee"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "50.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/e0403ce3-cf8d-48d3-8a21-0af39c40ddee.jpg"
+                            Extension = ".jpg",
+                            Name = "E0403CE3-CF8D-48D3-8A21-0AF39C40DDEE.jpg",
+                            Size = 14389L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/e0403ce3-cf8d-48d3-8a21-0af39c40ddee.jpg"
                         },
                         new
                         {
                             Id = new Guid("771cd746-df18-4b3d-b7a3-68d426fe7bb9"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "51.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/771cd746-df18-4b3d-b7a3-68d426fe7bb9.jpg"
+                            Extension = ".jpg",
+                            Name = "771CD746-DF18-4B3D-B7A3-68D426FE7BB9.jpg",
+                            Size = 17618L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/771cd746-df18-4b3d-b7a3-68d426fe7bb9.jpg"
                         },
                         new
                         {
                             Id = new Guid("c9cc388f-6645-4c31-b19c-f566ee06c0dc"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "52.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/c9cc388f-6645-4c31-b19c-f566ee06c0dc.jpg"
+                            Extension = ".jpg",
+                            Name = "C9CC388F-6645-4C31-B19C-F566EE06C0DC.jpg",
+                            Size = 20196L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/c9cc388f-6645-4c31-b19c-f566ee06c0dc.jpg"
                         },
                         new
                         {
                             Id = new Guid("a8189d9d-7185-4c2c-bf48-f0cc797a2acc"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "53.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/a8189d9d-7185-4c2c-bf48-f0cc797a2acc.jpg"
+                            Extension = ".jpg",
+                            Name = "A8189D9D-7185-4C2C-BF48-F0CC797A2ACC.jpg",
+                            Size = 18102L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/a8189d9d-7185-4c2c-bf48-f0cc797a2acc.jpg"
                         },
                         new
                         {
                             Id = new Guid("c68ebcdd-7cc3-45a0-b088-29dc950dae60"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "54.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/c68ebcdd-7cc3-45a0-b088-29dc950dae60.jpg"
+                            Extension = ".jpg",
+                            Name = "C68EBCDD-7CC3-45A0-B088-29DC950DAE60.jpg",
+                            Size = 20540L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/c68ebcdd-7cc3-45a0-b088-29dc950dae60.jpg"
                         },
                         new
                         {
                             Id = new Guid("8703e152-aeaa-43f4-b607-3b803f6ab773"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "55.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/8703e152-aeaa-43f4-b607-3b803f6ab773.jpg"
+                            Extension = ".jpg",
+                            Name = "8703E152-AEAA-43F4-B607-3B803F6AB773.jpg",
+                            Size = 18102L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/8703e152-aeaa-43f4-b607-3b803f6ab773.jpg"
                         },
                         new
                         {
                             Id = new Guid("212c48d4-38ef-42b3-951b-2a7dda0a0746"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "56.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/212c48d4-38ef-42b3-951b-2a7dda0a0746.jpg"
+                            Extension = ".jpg",
+                            Name = "212C48D4-38EF-42B3-951B-2A7DDA0A0746.jpg",
+                            Size = 19226L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/212c48d4-38ef-42b3-951b-2a7dda0a0746.jpg"
                         },
                         new
                         {
                             Id = new Guid("d28c4f4f-6048-4a93-a47a-d7db0c81a27a"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "57.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/d28c4f4f-6048-4a93-a47a-d7db0c81a27a.jpg"
+                            Extension = ".jpg",
+                            Name = "D28C4F4F-6048-4A93-A47A-D7DB0C81A27A.jpg",
+                            Size = 19271L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/d28c4f4f-6048-4a93-a47a-d7db0c81a27a.jpg"
                         },
                         new
                         {
                             Id = new Guid("cdac7720-9734-4bf5-ab33-71cc0f3ee070"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "58.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/cdac7720-9734-4bf5-ab33-71cc0f3ee070.jpg"
+                            Extension = ".jpg",
+                            Name = "CDAC7720-9734-4BF5-AB33-71CC0F3EE070.jpg",
+                            Size = 24290L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/cdac7720-9734-4bf5-ab33-71cc0f3ee070.jpg"
                         },
                         new
                         {
                             Id = new Guid("4f71a1f9-bf6f-4653-ae85-a6dad07b80e6"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "59.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/4f71a1f9-bf6f-4653-ae85-a6dad07b80e6.jpg"
+                            Extension = ".jpg",
+                            Name = "4F71A1F9-BF6F-4653-AE85-A6DAD07B80E6.jpg",
+                            Size = 21109L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/4f71a1f9-bf6f-4653-ae85-a6dad07b80e6.jpg"
                         },
                         new
                         {
                             Id = new Guid("07a598e1-3a67-4416-a030-30d734ac227d"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "60.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/07a598e1-3a67-4416-a030-30d734ac227d.jpg"
+                            Extension = ".jpg",
+                            Name = "07A598E1-3A67-4416-A030-30D734AC227D.jpg",
+                            Size = 15604L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/07a598e1-3a67-4416-a030-30d734ac227d.jpg"
                         },
                         new
                         {
                             Id = new Guid("8d12d30e-899e-4533-8faa-11716affdefe"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "61.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/8d12d30e-899e-4533-8faa-11716affdefe.jpg"
+                            Extension = ".jpg",
+                            Name = "8D12D30E-899E-4533-8FAA-11716AFFDEFE.jpg",
+                            Size = 17837L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/8d12d30e-899e-4533-8faa-11716affdefe.jpg"
                         },
                         new
                         {
                             Id = new Guid("910d6beb-4de9-43f6-a2a9-da0a01687ed5"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "62.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/910d6beb-4de9-43f6-a2a9-da0a01687ed5.jpg"
+                            Extension = ".jpg",
+                            Name = "910D6BEB-4DE9-43F6-A2A9-DA0A01687ED5.jpg",
+                            Size = 14740L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/910d6beb-4de9-43f6-a2a9-da0a01687ed5.jpg"
                         },
                         new
                         {
                             Id = new Guid("4fcf050a-4543-4878-9986-0db258095b97"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "63.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/4fcf050a-4543-4878-9986-0db258095b97.jpg"
+                            Extension = ".jpg",
+                            Name = "4FCF050A-4543-4878-9986-0DB258095B97.jpg",
+                            Size = 19596L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/4fcf050a-4543-4878-9986-0db258095b97.jpg"
                         },
                         new
                         {
                             Id = new Guid("1847baf5-dc0e-486d-af0b-bd0b23806205"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "64.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/1847baf5-dc0e-486d-af0b-bd0b23806205.jpg"
+                            Extension = ".jpg",
+                            Name = "1847BAF5-DC0E-486D-AF0B-BD0B23806205.jpg",
+                            Size = 22073L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/1847baf5-dc0e-486d-af0b-bd0b23806205.jpg"
                         },
                         new
                         {
                             Id = new Guid("ab17abc1-5491-4d6e-8974-fce35bb1159f"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "65.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/ab17abc1-5491-4d6e-8974-fce35bb1159f.jpg"
+                            Extension = ".jpg",
+                            Name = "AB17ABC1-5491-4D6E-8974-FCE35BB1159F.jpg",
+                            Size = 17506L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/ab17abc1-5491-4d6e-8974-fce35bb1159f.jpg"
                         },
                         new
                         {
                             Id = new Guid("457f9796-7574-4c71-8d62-a70878441981"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "66.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/457f9796-7574-4c71-8d62-a70878441981.jpg"
+                            Extension = ".jpg",
+                            Name = "457F9796-7574-4C71-8D62-A70878441981.jpg",
+                            Size = 23321L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/457f9796-7574-4c71-8d62-a70878441981.jpg"
                         },
                         new
                         {
                             Id = new Guid("511dd9c9-ed5b-43a9-881a-1daeea1429be"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "67.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/511dd9c9-ed5b-43a9-881a-1daeea1429be.jpg"
+                            Extension = ".jpg",
+                            Name = "511DD9C9-ED5B-43A9-881A-1DAEEA1429BE.jpg",
+                            Size = 15637L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/511dd9c9-ed5b-43a9-881a-1daeea1429be.jpg"
                         },
                         new
                         {
                             Id = new Guid("006a056d-33ad-4b0b-9169-3a6d02df6993"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "68.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/006a056d-33ad-4b0b-9169-3a6d02df6993.jpg"
+                            Extension = ".jpg",
+                            Name = "006A056D-33AD-4B0B-9169-3A6D02DF6993.jpg",
+                            Size = 21693L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/006a056d-33ad-4b0b-9169-3a6d02df6993.jpg"
                         },
                         new
                         {
                             Id = new Guid("307bdfc8-0142-4371-a6da-9383a2bb5daf"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "69.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/307bdfc8-0142-4371-a6da-9383a2bb5daf.jpg"
+                            Extension = ".jpg",
+                            Name = "307BDFC8-0142-4371-A6DA-9383A2BB5DAF.jpg",
+                            Size = 18034L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/307bdfc8-0142-4371-a6da-9383a2bb5daf.jpg"
                         },
                         new
                         {
                             Id = new Guid("9769498b-8cae-4e37-863b-379e77cfef1e"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "70.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/9769498b-8cae-4e37-863b-379e77cfef1e.jpg"
+                            Extension = ".jpg",
+                            Name = "9769498B-8CAE-4E37-863B-379E77CFEF1E.jpg",
+                            Size = 12014L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/9769498b-8cae-4e37-863b-379e77cfef1e.jpg"
                         },
                         new
                         {
                             Id = new Guid("b4ecc589-9e7f-4d00-bc93-4d87e97441fb"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "71.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/b4ecc589-9e7f-4d00-bc93-4d87e97441fb.jpg"
+                            Extension = ".jpg",
+                            Name = "B4ECC589-9E7F-4D00-BC93-4D87E97441FB.jpg",
+                            Size = 13658L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/b4ecc589-9e7f-4d00-bc93-4d87e97441fb.jpg"
                         },
                         new
                         {
                             Id = new Guid("80d595ef-d82c-4c55-a4bd-60b29d4953e9"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "72.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/80d595ef-d82c-4c55-a4bd-60b29d4953e9.jpg"
+                            Extension = ".jpg",
+                            Name = "80D595EF-D82C-4C55-A4BD-60B29D4953E9.jpg",
+                            Size = 16521L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/80d595ef-d82c-4c55-a4bd-60b29d4953e9.jpg"
                         },
                         new
                         {
                             Id = new Guid("681ffa4f-6d3b-460c-be10-a8376eb7bb15"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "73.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/681ffa4f-6d3b-460c-be10-a8376eb7bb15.jpg"
+                            Extension = ".jpg",
+                            Name = "681FFA4F-6D3B-460C-BE10-A8376EB7BB15.jpg",
+                            Size = 21218L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/681ffa4f-6d3b-460c-be10-a8376eb7bb15.jpg"
                         },
                         new
                         {
                             Id = new Guid("183f872c-1a26-4f44-ac02-63cba826ff59"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "74.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/183f872c-1a26-4f44-ac02-63cba826ff59.jpg"
+                            Extension = ".jpg",
+                            Name = "183F872C-1A26-4F44-AC02-63CBA826FF59.jpg",
+                            Size = 25734L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/183f872c-1a26-4f44-ac02-63cba826ff59.jpg"
                         },
                         new
                         {
                             Id = new Guid("0bb3fdf1-c58f-4840-8353-97141312244f"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "75.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/0bb3fdf1-c58f-4840-8353-97141312244f.jpg"
+                            Extension = ".jpg",
+                            Name = "0BB3FDF1-C58F-4840-8353-97141312244F.jpg",
+                            Size = 13312L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/0bb3fdf1-c58f-4840-8353-97141312244f.jpg"
                         },
                         new
                         {
                             Id = new Guid("1fc5ad0e-91cf-4fcd-afcc-73a51bd94905"),
                             ContentType = "image/jpeg",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "76.jpg",
-                            Uri = "https://clarityblob.blob.core.windows.net/cgoldenimages/1fc5ad0e-91cf-4fcd-afcc-73a51bd94905.jpg"
+                            Extension = ".jpg",
+                            Name = "1FC5AD0E-91CF-4FCD-AFCC-73A51BD94905.jpg",
+                            Size = 11258L,
+                            Uri = "https://clarityblob.blob.core.windows.net/images/1fc5ad0e-91cf-4fcd-afcc-73a51bd94905.jpg"
                         });
                 });
 
@@ -1162,7 +1313,8 @@ namespace Clarity.Api.Migrations
 
                     b.Property<bool>("IsDownload");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<string>("QuantityPerUnit")
                         .IsRequired();
@@ -1183,8 +1335,7 @@ namespace Clarity.Api.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
-                        .IsUnique()
-                        .HasFilter("[Name] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("Sku")
                         .IsUnique()
@@ -2189,9 +2340,7 @@ namespace Clarity.Api.Migrations
 
                     b.Property<Guid>("CategoryId");
 
-                    b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("getutcdate()");
+                    b.Property<DateTime>("Created");
 
                     b.Property<DateTime?>("Updated");
 

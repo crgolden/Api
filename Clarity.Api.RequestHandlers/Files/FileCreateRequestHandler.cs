@@ -4,7 +4,7 @@
     using Core;
     using Microsoft.EntityFrameworkCore;
 
-    public class FileCreateRequestHandler : CreateRequestHandler<FileCreateRequest, File, FileModel>
+    public class FileCreateRequestHandler : CreateRequestHandler<FileCreateRequest, Api.File, Api.FileModel>
     {
         public FileCreateRequestHandler(DbContext context, IMapper mapper) : base(context, mapper)
         {

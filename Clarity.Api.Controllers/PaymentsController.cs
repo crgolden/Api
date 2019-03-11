@@ -12,7 +12,7 @@
     using Payments;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class PaymentsController : Controller<Payment, PaymentModel, Guid>
+    public class PaymentsController : EntitiesController<Payment, PaymentModel, Guid>
     {
         public PaymentsController(IMediator mediator) : base(mediator)
         {
@@ -20,12 +20,14 @@
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User")]
         [ProducesResponseType(typeof(IEnumerable<Payment>), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request)
         {
             return await Index(
-                request: new PaymentIndexRequest(ModelState, request),
+                request: User.IsInRole("Admin")
+                    ? new PaymentIndexRequest(ModelState, request)
+                    : new PaymentIndexRequest(ModelState, request, Guid.Parse(User.FindFirst("sub").Value)),
                 notification: new PaymentIndexNotification()).ConfigureAwait(false);
         }
 

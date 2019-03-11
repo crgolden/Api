@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.2" />
+    <PackageReference Include="Clarity.Core.Entities.Configurations" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>

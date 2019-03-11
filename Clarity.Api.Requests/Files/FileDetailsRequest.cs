@@ -3,7 +3,7 @@
     using System;
     using Core;
 
-    public class FileDetailsRequest : DetailsRequest<File, FileModel>
+    public class FileDetailsRequest : DetailsRequest<Api.File, Api.FileModel>
     {
         public readonly Guid FileId;
 

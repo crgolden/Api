@@ -12,7 +12,7 @@
     using Products;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class ProductsController : Controller<Product, ProductModel, Guid>
+    public class ProductsController : EntitiesController<Product, ProductModel, Guid>
     {
         public ProductsController(IMediator mediator) : base(mediator)
         {

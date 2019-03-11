@@ -1,15 +1,12 @@
 ﻿namespace Clarity.Api.Files
 {
-    using MediatR;
+    using Core;
     using Microsoft.AspNetCore.Http;
 
-    public class FileUploadRequest : IRequest<FileModel[]>
+    public class FileUploadRequest : UploadRequest<Api.File, Api.FileModel>
     {
-        public readonly IFormFileCollection Files;
-
-        public FileUploadRequest(IFormFileCollection files)
+        public FileUploadRequest(IFormFileCollection files) : base(files)
         {
-            Files = files;
         }
     }
 }

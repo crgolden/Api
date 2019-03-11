@@ -26,5 +26,7 @@
         public string FileUri { get; set; }
 
         public string FileContentType { get; set; }
+
+        public long FileSize { get; set; }
     }
 }

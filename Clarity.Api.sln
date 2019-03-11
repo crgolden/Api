@@ -38,11 +38,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clarity.Api.Entities.Config
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clarity.Api.Profiles", "Clarity.Api.Profiles\Clarity.Api.Profiles.csproj", "{54C45F91-0822-4C43-87CB-AA253B4BAD76}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clarity.Api.Extensions", "Clarity.Api.Extensions\Clarity.Api.Extensions.csproj", "{7EBC1785-D3C2-4D57-A4D6-F7AFBA3C215B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clarity.Api.Notifications", "Clarity.Api.Notifications\Clarity.Api.Notifications.csproj", "{B98EAB70-9458-47AD-8E5F-33B06DBE8E6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clarity.Api.Notifications", "Clarity.Api.Notifications\Clarity.Api.Notifications.csproj", "{B98EAB70-9458-47AD-8E5F-33B06DBE8E6D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clarity.Api.NotificationHandlers", "Clarity.Api.NotificationHandlers\Clarity.Api.NotificationHandlers.csproj", "{1E3F0C94-FFBB-460F-A4C2-14B8119B66AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clarity.Api.NotificationHandlers", "Clarity.Api.NotificationHandlers\Clarity.Api.NotificationHandlers.csproj", "{1E3F0C94-FFBB-460F-A4C2-14B8119B66AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -106,10 +104,6 @@ Global
 		{54C45F91-0822-4C43-87CB-AA253B4BAD76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54C45F91-0822-4C43-87CB-AA253B4BAD76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54C45F91-0822-4C43-87CB-AA253B4BAD76}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7EBC1785-D3C2-4D57-A4D6-F7AFBA3C215B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7EBC1785-D3C2-4D57-A4D6-F7AFBA3C215B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7EBC1785-D3C2-4D57-A4D6-F7AFBA3C215B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7EBC1785-D3C2-4D57-A4D6-F7AFBA3C215B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B98EAB70-9458-47AD-8E5F-33B06DBE8E6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B98EAB70-9458-47AD-8E5F-33B06DBE8E6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B98EAB70-9458-47AD-8E5F-33B06DBE8E6D}.Release|Any CPU.ActiveCfg = Release|Any CPU

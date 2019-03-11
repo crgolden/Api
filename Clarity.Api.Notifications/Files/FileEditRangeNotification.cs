@@ -2,7 +2,7 @@
 {
     using Core;
 
-    public class FileEditRangeNotification : EditRangeNotification<FileModel>
+    public class FileEditRangeNotification : EditRangeNotification<Api.FileModel>
     {
     }
 }

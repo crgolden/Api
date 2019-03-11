@@ -12,7 +12,7 @@
     using Microsoft.AspNetCore.Mvc;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class CartsController : Controller<Cart, CartModel, Guid>
+    public class CartsController : EntitiesController<Cart, CartModel, Guid>
     {
         public CartsController(IMediator mediator) : base(mediator)
         {

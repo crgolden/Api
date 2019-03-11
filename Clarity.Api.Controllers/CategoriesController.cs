@@ -12,7 +12,7 @@
     using Microsoft.AspNetCore.Mvc;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class CategoriesController : Controller<Category, CategoryModel, Guid>
+    public class CategoriesController : EntitiesController<Category, CategoryModel, Guid>
     {
         public CategoriesController(IMediator mediator) : base(mediator)
         {

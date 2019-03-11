@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using Core;
 
-    public class FileEditRangeRequest : EditRangeRequest<File, FileModel>
+    public class FileEditRangeRequest : EditRangeRequest<Api.File, Api.FileModel>
     {
-        public FileEditRangeRequest(IEnumerable<FileModel> files) : base(files)
+        public FileEditRangeRequest(IEnumerable<Api.FileModel> files) : base(files)
         {
         }
     }

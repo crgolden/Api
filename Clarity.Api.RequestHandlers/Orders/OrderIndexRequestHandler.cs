@@ -21,7 +21,7 @@
                 ? Context.Set<Order>().Where(x => x.UserId == request.UserId.Value)
                 : Context.Set<Order>();
             return await Mapper
-                .ProjectTo<OrderModel>(orders)
+                .ProjectTo<OrderModel>(orders.AsNoTracking())
                 .ToDataSourceResultAsync(request.Request, request.ModelState)
                 .ConfigureAwait(false);
         }

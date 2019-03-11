@@ -41,7 +41,7 @@
                 .AddScoped<DbContext, ApiDbContext>()
                 .AddSingleton<IPaymentService, StripePaymentService>()
                 .AddSingleton<IStorageService, AzureBlobStorageService>()
-                .AddSingleton<IAddressService, SmartyStreetsAddressService>()
+                .AddSingleton<IValidationService<Address>, SmartyStreetsValidationService>()
                 .AddSingleton<IEmailService, SendGridEmailService>()
                 .AddSingleton<ITelemetryProcessorFactory>(sp => new SnapshotCollectorTelemetryProcessorFactory(sp))
                 .AddSingleton<IQueueClient, EmailQueueClient>()
