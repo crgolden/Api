@@ -31,7 +31,7 @@
         public override async Task<IActionResult> Upload(IFormFileCollection files)
         {
             return await Upload(
-                request: new FileUploadRequest(files),
+                request: new FileUploadRequest(files, _imagesContainer),
                 notification: new FileUploadNotification());
         }
 

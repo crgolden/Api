@@ -5,7 +5,7 @@
 
     public class FileUploadRequest : FileUploadRequest<File, FileModel>
     {
-        public FileUploadRequest(IFormFileCollection files) : base(files)
+        public FileUploadRequest(IFormFileCollection files, string containerName) : base(files, containerName)
         {
         }
     }
