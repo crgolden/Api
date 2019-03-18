@@ -16,7 +16,7 @@
     {
         private readonly IQueueClient _emailQueueClient;
         private const string Subject = "Order #{0} Read";
-        private const string Body = "<a href='{0}/orders/details/{1}'>Order #{2} Read</a>";
+        private const string Body = "<a href='{0}/orders/details/{1}'>Order #{2} Details</a>";
 
         public OrderCreateNotificationHandler(
             IEnumerable<IQueueClient> queueClients,
