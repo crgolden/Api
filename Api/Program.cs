@@ -45,7 +45,7 @@
                         flushToDiskInterval: TimeSpan.FromSeconds(1),
                         rollOnFileSizeLimit: true)
                     .WriteTo.Elasticsearch(
-                        options: new ElasticsearchSinkOptions(new Uri("https://10.0.0.4:9200"))
+                        options: new ElasticsearchSinkOptions(new Uri("https://52.247.198.17:9200"))
                         {
                             AutoRegisterTemplate = true,
                             AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
