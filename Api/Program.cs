@@ -45,15 +45,16 @@
                         flushToDiskInterval: TimeSpan.FromSeconds(1),
                         rollOnFileSizeLimit: true)
                     .WriteTo.Elasticsearch(
-                        options: new ElasticsearchSinkOptions(new Uri("http://10.0.0.4"))
+                        options: new ElasticsearchSinkOptions(new Uri("http://10.0.0.4:9200"))
                         {
                             AutoRegisterTemplate = true,
                             AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
                             IndexFormat = "Clarity.Api-logs-index",
                             CustomFormatter = new ExceptionAsObjectJsonFormatter(renderMessage: true),
-                            ModifyConnectionSettings = x => x.BasicAuthentication(
-                                userName: "elastic",
-                                password: "kGRKd8x9Yw1FQm%O")
+                            ModifyConnectionSettings = x => x
+                                .BasicAuthentication(
+                                    userName: "elastic",
+                                    password: "kGRKd8x9Yw1FQm%O")
                         }))
                 .Build();
     }
