@@ -10,6 +10,7 @@
     <PackageReference Include="Clarity.Core.NotificationHandlers" Version="1.6.2" />
     <PackageReference Include="Clarity.Core.Options" Version="1.9.0" />
     <PackageReference Include="Microsoft.Azure.ServiceBus" Version="3.3.0" />
+    <PackageReference Include="NEST" Version="6.6.0" />
   </ItemGroup>
 
   <ItemGroup>
