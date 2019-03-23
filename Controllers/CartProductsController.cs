@@ -46,6 +46,7 @@
                 notification: new CartProductReadNotification()).ConfigureAwait(false);
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(CartProduct[]), (int)HttpStatusCode.OK)]
@@ -109,6 +110,7 @@
                 notification: new CartProductDeleteNotification()).ConfigureAwait(false);
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpDelete]
         [AllowAnonymous]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]

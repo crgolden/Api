@@ -59,7 +59,6 @@
                 notification: new CategoryCreateNotification()).ConfigureAwait(false);
         }
 
-        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpDelete]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
