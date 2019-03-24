@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="Clarity.Core.Extensions" Version="1.9.3" />
+    <PackageReference Include="Clarity.Core.Extensions" Version="1.9.4" />
     <PackageReference Include="Clarity.Core.Factories" Version="1.3.0" />
     <PackageReference Include="Clarity.Core.QueueClients" Version="1.7.1" />
     <PackageReference Include="Clarity.Core.Services" Version="1.5.2" />
