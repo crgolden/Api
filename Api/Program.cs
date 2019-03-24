@@ -24,7 +24,7 @@
                 .CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration(configBuilder => configBuilder.AddAzureKeyVault())
                 .UseStartup<Startup>()
-                .UseSerilog("clarity-api")
+                .UseSerilog("Clarity.Api")
                 .Build();
     }
 }
