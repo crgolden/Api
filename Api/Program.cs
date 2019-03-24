@@ -48,13 +48,13 @@
                         options: new ElasticsearchSinkOptions(new []
                         {
                             new Uri("https://52.247.198.17:9200"),
-                            new Uri("http://52.247.198.17:9200"),
+                            //new Uri("http://52.247.198.17:9200"),
                             new Uri("https://52.247.198.17"),
-                            new Uri("http://52.247.198.17"),
+                            //new Uri("http://52.247.198.17"),
                             new Uri("https://10.0.0.4:9200"),
-                            new Uri("http://10.0.0.4:9200"),
-                            new Uri("https://10.0.0.4"),
-                            new Uri("http://10.0.0.4")
+                            //new Uri("http://10.0.0.4:9200"),
+                            new Uri("https://10.0.0.4")
+                            //new Uri("http://10.0.0.4")
                         })
                         {
                             AutoRegisterTemplate = true,
