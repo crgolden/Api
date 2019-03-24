@@ -60,8 +60,7 @@
                             AutoRegisterTemplate = true,
                             AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
                             IndexFormat = "Clarity.Api-logs-index",
-                            CustomFormatter = new ExceptionAsObjectJsonFormatter(renderMessage: true),
-                            ModifyConnectionSettings = x => x.BasicAuthentication("elastic", "kGRKd8x9Yw1FQm%O")
+                            CustomFormatter = new ExceptionAsObjectJsonFormatter(renderMessage: true)
                         }))
                 .Build();
     }
