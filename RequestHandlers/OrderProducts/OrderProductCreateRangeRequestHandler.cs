@@ -20,9 +20,9 @@
             {
                 var entity = Mapper.Map<OrderProduct>(request.Models[i]);
                 var entityEntry = Context.Entry(entity);
+                entityEntry.State = EntityState.Added;
                 await entityEntry.Reference(x => x.Product).LoadAsync(token).ConfigureAwait(false);
                 await entityEntry.Reference(x => x.Order).LoadAsync(token).ConfigureAwait(false);
-                entityEntry.State = EntityState.Added;
                 models[i] = Mapper.Map<OrderProductModel>(entity);
                 keyValues[i] = new object[]{ request.Models[i].OrderId, request.Models[i].ProductId };
             }
