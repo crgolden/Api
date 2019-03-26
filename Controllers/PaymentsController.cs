@@ -58,10 +58,11 @@
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User")]
         [ProducesResponseType(typeof(Payment), (int)HttpStatusCode.OK)]
         public override async Task<IActionResult> Create([FromBody] PaymentModel payment)
         {
+            payment.UserId = Guid.Parse(User.FindFirst("sub").Value);
             if (User.HasClaim(x => x.Type == "customer_code"))
             {
                 payment.CustomerCode = User.FindFirst("customer_code").Value;
@@ -70,7 +71,6 @@
             return await Create(
                 request: new PaymentCreateRequest(payment)
                 {
-                    UserId = Guid.Parse(User.FindFirst("sub").Value),
                     Email = User.FindFirst("email").Value
                 },
                 notification: new PaymentCreateNotification()).ConfigureAwait(false);
