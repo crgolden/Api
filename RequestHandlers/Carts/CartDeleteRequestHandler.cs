@@ -3,7 +3,6 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Abstractions;
-    using MediatR;
     using Microsoft.EntityFrameworkCore;
 
     public class CartDeleteRequestHandler : DeleteRequestHandler<CartDeleteRequest, Cart>
@@ -12,9 +11,9 @@
         {
         }
 
-        public override Task<Unit> Handle(CartDeleteRequest request, CancellationToken token)
+        public override Task<object[][]> Handle(CartDeleteRequest request, CancellationToken token)
         {
-            return Task.FromResult(Unit.Value);
+            return Task.FromResult(new object[0][]);
         }
     }
 }

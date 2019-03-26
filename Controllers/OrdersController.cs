@@ -10,12 +10,16 @@
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
+    using Microsoft.Extensions.Options;
     using Orders;
+    using Shared;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class OrdersController : ClassController<Order, OrderModel, Guid>
     {
-        public OrdersController(IMediator mediator) : base(mediator)
+        public OrdersController(IMediator mediator, IMemoryCache cache, IOptions<CacheOptions> cacheOptions)
+            : base(mediator, cache, cacheOptions)
         {
         }
 

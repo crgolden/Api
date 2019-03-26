@@ -4,7 +4,6 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using Abstractions;
-    using MediatR;
     using Microsoft.EntityFrameworkCore;
 
     public class OrderProductUpdateRequestHandler : UpdateRequestHandler<OrderProductUpdateRequest, OrderProduct, OrderProductModel>
@@ -13,7 +12,7 @@
         {
         }
 
-        public override async Task<Unit> Handle(OrderProductUpdateRequest request, CancellationToken token)
+        public override async Task<object[]> Handle(OrderProductUpdateRequest request, CancellationToken token)
         {
             var order = await Context
                 .FindAsync<Order>(new object[] { request.Model.OrderId }, token)

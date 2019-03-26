@@ -12,13 +12,13 @@
         {
         }
 
-        public override async Task<CartProductModel> Handle(CartProductCreateRequest request, CancellationToken token)
+        public override async Task<(CartProductModel, object[])> Handle(CartProductCreateRequest request, CancellationToken token)
         {
             var cartProduct = Mapper.Map<CartProduct>(request.Model);
             Context.Add(cartProduct);
             await Context.SaveChangesAsync(token).ConfigureAwait(false);
             await Context.Entry(cartProduct).Reference(x => x.Product).LoadAsync(token).ConfigureAwait(false);
-            return Mapper.Map<CartProductModel>(cartProduct);
+            return (Mapper.Map<CartProductModel>(cartProduct), new object[]{ cartProduct.CartId, cartProduct.ProductId });
         }
     }
 }

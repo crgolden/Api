@@ -19,9 +19,9 @@
             _paymentService = paymentService;
         }
 
-        public override async Task<PaymentModel> Handle(PaymentCreateRequest request, CancellationToken token)
+        public override async Task<(PaymentModel, object[])> Handle(PaymentCreateRequest request, CancellationToken token)
         {
-            if (string.IsNullOrEmpty(request.Model.TokenId)) return null;
+            if (string.IsNullOrEmpty(request.Model.TokenId)) return (null, new object[0]);
             if (string.IsNullOrEmpty(request.Model.CustomerCode) && !string.IsNullOrEmpty(request.Email))
             {
                 request.Model.CustomerCode = await _paymentService
@@ -32,7 +32,7 @@
                     .ConfigureAwait(false);
             }
 
-            if (string.IsNullOrEmpty(request.Model.CustomerCode)) return null;
+            if (string.IsNullOrEmpty(request.Model.CustomerCode)) return (null, new object[0]);
             request.Model.ChargeId = await _paymentService.CaptureAsync(
                 customerId: request.Model.CustomerCode,
                 amount: request.Model.Amount,

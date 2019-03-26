@@ -1,5 +1,6 @@
 ﻿namespace Clarity.Api.ProductFiles
 {
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using AutoMapper;
@@ -12,7 +13,7 @@
         {
         }
 
-        public override async Task<ProductFileModel[]> Handle(ProductFileCreateRangeRequest request, CancellationToken token)
+        public override async Task<(ProductFileModel[], object[][])> Handle(ProductFileCreateRangeRequest request, CancellationToken token)
         {
             var productFiles = Mapper.Map<ProductFile[]>(request.Models);
             foreach (var productFile in productFiles)
@@ -22,7 +23,7 @@
             }
 
             await Context.SaveChangesAsync(token).ConfigureAwait(false);
-            return Mapper.Map<ProductFileModel[]>(productFiles);
+            return (Mapper.Map<ProductFileModel[]>(productFiles), productFiles.Select(x => new object[]{ x.ProductId, x.FileId }).ToArray());
         }
     }
 }

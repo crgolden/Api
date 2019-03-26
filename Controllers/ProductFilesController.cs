@@ -9,12 +9,16 @@
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
+    using Microsoft.Extensions.Options;
     using ProductFiles;
+    using Shared;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class ProductFilesController : RangedClassController<ProductFile, ProductFileModel, Guid>
     {
-        public ProductFilesController(IMediator mediator) : base(mediator)
+        public ProductFilesController(IMediator mediator, IMemoryCache cache, IOptions<CacheOptions> cacheOptions)
+            : base(mediator, cache, cacheOptions)
         {
         }
 

@@ -10,11 +10,15 @@
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
+    using Microsoft.Extensions.Options;
+    using Shared;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class CartsController : ClassController<Cart, CartModel, Guid>
     {
-        public CartsController(IMediator mediator) : base(mediator)
+        public CartsController(IMediator mediator, IMemoryCache cache, IOptions<CacheOptions> cacheOptions)
+            : base(mediator, cache, cacheOptions)
         {
         }
 

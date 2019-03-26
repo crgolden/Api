@@ -9,12 +9,16 @@
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
+    using Microsoft.Extensions.Options;
     using Payments;
+    using Shared;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class PaymentsController : ClassController<Payment, PaymentModel, Guid>
     {
-        public PaymentsController(IMediator mediator) : base(mediator)
+        public PaymentsController(IMediator mediator, IMemoryCache cache, IOptions<CacheOptions> cacheOptions)
+            : base(mediator, cache, cacheOptions)
         {
         }
 

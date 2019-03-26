@@ -9,12 +9,16 @@
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
+    using Microsoft.Extensions.Options;
     using ProductCategories;
+    using Shared;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class ProductCategoriesController : RangedClassController<ProductCategory, ProductCategoryModel, Guid>
     {
-        public ProductCategoriesController(IMediator mediator) : base(mediator)
+        public ProductCategoriesController(IMediator mediator, IMemoryCache cache, IOptions<CacheOptions> cacheOptions)
+            : base(mediator, cache, cacheOptions)
         {
         }
 

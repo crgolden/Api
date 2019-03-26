@@ -12,9 +12,9 @@
         {
         }
 
-        public override Task<Unit> Handle(ProductDeleteRequest request, CancellationToken token)
+        public override Task<object[][]> Handle(ProductDeleteRequest request, CancellationToken token)
         {
-            return Task.FromResult(Unit.Value);
+            return Task.FromResult(new object[0][]);
         }
     }
 }

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Net;
+    using System.Threading;
     using System.Threading.Tasks;
     using Abstractions.Controllers;
     using CartProducts;
@@ -10,11 +11,15 @@
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
+    using Microsoft.Extensions.Options;
+    using Shared;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class CartProductsController : RangedClassController<CartProduct, CartProductModel, Guid>
     {
-        public CartProductsController(IMediator mediator) : base(mediator)
+        public CartProductsController(IMediator mediator, IMemoryCache cache, IOptions<CacheOptions> cacheOptions)
+            : base(mediator, cache, cacheOptions)
         {
         }
 
@@ -32,6 +37,32 @@
                     }
                     : new CartProductListRequest(ModelState, request),
                 notification: new CartProductListNotification()).ConfigureAwait(false);
+        }
+
+        protected override async Task<IActionResult> List<TRequest, TNotification>(TRequest request, TNotification notification)
+        {
+            using (var tokenSource = new CancellationTokenSource())
+            {
+                try
+                {
+                    notification.Request = request.Request;
+                    notification.EventId = EventIds.ListStart;
+                    await Mediator.Publish(notification, tokenSource.Token).ConfigureAwait(false);
+
+                    notification.Result = await Mediator.Send(request, tokenSource.Token).ConfigureAwait(false);
+                    notification.EventId = EventIds.ListEnd;
+                    await Mediator.Publish(notification, tokenSource.Token).ConfigureAwait(false);
+                    return Ok(notification.Result);
+                }
+                catch (Exception e)
+                {
+                    tokenSource.Cancel();
+                    notification.Exception = e;
+                    notification.EventId = EventIds.ListError;
+                    await Mediator.Publish(notification, CancellationToken.None).ConfigureAwait(false);
+                    return BadRequest(request);
+                }
+            }
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]

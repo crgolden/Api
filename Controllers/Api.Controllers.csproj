@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Clarity.Core.Controllers" Version="1.7.0" />
-    <PackageReference Include="Clarity.Core.Extensions" Version="1.9.5" />
+    <PackageReference Include="Clarity.Core.Controllers" Version="1.7.3" />
+    <PackageReference Include="Clarity.Core.Extensions" Version="1.9.6" />
   </ItemGroup>
 
   <ItemGroup>

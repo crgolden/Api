@@ -4,7 +4,6 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using Abstractions;
-    using MediatR;
     using Microsoft.EntityFrameworkCore;
     using Shared;
 
@@ -20,7 +19,7 @@
             _paymentService = paymentService;
         }
 
-        public override async Task<Unit> Handle(PaymentUpdateRequest request, CancellationToken token)
+        public override async Task<object[]> Handle(PaymentUpdateRequest request, CancellationToken token)
         {
             if (!string.IsNullOrEmpty(request.Model.ChargeId) && !string.IsNullOrEmpty(request.Model.Description))
             {

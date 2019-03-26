@@ -11,7 +11,9 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
     using Microsoft.Extensions.Options;
+    using Shared;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class FilesController : FilesController<File, FileModel, Guid>
@@ -19,7 +21,12 @@
         private readonly string _imagesContainer;
         private readonly string _thumbnailsContainer;
 
-        public FilesController(IMediator mediator, IOptions<StorageOptions> storageOptions) : base(mediator)
+        public FilesController(
+            IMediator mediator,
+            IMemoryCache cache,
+            IOptions<CacheOptions> cacheOptions,
+            IOptions<StorageOptions> storageOptions)
+            : base(mediator, cache, cacheOptions)
         {
             _imagesContainer = storageOptions.Value.ImageContainer;
             _thumbnailsContainer = storageOptions.Value.ThumbnailContainer;

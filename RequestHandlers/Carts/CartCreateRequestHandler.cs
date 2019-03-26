@@ -12,7 +12,7 @@
         {
         }
 
-        public override async Task<CartModel> Handle(CartCreateRequest request, CancellationToken token)
+        public override async Task<(CartModel, object[])> Handle(CartCreateRequest request, CancellationToken token)
         {
             if (request.Model.UserId == null) return await base.Handle(request, token).ConfigureAwait(false);
             var cart = await Context.Set<Cart>()
@@ -20,7 +20,7 @@
                 .SingleOrDefaultAsync(x => x.UserId == request.Model.UserId, token)
                 .ConfigureAwait(false);
             return cart != null
-                ? Mapper.Map<CartModel>(cart)
+                ? (Mapper.Map<CartModel>(cart), new object[]{ cart.Id })
                 : await base.Handle(request, token).ConfigureAwait(false);
         }
     }

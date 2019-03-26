@@ -6,7 +6,6 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Abstractions;
-    using Core;
     using Microsoft.Azure.ServiceBus;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;

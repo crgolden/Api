@@ -7,9 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Clarity.Abstractions.RequestHandlers" Version="1.6.1" />
-    <PackageReference Include="Clarity.Core.Extensions" Version="1.9.5" />
-    <PackageReference Include="Clarity.Core.RequestHandlers" Version="1.6.1" />
+    <PackageReference Include="Clarity.Core.Extensions" Version="1.9.6" />
+    <PackageReference Include="Clarity.Core.RequestHandlers" Version="1.6.5" />
   </ItemGroup>
 
   <ItemGroup>
