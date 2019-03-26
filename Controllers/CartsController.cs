@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Net;
+    using System.Threading;
     using System.Threading.Tasks;
     using Carts;
     using Abstractions.Controllers;
@@ -44,6 +45,39 @@
                     ? new CartReadRequest(keyValues[0], userId)
                     : new CartReadRequest(keyValues[0]),
                 notification: new CartReadNotification()).ConfigureAwait(false);
+        }
+
+        protected override async Task<IActionResult> Read<TRequest, TNotification>(TRequest request, TNotification notification)
+        {
+            using (var tokenSource = new CancellationTokenSource())
+            {
+                try
+                {
+                    notification.KeyValues = request.KeyValues;
+                    notification.EventId = EventIds.ReadStart;
+                    await Mediator.Publish(notification, tokenSource.Token).ConfigureAwait(false);
+
+                    notification.Model = await Mediator.Send(request, tokenSource.Token).ConfigureAwait(false);
+                    if (notification.Model == null)
+                    {
+                        notification.EventId = EventIds.ReadNotFound;
+                        await Mediator.Publish(notification, tokenSource.Token).ConfigureAwait(false);
+                        return NotFound(request.KeyValues);
+                    }
+
+                    notification.EventId = EventIds.ReadEnd;
+                    await Mediator.Publish(notification, tokenSource.Token).ConfigureAwait(false);
+                    return Ok(notification.Model);
+                }
+                catch (Exception e)
+                {
+                    tokenSource.Cancel();
+                    notification.Exception = e;
+                    notification.EventId = EventIds.ReadError;
+                    await Mediator.Publish(notification, CancellationToken.None).ConfigureAwait(false);
+                    return BadRequest(request.KeyValues);
+                }
+            }
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
