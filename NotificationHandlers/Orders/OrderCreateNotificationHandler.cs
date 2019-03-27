@@ -14,7 +14,7 @@
     public class OrderCreateNotificationHandler : CreateNotificationHandler<OrderCreateNotification, OrderModel>
     {
         private readonly IQueueClient _emailQueueClient;
-        private const string Subject = "Order #{0} Read";
+        private const string Subject = "Order #{0} Details";
         private const string Body = "<a href='{0}/orders/details/{1}'>Order #{2} Details</a>";
 
         public OrderCreateNotificationHandler(
