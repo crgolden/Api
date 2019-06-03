@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api.CartProducts
+﻿namespace crgolden.Api.CartProducts
 {
     using System.Threading;
     using System.Threading.Tasks;

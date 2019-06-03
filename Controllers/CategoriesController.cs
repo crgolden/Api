@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api
+﻿namespace crgolden.Api
 {
     using System;
     using System.Collections.Generic;
@@ -6,13 +6,13 @@
     using System.Threading.Tasks;
     using Categories;
     using Abstractions.Controllers;
+    using Shared;
     using Kendo.Mvc.UI;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
     using Microsoft.Extensions.Options;
-    using Shared;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class CategoriesController : ClassController<Category, CategoryModel, Guid>

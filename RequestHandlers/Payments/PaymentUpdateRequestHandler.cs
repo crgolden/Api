@@ -1,11 +1,11 @@
-﻿namespace Clarity.Api.Payments
+﻿namespace crgolden.Api.Payments
 {
     using System.Threading;
     using System.Threading.Tasks;
     using AutoMapper;
     using Abstractions;
-    using Microsoft.EntityFrameworkCore;
     using Shared;
+    using Microsoft.EntityFrameworkCore;
 
     public class PaymentUpdateRequestHandler : UpdateRequestHandler<PaymentUpdateRequest, Payment, PaymentModel>
     {

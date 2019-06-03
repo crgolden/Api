@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api.Payments
+﻿namespace crgolden.Api.Payments
 {
     using Abstractions;
     using Microsoft.Extensions.Logging;

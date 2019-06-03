@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api.CartProducts
+﻿namespace crgolden.Api.CartProducts
 {
     using System;
     using System.Collections.Generic;

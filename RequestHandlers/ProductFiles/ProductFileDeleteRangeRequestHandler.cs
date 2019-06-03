@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api.ProductFiles
+﻿namespace crgolden.Api.ProductFiles
 {
     using Abstractions;
     using Microsoft.EntityFrameworkCore;

@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api
+﻿namespace crgolden.Api
 {
     using System;
     using System.Collections.Generic;
@@ -17,7 +17,7 @@
 
         public Guid UserId { get; set; }
 
-        public Address ShippingAddress { get; set; }
+        public virtual Address ShippingAddress { get; set; }
 
         public decimal? Shipping { get; set; }
 

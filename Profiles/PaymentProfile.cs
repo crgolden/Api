@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api
+﻿namespace crgolden.Api
 {
     using AutoMapper;
 

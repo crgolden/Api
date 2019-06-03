@@ -1,9 +1,8 @@
-﻿namespace Clarity.Api.Products
+﻿namespace crgolden.Api.Products
 {
     using System.Threading;
     using System.Threading.Tasks;
     using Abstractions;
-    using MediatR;
     using Microsoft.EntityFrameworkCore;
 
     public class ProductDeleteRequestHandler : DeleteRequestHandler<ProductDeleteRequest, Product>

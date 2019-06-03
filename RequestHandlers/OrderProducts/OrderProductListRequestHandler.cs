@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api.OrderProducts
+﻿namespace crgolden.Api.OrderProducts
 {
     using System.Linq;
     using System.Threading;
@@ -6,11 +6,11 @@
     using AutoMapper;
     using Abstractions;
     using Core;
+    using Shared;
     using Kendo.Mvc.Extensions;
     using Kendo.Mvc.UI;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
-    using Shared;
 
     public class OrderProductListRequestHandler : ListRequestHandler<OrderProductListRequest, OrderProduct, OrderProductModel>
     {

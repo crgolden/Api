@@ -1,9 +1,9 @@
-﻿namespace Clarity.Api
+﻿namespace crgolden.Api
 {
     using System;
     using System.Collections.Generic;
     using Abstractions;
-    
+
     public class Category : Entity
     {
         private readonly List<ProductCategory> _productCategories;

@@ -1,7 +1,7 @@
-﻿namespace Clarity.Api.ProductCategories
+﻿namespace crgolden.Api.ProductCategories
 {
-    using Abstractions;
     using AutoMapper;
+    using Abstractions;
     using Microsoft.EntityFrameworkCore;
 
     public class ProductCategoryCreateRangeRequestHandler : CreateRangeRequestHandler<ProductCategoryCreateRangeRequest, ProductCategory, ProductCategoryModel>

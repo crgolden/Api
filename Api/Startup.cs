@@ -1,8 +1,9 @@
-﻿namespace Clarity.Api
+﻿namespace crgolden.Api
 {
     using System.Reflection;
     using AutoMapper;
     using Core;
+    using Shared;
     using MediatR;
     using Microsoft.ApplicationInsights.AspNetCore;
     using Microsoft.ApplicationInsights.SnapshotCollector;
@@ -15,7 +16,6 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
-    using Shared;
 
     public class Startup
     {
@@ -59,7 +59,7 @@
                     Assembly.Load("Api.Profiles")
                 })
                 .AddCors()
-                .AddSwagger("Clarity-API", "v1");
+                .AddSwagger("crgolden-API", "v1");
             services.AddHealthChecks();
             services.AddHttpClient<IDemoFilesClient, TelerikDemoFilesClient>();
             services.AddMvc(setup =>
@@ -92,7 +92,7 @@
                 .UseAuthentication()
                 .UseHealthChecks("/health")
                 .UseCors(corsOptions.Value)
-                .UseSwagger("Clarity-API v1")
+                .UseSwagger("crgolden-API v1")
                 .UseMvcWithDefaultRoute();
 
             mapper.ConfigurationProvider.AssertConfigurationIsValid();

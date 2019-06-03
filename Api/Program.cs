@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api
+﻿namespace crgolden.Api
 {
     using System.Threading;
     using System.Threading.Tasks;
@@ -24,7 +24,7 @@
                 .CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration(configBuilder => configBuilder.AddAzureKeyVault())
                 .UseStartup<Startup>()
-                .UseSerilog("Clarity.Api", true)
+                .UseSerilog("crgolden.Api", true)
                 .Build();
     }
 }

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <RootNamespace>Clarity.Api</RootNamespace>
+    <RootNamespace>crgolden.Api</RootNamespace>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 

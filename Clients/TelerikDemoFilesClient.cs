@@ -1,12 +1,11 @@
-﻿namespace Clarity.Api
+﻿namespace crgolden.Api
 {
     using System;
     using System.Net.Http;
     using System.Threading;
     using System.Threading.Tasks;
-    using Core;
-    using Microsoft.Extensions.Options;
     using Shared;
+    using Microsoft.Extensions.Options;
 
     public class TelerikDemoFilesClient : IDemoFilesClient
     {

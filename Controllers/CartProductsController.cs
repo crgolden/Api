@@ -1,19 +1,19 @@
-﻿namespace Clarity.Api
+﻿namespace crgolden.Api
 {
     using System;
     using System.Collections.Generic;
     using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
-    using Abstractions.Controllers;
     using CartProducts;
+    using Abstractions.Controllers;
+    using Shared;
     using Kendo.Mvc.UI;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
     using Microsoft.Extensions.Options;
-    using Shared;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class CartProductsController : RangedClassController<CartProduct, CartProductModel, Guid>

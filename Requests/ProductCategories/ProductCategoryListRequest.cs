@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api.ProductCategories
+﻿namespace crgolden.Api.ProductCategories
 {
     using Abstractions;
     using Kendo.Mvc.UI;

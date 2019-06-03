@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api.Products
+﻿namespace crgolden.Api.Products
 {
     using AutoMapper;
     using Abstractions;

@@ -1,10 +1,10 @@
-﻿namespace Clarity.Api
+﻿namespace crgolden.Api
 {
     using Abstractions;
+    using Shared;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using Microsoft.Extensions.Options;
-    using Shared;
 
     public class ProductCategoryConfiguration : EntityConfiguration<ProductCategory>
     {

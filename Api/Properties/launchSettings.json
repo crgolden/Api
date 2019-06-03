@@ -1,6 +1,6 @@
 ﻿{
   "profiles": {
-    "Clarity.Api": {
+    "crgolden.Api": {
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "https://localhost:5001/",

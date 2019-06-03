@@ -1,9 +1,9 @@
-﻿namespace Clarity.Api.Files
+﻿namespace crgolden.Api.Files
 {
     using System;
     using Core.Files;
-    using Microsoft.EntityFrameworkCore;
     using Shared;
+    using Microsoft.EntityFrameworkCore;
 
     public class FileRemoveRequestHandler : FileRemoveRequestHandler<FileRemoveRequest, File, Guid>
     {

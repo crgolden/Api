@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api.ProductFiles
+﻿namespace crgolden.Api.ProductFiles
 {
     using System;
     using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api.OrderProducts
+﻿namespace crgolden.Api.OrderProducts
 {
     using Abstractions;
 

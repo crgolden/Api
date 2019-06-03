@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <RootNamespace>Clarity.Api</RootNamespace>
+    <RootNamespace>crgolden.Api</RootNamespace>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Clarity.Core.Extensions" Version="1.9.6" />
-    <PackageReference Include="Clarity.Core.RequestHandlers" Version="1.6.5" />
+    <PackageReference Include="crgolden.Core.Extensions" Version="1.0.1" />
+    <PackageReference Include="crgolden.Core.RequestHandlers" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

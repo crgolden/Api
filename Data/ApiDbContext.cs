@@ -1,9 +1,9 @@
-﻿namespace Clarity.Api
+﻿namespace crgolden.Api
 {
     using Abstractions;
+    using Shared;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
-    using Shared;
 
     public class ApiDbContext : Context
     {

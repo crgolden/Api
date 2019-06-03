@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api.Products
+﻿namespace crgolden.Api.Products
 {
     using System.Linq;
     using System.Threading;
@@ -6,11 +6,11 @@
     using AutoMapper;
     using Abstractions;
     using Core;
+    using Shared;
     using Kendo.Mvc.Extensions;
     using Kendo.Mvc.UI;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
-    using Shared;
 
     public class ProductListRequestHandler : ListRequestHandler<ProductListRequest, Product, ProductModel>
     {

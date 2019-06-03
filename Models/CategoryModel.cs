@@ -1,8 +1,8 @@
-﻿namespace Clarity.Api
+﻿namespace crgolden.Api
 {
     using System;
     using Abstractions;
-    
+
     public class CategoryModel : Model
     {
         public Guid Id { get; set; }

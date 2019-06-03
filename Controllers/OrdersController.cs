@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api
+﻿namespace crgolden.Api
 {
     using System;
     using System.Collections.Generic;
@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using Abstractions.Controllers;
     using Core;
+    using Shared;
     using Kendo.Mvc.UI;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
@@ -13,7 +14,6 @@
     using Microsoft.Extensions.Caching.Memory;
     using Microsoft.Extensions.Options;
     using Orders;
-    using Shared;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class OrdersController : ClassController<Order, OrderModel, Guid>

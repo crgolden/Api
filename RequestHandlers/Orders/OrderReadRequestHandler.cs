@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api.Orders
+﻿namespace crgolden.Api.Orders
 {
     using System.Linq;
     using System.Threading;

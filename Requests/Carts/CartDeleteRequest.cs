@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api.Carts
+﻿namespace crgolden.Api.Carts
 {
     using System;
     using Abstractions;

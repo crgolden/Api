@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <RootNamespace>Clarity.Api</RootNamespace>
+    <RootNamespace>crgolden.Api</RootNamespace>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Clarity.Core.Notifications" Version="1.7.1" />
+    <PackageReference Include="crgolden.Core.Notifications" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

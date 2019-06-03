@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api.Files
+﻿namespace crgolden.Api.Files
 {
     using Abstractions;
 

@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api.Categories
+﻿namespace crgolden.Api.Categories
 {
     using Abstractions;
     using Microsoft.EntityFrameworkCore;

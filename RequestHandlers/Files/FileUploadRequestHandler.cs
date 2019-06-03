@@ -1,9 +1,9 @@
-﻿namespace Clarity.Api.Files
+﻿namespace crgolden.Api.Files
 {
     using AutoMapper;
     using Core.Files;
-    using Microsoft.EntityFrameworkCore;
     using Shared;
+    using Microsoft.EntityFrameworkCore;
 
     public class FileUploadRequestHandler : FileUploadRequestHandler<FileUploadRequest, File, FileModel>
     {

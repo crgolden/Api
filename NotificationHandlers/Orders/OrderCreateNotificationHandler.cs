@@ -1,4 +1,4 @@
-﻿namespace Clarity.Api.Orders
+﻿namespace crgolden.Api.Orders
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -6,10 +6,10 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Abstractions;
+    using Shared;
     using Microsoft.Azure.ServiceBus;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
-    using Shared;
 
     public class OrderCreateNotificationHandler : CreateNotificationHandler<OrderCreateNotification, OrderModel>
     {
