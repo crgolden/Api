@@ -56,6 +56,7 @@
                 })
                 .AddAutoMapper(assemblies: new []
                 {
+                    Assembly.Load("Abstractions.Profiles"),
                     Assembly.Load("Api.Profiles")
                 })
                 .AddCors()
