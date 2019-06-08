@@ -13,7 +13,7 @@
 
         public Guid Id { get; private set; }
 
-        public int Number { get; private set; }
+        public string Number { get; set; }
 
         public Guid UserId { get; set; }
 

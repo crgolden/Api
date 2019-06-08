@@ -18,7 +18,7 @@
         public override void Configure(EntityTypeBuilder<Order> order)
         {
             base.Configure(order);
-            order.Property(e => e.Number).ValueGeneratedOnAdd();
+            order.Property(e => e.Number);
             order.HasIndex(e => e.Number).IsUnique();
             order.Property(e => e.UserId).IsRequired();
             order.Property(e => e.Shipping).HasColumnType("decimal(18,2)");

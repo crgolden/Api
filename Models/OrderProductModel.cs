@@ -9,7 +9,7 @@
 
         public Guid OrderId { get; set; }
 
-        public int OrderNumber { get; set; }
+        public string OrderNumber { get; set; }
 
         public decimal OrderTotal { get; set; }
 

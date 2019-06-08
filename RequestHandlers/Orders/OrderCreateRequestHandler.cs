@@ -1,5 +1,6 @@
 ﻿namespace crgolden.Api.Orders
 {
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
     using AutoMapper;
@@ -15,6 +16,14 @@
         public override async Task<(OrderModel, object[])> Handle(OrderCreateRequest request, CancellationToken token)
         {
             var order = Mapper.Map<Order>(request.Model);
+            while (string.IsNullOrEmpty(order.Number))
+            {
+                order.Number = $"{Guid.NewGuid().GetHashCode():x8}";
+                if (await Context.Set<Order>()
+                    .AnyAsync(x => x.Number == order.Number, token)
+                    .ConfigureAwait(false)) order.Number = null;
+            }
+
             Context.Add(order);
             var cart = await Context.Set<Cart>()
                 .Include(x => x.CartProducts)
