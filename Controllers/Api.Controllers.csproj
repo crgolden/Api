@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="8.0.0" />
-    <PackageReference Include="crgolden.Core.Controllers" Version="1.0.1" />
-    <PackageReference Include="crgolden.Core.Extensions" Version="1.0.1" />
+    <PackageReference Include="AutoMapper" Version="8.1.1" />
+    <PackageReference Include="crgolden.Core.Controllers" Version="1.0.2" />
+    <PackageReference Include="crgolden.Core.Extensions" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="crgolden.Core.NotificationHandlers" Version="1.0.0" />
+    <PackageReference Include="crgolden.Core.NotificationHandlers" Version="1.0.1" />
     <PackageReference Include="crgolden.Shared.Options" Version="1.0.1" />
-    <PackageReference Include="Microsoft.Azure.ServiceBus" Version="3.3.0" />
+    <PackageReference Include="Microsoft.Azure.ServiceBus" Version="3.4.0" />
   </ItemGroup>
 
   <ItemGroup>
