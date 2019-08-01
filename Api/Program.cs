@@ -12,11 +12,8 @@
         public static async Task Main(string[] args)
         {
             using (var tokenSource = new CancellationTokenSource())
-            {
-                var webHost = BuildWebHost(args);
-                await webHost.MigrateDatabaseAsync(tokenSource.Token);
+            using (var webHost = await BuildWebHost(args).MigrateDatabaseAsync(tokenSource.Token))
                 await webHost.RunAsync(tokenSource.Token);
-            }
         }
 
         public static IWebHost BuildWebHost(string[] args) =>

@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="crgolden.Core.Claims" Version="1.0.0" />
-    <PackageReference Include="crgolden.Core.Entities" Version="1.0.3" />
+    <PackageReference Include="crgolden.Core.Entities" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
