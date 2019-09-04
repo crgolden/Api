@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\crgolden.Core\Services\Core.Services.csproj" />
+    <ProjectReference Include="..\..\crgolden.Abstractions\Models.Configurations\Abstractions.Models.Configurations.csproj" />
+    <ProjectReference Include="..\Models\Api.Models.csproj" />
   </ItemGroup>
 
 </Project>

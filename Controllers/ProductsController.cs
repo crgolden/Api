@@ -6,8 +6,9 @@
     using System.Threading.Tasks;
     using Abstractions.Controllers;
     using Shared;
-    using Kendo.Mvc.UI;
     using MediatR;
+    using Microsoft.AspNet.OData;
+    using Microsoft.AspNet.OData.Query;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
@@ -15,7 +16,7 @@
     using Products;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class ProductsController : ClassController<Product, ProductModel, Guid>
+    public class ProductsController : ControllerBase<Product, ProductModel, Guid>
     {
         public ProductsController(IMediator mediator, IMemoryCache cache, IOptions<CacheOptions> cacheOptions)
             : base(mediator, cache, cacheOptions)
@@ -25,10 +26,10 @@
         [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> List([DataSourceRequest] DataSourceRequest request)
+        public override async Task<IActionResult> List(ODataQueryOptions<ProductModel> options)
         {
             return await List(
-                request: new ProductListRequest(ModelState, request)
+                request: new ProductListRequest(options)
                 {
                     Active = !User.IsInRole("Admin")
                 },
@@ -37,8 +38,9 @@
 
         [HttpGet]
         [AllowAnonymous]
+        [EnableQuery]
         [ProducesResponseType(typeof(Product), (int) HttpStatusCode.OK)]
-        public override async Task<IActionResult> Read([FromQuery] Guid[] keyValues)
+        public override async Task<IActionResult> Read([FromODataUri] params Guid[] keyValues)
         {
             if (keyValues.Length != 1) return BadRequest(keyValues);
             return await Read(

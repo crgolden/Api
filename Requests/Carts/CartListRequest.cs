@@ -1,12 +1,11 @@
 ﻿namespace crgolden.Api.Carts
 {
     using Abstractions;
-    using Kendo.Mvc.UI;
-    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Microsoft.AspNet.OData.Query;
 
     public class CartListRequest : ListRequest<Cart, CartModel>
     {
-        public CartListRequest(ModelStateDictionary modelState, DataSourceRequest request) : base(modelState, request)
+        public CartListRequest(ODataQueryOptions<CartModel> options) : base(options)
         {
         }
     }

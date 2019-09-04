@@ -2,14 +2,13 @@
 {
     using System;
     using Abstractions;
-    using Kendo.Mvc.UI;
-    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Microsoft.AspNet.OData.Query;
 
     public class CartProductListRequest : ListRequest<CartProduct, CartProductModel>
     {
         public Guid? UserId { get; set; }
 
-        public CartProductListRequest(ModelStateDictionary modelState, DataSourceRequest request) : base(modelState, request)
+        public CartProductListRequest(ODataQueryOptions<CartProductModel> options) : base(options)
         {
         }
     }

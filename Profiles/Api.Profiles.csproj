@@ -8,10 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="crgolden.Abstractions.Profiles" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\crgolden.Abstractions\Profiles\Abstractions.Profiles.csproj" />
     <ProjectReference Include="..\Entities\Api.Entities.csproj" />
     <ProjectReference Include="..\Models\Api.Models.csproj" />
   </ItemGroup>

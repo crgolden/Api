@@ -7,8 +7,6 @@
     using Abstractions;
     using Core;
     using Shared;
-    using Kendo.Mvc.Extensions;
-    using Kendo.Mvc.UI;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
 
@@ -27,16 +25,19 @@
             _storageOptions = storageOptions.Value;
         }
 
-        public override async Task<DataSourceResult> Handle(ProductListRequest request, CancellationToken token)
+        public override Task<IQueryable<ProductModel>> Handle(ProductListRequest request, CancellationToken token)
         {
             var products = request.Active
                 ? Context.Set<Product>().Where(x => x.Active)
                 : Context.Set<Product>();
-            return await products
-                .Include(x => x.ProductFiles)
-                .ThenInclude(x => x.File)
-                .AsNoTracking()
-                .ToDataSourceResultAsync(request.Request, request.ModelState, product =>
+            return Task.FromResult(request.Options
+                .ApplyTo(products
+                    .Include(x => x.ProductFiles)
+                    .ThenInclude(x => x.File)
+                    .AsNoTracking())
+                .Cast<Product>()
+                .AsEnumerable()
+                .Select(product =>
                 {
                     var model = Mapper.Map<ProductModel>(product);
                     var productFile = product.ProductFiles
@@ -45,7 +46,7 @@
                     model.ImageThumbnailUri = productFile.File.GetImageFileUri(_storageService, _storageOptions, true);
                     return model;
                 })
-                .ConfigureAwait(false);
+                .AsQueryable());
         }
     }
 }

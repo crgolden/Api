@@ -7,8 +7,6 @@
     using Abstractions;
     using Core;
     using Shared;
-    using Kendo.Mvc.Extensions;
-    using Kendo.Mvc.UI;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
 
@@ -27,18 +25,21 @@
             _storageOptions = storageOptions.Value;
         }
 
-        public override async Task<DataSourceResult> Handle(OrderProductListRequest request, CancellationToken token)
+        public override Task<IQueryable<OrderProductModel>> Handle(OrderProductListRequest request, CancellationToken token)
         {
             var orders = request.UserId.HasValue
                 ? Context.Set<OrderProduct>().Where(x => x.Order.UserId == request.UserId.Value)
                 : Context.Set<OrderProduct>();
-            return await orders
-                .Include(x => x.Order)
-                .Include(x => x.Product)
-                .ThenInclude(x => x.ProductFiles)
-                .ThenInclude(x => x.File)
-                .AsNoTracking()
-                .ToDataSourceResultAsync(request.Request, request.ModelState, orderProduct =>
+            return Task.FromResult(request.Options
+                .ApplyTo(orders
+                    .Include(x => x.Order)
+                    .Include(x => x.Product)
+                    .ThenInclude(x => x.ProductFiles)
+                    .ThenInclude(x => x.File)
+                    .AsNoTracking())
+                .Cast<OrderProduct>()
+                .AsEnumerable()
+                .Select(orderProduct =>
                 {
                     var model = Mapper.Map<OrderProductModel>(orderProduct);
                     var productFile = orderProduct.Product.ProductFiles
@@ -50,7 +51,7 @@
                         thumbnail: true);
                     return model;
                 })
-                .ConfigureAwait(false);
+                .AsQueryable());
         }
     }
 }

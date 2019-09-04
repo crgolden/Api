@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="crgolden.Core.Claims" Version="1.0.0" />
-    <PackageReference Include="crgolden.Core.Models" Version="1.0.0" />
+    <ProjectReference Include="..\..\crgolden.Core\Claims\Core.Claims.csproj" />
+    <ProjectReference Include="..\..\crgolden.Core\Models\Core.Models.csproj" />
   </ItemGroup>
 
 </Project>

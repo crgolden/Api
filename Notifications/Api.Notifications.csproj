@@ -7,10 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="crgolden.Core.Notifications" Version="1.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\crgolden.Core\Notifications\Core.Notifications.csproj" />
     <ProjectReference Include="..\Models\Api.Models.csproj" />
   </ItemGroup>
 

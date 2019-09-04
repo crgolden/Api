@@ -1,12 +1,11 @@
 ﻿namespace crgolden.Api.Files
 {
     using Abstractions;
-    using Kendo.Mvc.UI;
-    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Microsoft.AspNet.OData.Query;
 
     public class FileListRequest : ListRequest<File, FileModel>
     {
-        public FileListRequest(ModelStateDictionary modelState, DataSourceRequest request) : base(modelState, request)
+        public FileListRequest(ODataQueryOptions<FileModel> options) : base(options)
         {
         }
     }

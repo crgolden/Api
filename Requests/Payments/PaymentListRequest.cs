@@ -2,14 +2,13 @@
 {
     using System;
     using Abstractions;
-    using Kendo.Mvc.UI;
-    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Microsoft.AspNet.OData.Query;
 
     public class PaymentListRequest : ListRequest<Payment, PaymentModel>
     {
         public readonly Guid? UserId;
 
-        public PaymentListRequest(ModelStateDictionary modelState, DataSourceRequest request, Guid? userId = null) : base(modelState, request)
+        public PaymentListRequest(ODataQueryOptions<PaymentModel> options, Guid? userId = null) : base(options)
         {
             UserId = userId;
         }

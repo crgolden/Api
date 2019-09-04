@@ -5,8 +5,6 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using Abstractions;
-    using Kendo.Mvc.Extensions;
-    using Kendo.Mvc.UI;
     using Microsoft.EntityFrameworkCore;
 
     public class PaymentListRequestHandler : ListRequestHandler<PaymentListRequest, Payment, PaymentModel>
@@ -15,15 +13,13 @@
         {
         }
 
-        public override async Task<DataSourceResult> Handle(PaymentListRequest request, CancellationToken token)
+        public override Task<IQueryable<PaymentModel>> Handle(PaymentListRequest request, CancellationToken token)
         {
             var payments = request.UserId.HasValue
                 ? Context.Set<Payment>().Where(x => x.UserId == request.UserId.Value)
                 : Context.Set<Payment>();
-            return await Mapper
-                .ProjectTo<PaymentModel>(payments.AsNoTracking())
-                .ToDataSourceResultAsync(request.Request, request.ModelState)
-                .ConfigureAwait(false);
+            var query = request.Options.ApplyTo(payments);
+            return Task.FromResult(Mapper.ProjectTo<PaymentModel>(query));
         }
     }
 }

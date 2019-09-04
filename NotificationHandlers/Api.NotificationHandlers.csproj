@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="crgolden.Core.NotificationHandlers" Version="1.0.0" />
-    <PackageReference Include="crgolden.Shared.Options" Version="1.0.1" />
     <PackageReference Include="Microsoft.Azure.ServiceBus" Version="4.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\crgolden.Core\NotificationHandlers\Core.NotificationHandlers.csproj" />
+    <ProjectReference Include="..\..\crgolden.Shared\Options\Shared.Options.csproj" />
     <ProjectReference Include="..\Notifications\Api.Notifications.csproj" />
   </ItemGroup>
 

@@ -1,12 +1,11 @@
 ﻿namespace crgolden.Api.ProductCategories
 {
     using Abstractions;
-    using Kendo.Mvc.UI;
-    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Microsoft.AspNet.OData.Query;
 
     public class ProductCategoryListRequest : ListRequest<ProductCategory, ProductCategoryModel>
     {
-        public ProductCategoryListRequest(ModelStateDictionary modelState, DataSourceRequest request) : base(modelState, request)
+        public ProductCategoryListRequest(ODataQueryOptions<ProductCategoryModel> options) : base(options)
         {
         }
     }

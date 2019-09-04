@@ -7,9 +7,6 @@
     using Abstractions;
     using Core;
     using Shared;
-    using Kendo.Mvc;
-    using Kendo.Mvc.Extensions;
-    using Kendo.Mvc.UI;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
 
@@ -28,32 +25,30 @@
             _storageOptions = storageOptions.Value;
         }
 
-        public override async Task<DataSourceResult> Handle(CartProductListRequest request, CancellationToken token)
+        public override Task<IQueryable<CartProductModel>> Handle(CartProductListRequest request, CancellationToken token)
         {
-            return request.UserId.HasValue ||
-                   request.Request.Filters != null &&
-                   request.Request.Filters.Cast<FilterDescriptor>().Any(x =>
-                       x.Member == "cartId" &&
-                       !string.IsNullOrEmpty($"{x.Value}") &&
-                       x.Operator == FilterOperator.IsEqualTo)
-                ? await Context.Set<CartProduct>()
-                    .Include(x => x.Product)
-                    .ThenInclude(x => x.ProductFiles)
-                    .ThenInclude(x => x.File)
-                    .AsNoTracking()
-                    .ToDataSourceResultAsync(request.Request, request.ModelState, cartProduct =>
-                    {
-                        var model = Mapper.Map<CartProductModel>(cartProduct);
-                        var productFile = cartProduct.Product.ProductFiles
-                            .SingleOrDefault(x => x.File.ContentType.Contains("image") && x.IsPrimary);
-                        if (productFile == null) return model;
-                        model.ProductImageThumbnailUri = productFile.File.GetImageFileUri(
-                            storageService: _storageService,
-                            options: _storageOptions,
-                            thumbnail: true);
-                        return model;
-                    }).ConfigureAwait(false)
-                : null;
+            var cartProducts = Context.Set<CartProduct>()
+                .Include(x => x.Product)
+                .ThenInclude(x => x.ProductFiles)
+                .ThenInclude(x => x.File)
+                .AsNoTracking();
+            return Task.FromResult(request.Options
+                .ApplyTo(cartProducts)
+                .Cast<CartProduct>()
+                .AsEnumerable()
+                .Select(cartProduct =>
+                {
+                    var model = Mapper.Map<CartProductModel>(cartProduct);
+                    var productFile = cartProduct.Product.ProductFiles
+                        .SingleOrDefault(x => x.File.ContentType.Contains("image") && x.IsPrimary);
+                    if (productFile == null) return model;
+                    model.ProductImageThumbnailUri = productFile.File.GetImageFileUri(
+                        storageService: _storageService,
+                        options: _storageOptions,
+                        thumbnail: true);
+                    return model;
+                })
+                .AsQueryable());
         }
     }
 }

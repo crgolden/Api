@@ -7,15 +7,23 @@
     using MediatR;
     using Microsoft.ApplicationInsights.AspNetCore;
     using Microsoft.ApplicationInsights.SnapshotCollector;
+    using Microsoft.AspNet.OData;
+    using Microsoft.AspNet.OData.Batch;
+    using Microsoft.AspNet.OData.Builder;
+    using Microsoft.AspNet.OData.Extensions;
+    using Microsoft.AspNet.OData.Query;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ApiExplorer;
     using Microsoft.AspNetCore.Mvc.ApplicationModels;
     using Microsoft.Azure.ServiceBus;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
+    using Microsoft.OData;
+    using Swashbuckle.AspNetCore.SwaggerGen;
 
     public class Startup
     {
@@ -40,6 +48,7 @@
                 .Configure<DatabaseOptions>(_configuration.GetSection(nameof(DatabaseOptions)))
                 .Configure<ServiceBusOptions>(_configuration.GetSection(nameof(ServiceBusOptions)))
                 .Configure<CacheOptions>(_configuration.GetSection(nameof(CacheOptions)))
+                .Configure<Shared.ApiExplorerOptions>(_configuration.GetSection(nameof(Shared.ApiExplorerOptions)))
                 .AddScoped<DbContext, ApiDbContext>()
                 .AddMemoryCache()
                 .AddSingleton<IPaymentService, StripePaymentService>()
@@ -52,23 +61,41 @@
                 {
                     Assembly.Load("Api.RequestHandlers"),
                     Assembly.Load("Api.NotificationHandlers")
-
                 })
-                .AddAutoMapper(assemblies: new []
+                .AddAutoMapper(assemblies: new[]
                 {
                     Assembly.Load("Abstractions.Profiles"),
                     Assembly.Load("Api.Profiles")
                 })
-                .AddCors()
-                .AddSwagger("crgolden-API", "v1");
+                .AddCors();
             services.AddHealthChecks();
             services.AddHttpClient<IDemoFilesClient, TelerikDemoFilesClient>();
-            services.AddMvc(setup =>
+            services.AddMvc(options =>
                 {
-                    setup.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
-                    setup.Filters.Add<ModelStateActionFilter>();
+                    options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
+                    options.Filters.Add<ModelStateActionFilter>();
+                    options.EnableEndpointRouting = false;
                 })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                .SetCompatibilityVersion(CompatibilityVersion.Latest);
+            services.AddApiVersioning(options => options.ReportApiVersions = true)
+                .AddOData()
+                .EnableApiVersioning();
+            services.AddODataQueryFilter().AddODataApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+                options.QueryOptions.Controller<CartsController>()
+                    .Action(c => c.List(default))
+                    .Allow(AllowedQueryOptions.All)
+                    .AllowTop(0)
+                    .AllowOrderBy();
+            });
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerGenConfiguration>()
+                .AddSwaggerGen(options =>
+                {
+                    options.OperationFilter<ParameterDescriptionsOperationFilter>();
+                    options.OperationFilter<SecurityRequirementsOperationFilter>();
+                });
             services.AddIdentityServerAuthentication(_configuration, "api1");
         }
 
@@ -76,25 +103,38 @@
         public void Configure(
             IApplicationBuilder app,
             IHostingEnvironment env,
+            VersionedODataModelBuilder modelBuilder,
+            IApiVersionDescriptionProvider provider,
             IMapper mapper,
-            IOptions<CorsOptions> corsOptions)
+            IOptions<CorsOptions> corsOptions,
+            IOptions<Shared.ApiExplorerOptions> apiExplorerOptions)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage().UseDatabaseErrorPage();
-            }
-
-            if (env.IsProduction())
-            {
-                app.UseHsts();
-            }
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage().UseDatabaseErrorPage();
+            if (env.IsProduction()) app.UseHsts();
 
             app.UseHttpsRedirection()
                 .UseAuthentication()
                 .UseHealthChecks("/health")
                 .UseCors(corsOptions.Value)
-                .UseSwagger("crgolden-API v1")
-                .UseMvcWithDefaultRoute();
+                .UseMvc(routeBuilder =>
+                {
+                    routeBuilder.ServiceProvider.GetRequiredService<ODataOptions>().UrlKeyDelimiter = ODataUrlKeyDelimiter.Parentheses;
+                    routeBuilder
+                        .Select()
+                        .Filter()
+                        .OrderBy()
+                        .Expand()
+                        .Count()
+                        .MaxTop(10)
+                        .SkipToken()
+                        .MapVersionedODataRoutes(
+                            routeName: "odata",
+                            routePrefix: "api",
+                            models: modelBuilder.GetEdmModels(),
+                            newBatchHandler: () => new DefaultODataBatchHandler());
+                })
+                .UseODataBatching()
+                .UseSwagger(provider, apiExplorerOptions);
 
             mapper.ConfigurationProvider.AssertConfigurationIsValid();
         }

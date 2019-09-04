@@ -8,15 +8,18 @@
     using Carts;
     using Abstractions.Controllers;
     using Shared;
-    using Kendo.Mvc.UI;
     using MediatR;
+    using Microsoft.AspNet.OData;
+    using Microsoft.AspNet.OData.Query;
+    using Microsoft.AspNet.OData.Routing;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
     using Microsoft.Extensions.Options;
+    using static Microsoft.AspNetCore.Http.StatusCodes;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class CartsController : ClassController<Cart, CartModel, Guid>
+    public class CartsController : ControllerBase<Cart, CartModel, Guid>
     {
         public CartsController(IMediator mediator, IMemoryCache cache, IOptions<CacheOptions> cacheOptions)
             : base(mediator, cache, cacheOptions)
@@ -26,18 +29,19 @@
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        [ProducesResponseType(typeof(IEnumerable<Cart>), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> List([DataSourceRequest] DataSourceRequest request)
+        [ProducesResponseType(typeof(ODataValue<IEnumerable<Cart>>), Status200OK)]
+        public override async Task<IActionResult> List(ODataQueryOptions<CartModel> options)
         {
             return await List(
-                request: new CartListRequest(ModelState, request),
+                request: new CartListRequest(options),
                 notification: new CartListNotification()).ConfigureAwait(false);
         }
 
         [HttpGet]
         [AllowAnonymous]
+        [EnableQuery]
         [ProducesResponseType(typeof(Cart), (int)HttpStatusCode.OK)]
-        public override async Task<IActionResult> Read([FromQuery] Guid[] keyValues)
+        public override async Task<IActionResult> Read([FromODataUri] params Guid[] keyValues)
         {
             if (keyValues.Length != 1) return BadRequest(keyValues);
             return await Read(

@@ -21,20 +21,24 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="crgolden.Core.Extensions" Version="1.0.1" />
-    <PackageReference Include="crgolden.Core.Factories" Version="1.0.0" />
-    <PackageReference Include="crgolden.Core.QueueClients" Version="1.0.1" />
-    <PackageReference Include="crgolden.Core.Requests" Version="1.0.0" />
-    <PackageReference Include="crgolden.Core.Services" Version="1.0.1" />
-    <PackageReference Include="crgolden.Core.Transformers" Version="1.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.2.1" />
+    <PackageReference Include="Microsoft.AspNetCore.OData.Versioning.ApiExplorer" Version="3.2.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\crgolden.Core\Extensions\Core.Extensions.csproj" />
+    <ProjectReference Include="..\..\crgolden.Core\Factories\Core.Factories.csproj" />
+    <ProjectReference Include="..\..\crgolden.Core\Options.Configurations\Core.Options.Configurations.csproj" />
+    <ProjectReference Include="..\..\crgolden.Core\QueueClients\Core.QueueClients.csproj" />
+    <ProjectReference Include="..\..\crgolden.Core\Requests\Core.Requests.csproj" />
+    <ProjectReference Include="..\..\crgolden.Core\Services\Core.Services.csproj" />
+    <ProjectReference Include="..\..\crgolden.Core\Transformers\Core.Transformers.csproj" />
     <ProjectReference Include="..\Clients\Api.Clients.csproj" />
     <ProjectReference Include="..\Controllers\Api.Controllers.csproj" />
     <ProjectReference Include="..\Data\Api.Data.csproj" />
+    <ProjectReference Include="..\Models.Configurations\Api.Models.Configurations.csproj" />
     <ProjectReference Include="..\NotificationHandlers\Api.NotificationHandlers.csproj" />
     <ProjectReference Include="..\Profiles\Api.Profiles.csproj" />
     <ProjectReference Include="..\RequestHandlers\Api.RequestHandlers.csproj" />

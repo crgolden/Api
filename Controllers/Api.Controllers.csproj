@@ -8,11 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="crgolden.Core.Controllers" Version="1.0.0" />
-    <PackageReference Include="crgolden.Core.Extensions" Version="1.0.1" />
+    <!--<PackageReference Include="crgolden.Core.Controllers" Version="1.0.0" />-->
+    <!--<PackageReference Include="crgolden.Core.Extensions" Version="1.0.1" />-->
+    <PackageReference Include="Microsoft.AspNetCore.OData.Versioning.ApiExplorer" Version="3.2.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\crgolden.Core\Controllers\Core.Controllers.csproj" />
+    <ProjectReference Include="..\..\crgolden.Core\Extensions\Core.Extensions.csproj" />
     <ProjectReference Include="..\Notifications\Api.Notifications.csproj" />
     <ProjectReference Include="..\Requests\Api.Requests.csproj" />
   </ItemGroup>

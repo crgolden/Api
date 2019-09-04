@@ -1,12 +1,11 @@
 ﻿namespace crgolden.Api.ProductFiles
 {
     using Abstractions;
-    using Kendo.Mvc.UI;
-    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Microsoft.AspNet.OData.Query;
 
     public class ProductFileListRequest : ListRequest<ProductFile, ProductFileModel>
     {
-        public ProductFileListRequest(ModelStateDictionary modelState, DataSourceRequest request) : base(modelState, request)
+        public ProductFileListRequest(ODataQueryOptions<ProductFileModel> options) : base(options)
         {
         }
     }

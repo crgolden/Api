@@ -5,8 +5,6 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using Abstractions;
-    using Kendo.Mvc.Extensions;
-    using Kendo.Mvc.UI;
     using Microsoft.EntityFrameworkCore;
 
     public class OrderListRequestHandler : ListRequestHandler<OrderListRequest, Order, OrderModel>
@@ -15,15 +13,13 @@
         {
         }
 
-        public override async Task<DataSourceResult> Handle(OrderListRequest request, CancellationToken token)
+        public override Task<IQueryable<OrderModel>> Handle(OrderListRequest request, CancellationToken token)
         {
             var orders = request.UserId.HasValue
                 ? Context.Set<Order>().Where(x => x.UserId == request.UserId.Value)
                 : Context.Set<Order>();
-            return await Mapper
-                .ProjectTo<OrderModel>(orders.AsNoTracking())
-                .ToDataSourceResultAsync(request.Request, request.ModelState)
-                .ConfigureAwait(false);
+            var query = request.Options.ApplyTo(orders.AsNoTracking());
+            return Task.FromResult(Mapper.ProjectTo<OrderModel>(query));
         }
     }
 }
